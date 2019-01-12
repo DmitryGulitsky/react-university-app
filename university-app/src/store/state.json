@@ -2,7 +2,7 @@
   "getDataUrl": [
     {
       "id": 1,
-      "urlPage": "http://localhost:8080/university/students"
+      "urlPage": "http://localhost:8080/"
     },
     {
       "id": 2,
@@ -20,15 +20,18 @@
   "getDataUrlById": [
     {
       "id": 1,
-      "urlPage": "http://localhost:8080/university/groups/getByTeacherId/"
+      "urlPage": "http://localhost:8080/university/groups/getByTeacherId/",
+      "idNumber": ""
     },
     {
       "id": 2,
-      "urlPage": "http://localhost:8080/university/students/getByGroupId/"
+      "urlPage": "http://localhost:8080/university/students/getByGroupId/",
+      "idNumber": ""
     },
     {
       "id": 3,
-      "urlPage": "http://localhost:8080/university/teachers/getByGroupId/"
+      "urlPage": "http://localhost:8080/university/teachers/getByGroupId/",
+      "idNumber": ""
     }
   ],
   "editStudentsData": [
@@ -108,5 +111,6 @@
       "urlPage": "http://localhost:8080/addStudentToGroup"
     }
   ],
-  "idNumber": 0
+  "idNumber": 0,
+  "loading": false
 }

@@ -1,20 +1,17 @@
 import React, {Component, Fragment} from 'react';
 import ReactTable from 'react-table';
 import "react-table/react-table.css";
+
+import ButtonsForEditStudentsContainer from '../containers/ButtonsForEditStudentsContainer'
 import ExportToExcel from "./ExportToExcel";
 
 export default class Table extends Component {
 
   constructor(props) {
     super(props);
+    }
 
-    this.store = this.props.store;
-
-  }
-
-  render(){
-
-
+  render() {
 
     const columns = [
       {
@@ -35,23 +32,9 @@ export default class Table extends Component {
       },
       {
         Header: "Actions",
-        Cell: props => {
-          return(
-            <Fragment>
-              <button
-                className="btn btn-secondary"
-                onClick={props.onAddItem}
-              >Add</button>
-              <button
-                className="btn btn-secondary"
-                onClick={props.onEditItem}
-              >Edit
-              </button>
-              <button className="btn btn-danger"
-                      onClick={props.onDeleteItem}
-              >Delete
-              </button>
-            </Fragment>
+        Cell: () => {
+          return (
+            <ButtonsForEditStudentsContainer />
           )
         },
         filterable: false,
@@ -66,7 +49,7 @@ export default class Table extends Component {
         <ReactTable
           id="react-table"
           columns={columns}
-          data={this.store.urlPage}
+          data={this.urlPage}
           filterable
           sortable
           defaultPageSize={10}
@@ -84,8 +67,7 @@ export default class Table extends Component {
             )
           }}
         </ReactTable>
-        <p>current idNumber - {this.store.idNumber}</p>
-        </Fragment>
+      </Fragment>
     )
   }
 }

@@ -1,6 +1,6 @@
 export const ADD_TEACHER = 'ADD_TEACHER';
 export const DELETE_TEACHER = 'DELETE_TEACHER';
-export const EDIT_TEACHER = 'EDIT_TEACHER';
+export const UPDATE_TEACHER = 'UPDATE_TEACHER';
 
 let nextId = 100;
 
@@ -20,9 +20,9 @@ export function deleteTeacher(id) {
   }
 }
 
-export function editTeacher(id, firstName, lastName) {
+export function updateTeacher(id, firstName, lastName) {
   return {
-    type: EDIT_TEACHER,
+    type: UPDATE_TEACHER,
     id,
     firstName,
     lastName

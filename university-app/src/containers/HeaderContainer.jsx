@@ -7,7 +7,7 @@ import { goToMainPageAction, goToStudentsPageAction, goToGroupsPageAction, goToT
 
 function mapStateToProps(state) { // сопоставить состояния со свойствами. Эта функция для данных - массив с адресами
   return {
-    data: state
+    getDataUrl: state.getDataUrl
   }
 }
 

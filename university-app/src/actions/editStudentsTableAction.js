@@ -1,6 +1,6 @@
 export const ADD_STUDENT = 'ADD_STUDENT';
 export const DELETE_STUDENT = 'DELETE_ITEM';
-export const EDIT_STUDENT = 'EDIT_STUDENT';
+export const UPDATE_STUDENT = 'UPDATE_STUDENT';
 
 export function addStudent(firstName, lastName) {
   return {
@@ -17,9 +17,9 @@ export function deleteStudent(id) {
   }
 }
 
-export function editStudent(id, firstName, lastName) {
+export function updateStudent(id, firstName, lastName) {
   return {
-    type: EDIT_STUDENT,
+    type: UPDATE_STUDENT,
     id,
     firstName,
     lastName

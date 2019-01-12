@@ -31,16 +31,14 @@ class Form extends React.Component {
 
   render() {
 
-    const data = this.props.getState();
-
-    const disabled = !this.store.idNumber;
+    const disabled = !this.idNumber;
 
     return (
       <form className="todo-add-form" onSubmit={this.handleSubmit}>
         <input
           type="text"
           defaultValue="0"
-          value={data.idNumber}
+          value={this.idNumber}
           placeholder="Введите ID"
           onChange={this.handleChangeId}/>
         <Button type="submit" disabled={disabled}>Добавить</Button>

@@ -6,17 +6,17 @@ import './header.css';
 const Header = () => {
   return (
     <div className="header d-flex">
-      <h3>
+      <h3 onClick={this.onGoToMainPage}>
           University Data Base
       </h3>
       <ul className="d-flex">
-        <li>
+        <li onClick={this.onGoToStudentsPage}>
           Students
         </li>
-        <li>
+        <li onClick={this.onGoToGroupsPage}>
           Groups
         </li>
-        <li>
+        <li onClick={this.onGoToTeachersPage}>
           Teachers
         </li>
       </ul>
