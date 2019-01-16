@@ -6,8 +6,8 @@
 import React from 'react';
 import { connect } from 'react-redux';  // выполняет подписку-отписку
 
-import { addStudent, deleteStudent, updateStudent } from "../actions/editStudentsTableAction";
-import ButtonsForEditStudents from '../components/pages/buttonsForEdit/ButtonsForEditStudents';
+import ButtonsForEditGroups from '../components/pages/buttonsForEdit/ButtonsForEditStudents';
+import {addGroup, deleteGroup, updateGroup} from "../actions";
 
 function mapStateToProps(state) { // сопоставить состояния со свойствами. Эта функция для данных - массив с адресами
   return {
@@ -17,21 +17,21 @@ function mapStateToProps(state) { // сопоставить состояния �
 
 function mapDispatchToProps(dispatch) {
   return {
-    onAddStudent: (firstName, lastName) => {
+    onAddGroup: (number, teacher) => {
       console.log('Add button clicked');
-      dispatch(addStudent(firstName, lastName))
+      dispatch(addGroup(number, teacher))
     },
-    onDeleteStudent: id => {
+    onDeleteGroup: id => {
       console.log('Delete button clicked');
-      dispatch(deleteStudent(id))
+      dispatch(deleteGroup(id))
     },
-    onUpdateStudent: (firstName, lastName) => {
+    onUpdateGroup: (number, teacher) => {
       console.log('Edit button clicked');
-      dispatch(updateStudent(firstName, lastName))
+      dispatch(updateGroup(number, teacher))
     }
   }
 }
 
-const ButtonsForEditStudentsContainer = connect(mapStateToProps, mapDispatchToProps)(ButtonsForEditStudents); // упрощенный синтаксис строк выше
+const ButtonsForEditGroupsContainer = connect(mapStateToProps, mapDispatchToProps)(ButtonsForEditGroups); // упрощенный синтаксис строк выше
 
-export default ButtonsForEditStudentsContainer;
+export default ButtonsForEditGroupsContainer;

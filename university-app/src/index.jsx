@@ -5,14 +5,14 @@ import { Provider } from 'react-redux';
 import store from './store';
 import App from './App';
 
-import { requestPage } from './actions';
-store.dispatch(requestPage());
+import { getStudents, getTeachers, getGroups } from "./actions";
+
+store.dispatch(getStudents());
+//store.dispatch(getTeachers());
+//store.dispatch(getGroups());
 
 console.log(store.getState());
-// store.subscribe(() => console.log(store.getState()));
-// store.dispatch(goToStudentsPageAction('http://localhost:8080/university/students'));
-// store.dispatch(changeIdAction('10'));
-
+console.log(store);
 
 ReactDOM.render(
   <Provider store={store}>

@@ -3,7 +3,7 @@
 // Сопоставляет действия презентационного компонента с действиями обновляющими состояния
 //
 
-import React from 'react';
+// import React from 'react';
 import { connect } from 'react-redux';  // выполняет подписку-отписку
 
 import { changeIdAction } from '../actions/changeIdAction';

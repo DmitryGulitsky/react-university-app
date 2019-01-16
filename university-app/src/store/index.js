@@ -1,16 +1,9 @@
 import { createStore, applyMiddleware } from 'redux';
+import promise from 'redux-promise';  // функции, которые встраиваются в процесс действия
+import thunk from 'redux-thunk';    // перехватываем объект, смотрим на него, что-либо делаем или просто пропускаем дальше
 
 import reducer from '../reducers';
 
-const store = createStore(reducer);
-
-
-
-// import promise from 'redux-promise';
-// import thunk from 'redux-thunk'; // используется для того, чтобы в функциях была возможность сгенерировать несколько действий. Несколько действий в рамках одной функции
-//
-// import reducer from '../reducers';
-//
-// const store = createStore(reducer, applyMiddleware(promise, thunk));
+const store = createStore(reducer, applyMiddleware(promise, thunk));
 
 export default store;

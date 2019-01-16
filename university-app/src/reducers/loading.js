@@ -1,9 +1,12 @@
-import { REQUEST_PAGE } from '../actions';
+import { REQUEST_STUDENTS, GET_STUDENTS } from '../actions';
 
 function reducer(state = false, action) {
   switch (action.type) {
-    case REQUEST_PAGE:
+    case REQUEST_STUDENTS:
       return true;
+
+    case GET_STUDENTS:
+      return false;
 
     default:
       return state;

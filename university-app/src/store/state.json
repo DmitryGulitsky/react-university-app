@@ -1,116 +1,12 @@
 {
-  "getDataUrl": [
-    {
-      "id": 1,
-      "urlPage": "http://localhost:8080/"
-    },
-    {
-      "id": 2,
-      "urlPage": "http://localhost:8080/university/students"
-    },
-    {
-      "id": 3,
-      "urlPage": "http://localhost:8080/university/groups"
-    },
-    {
-      "id": 4,
-      "urlPage": "http://localhost:8080/university/teachers"
-    }
-  ],
-  "getDataUrlById": [
-    {
-      "id": 1,
-      "urlPage": "http://localhost:8080/university/groups/getByTeacherId/",
-      "idNumber": ""
-    },
-    {
-      "id": 2,
-      "urlPage": "http://localhost:8080/university/students/getByGroupId/",
-      "idNumber": ""
-    },
-    {
-      "id": 3,
-      "urlPage": "http://localhost:8080/university/teachers/getByGroupId/",
-      "idNumber": ""
-    }
-  ],
-  "editStudentsData": [
-    {
-      "id": 1,
-      "urlPage": "http://localhost:8080/addStudent",
-      "studentId": "",
-      "firstName": "",
-      "lastName": ""
-    },
-    {
-      "id": 2,
-      "urlPage": "http://localhost:8080/updateStudent",
-      "studentId": "",
-      "firstName": "",
-      "lastName": ""
-    },
-    {
-      "id": 3,
-      "urlPage": "http://localhost:8080/deleteStudent",
-      "studentId": ""
-    }
-  ],
-  "editGroupsData": [
-    {
-      "id": 1,
-      "urlPage": "http://localhost:8080/addGroup",
-      "groupId": "",
-      "number": "",
-      "teacher": ""
-    },
-    {
-      "id": 2,
-      "urlPage": "http://localhost:8080/updateGroup",
-      "groupId": "",
-      "number": "",
-      "teacher": ""
-    },
-    {
-      "id": 3,
-      "urlPage": "http://localhost:8080/deleteGroup",
-      "groupId": ""
-    }
-  ],
-  "editTeachersData": [
-    {
-      "id": 1,
-      "urlPage": "http://localhost:8080/addTeacher",
-      "teacherId": "",
-      "firstName": "",
-      "lastName": ""
-    },
-    {
-      "id": 2,
-      "urlPage": "http://localhost:8080/updateTeacher",
-      "teacherId": "",
-      "firstName": "",
-      "lastName": ""
-    },
-    {
-      "id": 3,
-      "urlPage": "http://localhost:8080/deleteTeacher",
-      "teacherId": ""
-    }
-  ],
-  "addIdToId": [
-    {
-      "id": 1,
-      "groupId": 0,
-      "toTeacherId": 0,
-      "urlPage": "http://localhost:8080/addGroupToTeacher"
-    },
-    {
-      "id": 1,
-      "studentId": 0,
-      "toGroupId": 0,
-      "urlPage": "http://localhost:8080/addStudentToGroup"
-    }
-  ],
-  "idNumber": 0,
+  "students": {
+
+  },
+  "teachers": {
+
+  },
+  "groups": {
+
+  },
   "loading": false
 }

@@ -2,14 +2,13 @@ import React, {Component, Fragment} from 'react';
 import ReactTable from 'react-table';
 import "react-table/react-table.css";
 
-import ButtonsForEditStudentsContainer from '../containers/ButtonsForEditStudentsContainer'
-import ExportToExcel from "./ExportToExcel";
+// import ButtonsForEditGroupsContainer from '../../containers/ButtonsForEditGroupsContainer'
 
-export default class Table extends Component {
+export default class GroupsPage extends Component {
 
   constructor(props) {
     super(props);
-    }
+  }
 
   render() {
 
@@ -23,18 +22,32 @@ export default class Table extends Component {
 
       },
       {
-        Header: "First Name",
-        accessor: "firstName"
+        Header: "Group Number",
+        accessor: "number"
       },
       {
-        Header: "Last Name",
-        accessor: "lastName"
+        Header: "Teacher",
+        accessor: "teacher"
       },
       {
         Header: "Actions",
         Cell: () => {
           return (
-            <ButtonsForEditStudentsContainer />
+            <Fragment>
+              <button
+                className="btn btn-secondary"
+                onClick={this.onAddGroup}
+              >Add</button>
+              <button
+                className="btn btn-secondary"
+                onClick={this.onUpdateGroup}
+              >Edit
+              </button>
+              <button className="btn btn-danger"
+                      onClick={this.onDeleteGroup}
+              >Delete
+              </button>
+            </Fragment>
           )
         },
         filterable: false,
@@ -55,17 +68,6 @@ export default class Table extends Component {
           defaultPageSize={10}
           noDataText={"Please wait..."}
         >
-          {(state, filteredData, instance) => {
-            this.reactTable = state.pageRows.map(post => {
-              return post._original
-            });
-            return (
-              <div>
-                {filteredData()}
-                <ExportToExcel posts={this.reactTable}/>
-              </div>
-            )
-          }}
         </ReactTable>
       </Fragment>
     )

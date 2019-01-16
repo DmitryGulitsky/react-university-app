@@ -1,37 +1,36 @@
-import {ADD_TEACHER, UPDATE_TEACHER, DELETE_TEACHER} from "../actions/editTeachersTableAction";
+import {GET_TEACHERS, ADD_TEACHER, UPDATE_TEACHER, DELETE_TEACHER} from "../actions/editTeachersTableAction";
 
-export default function reducer(state = {
-  id: "",
-  urlPage: "",
-  studentId: "",
-  firstName: "",
-  lastName: ""
-}, action) {  //  указываем начальное состояние
+function teacherReducer(state = {}, action) {
   switch (action.type) {
-    case ADD_TEACHER:
-      return {
-        id: action.id,
-        urlPage: action.urlPage,
-        studentId: action.studentId,
-        firstName: action.firstName,
-        lastName: action.lastName
-      };
+    case GET_TEACHERS:
+      return action.teachers;
 
     case UPDATE_TEACHER:
-      return {
-        id: action.id,
-        urlPage: action.urlPage,
-        studentId: action.studentId,
-        firstName: action.firstName,
-        lastName: action.lastName
-      };
+      if (state.id !== action.teacher.id) {
+        return state;
+      }
+      return action.teacher;
+  }
+}
+
+export default function reducer(state = [], action) {
+  switch (action.type) {
+    case GET_TEACHERS:
+      return action.teachers;
+
+    case ADD_TEACHER:
+      return [...state, action.teacher];
 
     case DELETE_TEACHER:
-      return {
-        id: action.id,
-        urlPage: action.urlPage,
-        studentId: action.studentId,
-      };
+      const index = state.findIndex(teacher => teacher.id === action.id);
+
+      return [
+        ...state.slice(0, index),
+        ...state.slice(index + 1)
+      ];
+
+    case UPDATE_TEACHER:
+      return state.map(teacher => teacherReducer(teacher, action));
 
     default:
       return state;
