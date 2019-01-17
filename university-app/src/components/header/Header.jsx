@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router-dom';  // метод Link - изменение адреса, должен быть обернут в BrowserRouter
+import {Link, withRouter} from 'react-router-dom';  // метод Link - изменение адреса, должен быть обернут в BrowserRouter
 
 import './header.css';
 

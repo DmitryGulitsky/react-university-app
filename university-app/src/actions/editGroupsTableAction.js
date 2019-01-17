@@ -20,7 +20,7 @@ export function getGroups() {
   };
 }
 
-export function addGroup(number, teacher) {
+export function addGroup({number, teacher}) {
   return axios.post('http://localhost:8080/university/groups/', {number, teacher})
     .then(response => response.data)
     .then(group => ({
@@ -37,8 +37,8 @@ export function deleteGroup(id) {
     }));
 }
 
-export function updateGroup(id, { number, teacher }) {
-  return axios.put(`http://localhost:8080/university/groups/${id}`, { number, teacher })
+export function updateGroup(id, {number, teacher}) {
+  return axios.put(`http://localhost:8080/university/groups/${id}`, {number, teacher})
     .then(response => response.data)
     .then(group => ({
       type: UPDATE_GROUP,

@@ -37,8 +37,8 @@ export function deleteTeacher(id) {
     }));
 }
 
-export function updateTeacher(id, { firstName, lastName }) {
-  return axios.put(`http://localhost:8080/university/teachers/${id}`, { firstName, lastName })
+export function updateTeacher(id, {firstName, lastName}) {
+  return axios.put(`http://localhost:8080/university/teachers/${id}`, {firstName, lastName})
     .then(response => response.data)
     .then(teacher => ({
       type: UPDATE_TEACHER,

@@ -1,14 +1,12 @@
-// import React from 'react';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
 import StudentsPage from '../components/pages/studentsPage/StudentsPage';
 
-import { addStudent, deleteStudent, updateStudent } from "../actions/editStudentsTableAction";
+import {addStudent, deleteStudent, updateStudent} from "../actions";
 
 function mapStateToProps(state) { // сопоставить состояния со свойствами. Эта функция для данных - массив с адресами
   return {
     students: state.students, // копируем в объект students
-    loading: state.loading
   }
 }
 
@@ -24,12 +22,12 @@ function mapDispatchToProps(dispatch) {
     },
     onUpdateStudent: (id, firstName, lastName) => {
       console.log('Edit button clicked');
-      dispatch(updateStudent(id, firstName, lastName))
+      dispatch(updateStudent( firstName, lastName))
     }
   }
 }
 
-const StudentsPageContainer = connect(mapStateToProps, mapDispatchToProps)(StudentsPage); // упрощенный синтаксис строк выше
+const StudentsPageContainer = connect(mapStateToProps, mapDispatchToProps)(StudentsPage);
 
 
 export default StudentsPageContainer;

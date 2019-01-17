@@ -1,14 +1,12 @@
-// import React from 'react';
 import { connect } from 'react-redux';
 
 import TeachersPage from '../components/pages/teachersPage/TeachersPage';
 
-import { addTeacher, deleteTeacher, updateTeacher } from "../actions/editTeachersTableAction";
+import { addTeacher, deleteTeacher, updateTeacher } from "../actions/";
 
 function mapStateToProps(state) { // сопоставить состояния со свойствами. Эта функция для данных - массив с адресами
   return {
     teachers: state.teachers,
-    loading: state.loading
   }
 }
 

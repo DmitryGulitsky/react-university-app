@@ -1,12 +1,5 @@
 {
-  "students": {
-
-  },
-  "teachers": {
-
-  },
-  "groups": {
-
-  },
-  "loading": false
+  "students": [],
+  "teachers": [],
+  "groups": [],
 }

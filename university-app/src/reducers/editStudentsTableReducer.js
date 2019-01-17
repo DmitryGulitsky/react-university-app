@@ -1,4 +1,4 @@
-import {GET_STUDENTS, ADD_STUDENT, UPDATE_STUDENT, DELETE_STUDENT} from "../actions/editStudentsTableAction";
+import {GET_STUDENTS, ADD_STUDENT, UPDATE_STUDENT, DELETE_STUDENT} from "../actions";
 
 function studentReducer(state = {}, action) {
   switch (action.type) {
