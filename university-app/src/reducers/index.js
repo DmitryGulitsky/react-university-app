@@ -1,13 +1,31 @@
 import {combineReducers} from 'redux';
 
-import editGroupsTable from './editGroupsTableReducer';
-import editStudentsTable from './editStudentsTableReducer';
-import editTeachersTable from './editTeachersTableReducer';
+import getStudentsReducer from './getStudentsReducer';
+import addStudentsReducer from './addStudentsReducer';
+import updateStudentsReducer from './updateStudentsReaducer';
+import getGroupsReducer from './getGroupsReducer';
+import addGroupsReducer from './addGroupsReducer';
+import updateGroupsReducer from './updateGroupsReducer';
+import getTeachersReducer from './getTeachersReducer';
+import addTeachersReducer from './addTeachersReducer';
+import updateTeachersReducer from './updateTeachersReaducer';
+import addStudentToGroupReducer from './addStudentToGroupReducer';
+import addGroupsToTeacherReducer from './addGroupsToTeacherReducer';
+import getByIdReducer from './getByIdReducer';
 
 const reducer = combineReducers({
-  students: editStudentsTable,
-  groups: editGroupsTable,
-  teachers: editTeachersTable,
+  students: getStudentsReducer,
+  studentsToAdd:  addStudentsReducer,
+  studentsToUpdate: updateStudentsReducer,
+  groups: getGroupsReducer,
+  groupsToAdd:  addGroupsReducer,
+  groupsToUpdate: updateGroupsReducer,
+  teachers: getTeachersReducer,
+  teachersToAdd:  addTeachersReducer,
+  teachersToUpdate: updateTeachersReducer,
+  uploadedStudentToGroupFiles: addStudentToGroupReducer,
+  uploadedGroupsToTeacherFiles: addGroupsToTeacherReducer,
+  getById: getByIdReducer
 });
 
 export default reducer;

@@ -2,6 +2,8 @@ import React, {Component, Fragment} from 'react';
 import ReactTable from 'react-table';
 import "react-table/react-table.css";
 
+import Dropzone from 'react-dropzone';
+
 import store from "../../../store";
 import {getTeachers} from "../../../actions";
 
@@ -9,6 +11,10 @@ export default class TeachersPage extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      accepted: [],
+      rejected: []
+    };
 
     this.handleAdd = this.handleAdd.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
@@ -21,16 +27,8 @@ export default class TeachersPage extends Component {
 
   handleAdd(event) {
     event.preventDefault();
-
-    console.log(this.refs);
-
-    console.log(this.refs.firstName.value);
-    console.log(this.refs.lastName.value);
-
-    const firstName = this.refs.firstName.value;
-    const lastName = this.refs.lastName.value;
-
-    this.props.onAddTeacher(this.props.id, firstName, lastName);
+    console.log('uploaded files - ', this.state.accepted);
+    this.props.onAddTeacher(this.state.accepted);
   }
 
   handleDelete() {
@@ -39,19 +37,31 @@ export default class TeachersPage extends Component {
 
   handleUpdate(event) {
     event.preventDefault();
-
-    console.log(this.refs);
-
-    console.log(this.refs.firstName.value);
-    console.log(this.refs.lastName.value);
-
-    const firstName = this.refs.firstName.value;
-    const lastName = this.refs.lastName.value;
-
-    this.props.onUpdateTeacher(this.props.id, firstName, lastName);
+    console.log('uploaded files - ', this.state.accepted);
+    this.props.onUpdateTeacher(this.state.accepted);
   }
 
   render() {
+
+    const baseStyle = {
+      width: '33%',
+      marginLeft: '33%',
+      height: 200,
+      borderWidth: 2,
+      borderColor: '#666',
+      borderStyle: 'dashed',
+      borderRadius: 5
+    };
+    const activeStyle = {
+      borderStyle: 'solid',
+      borderColor: '#6c6',
+      backgroundColor: '#eee'
+    };
+    const rejectStyle = {
+      borderStyle: 'solid',
+      borderColor: '#c66',
+      backgroundColor: '#eee'
+    };
 
     const columns = [
       {
@@ -96,83 +106,119 @@ export default class TeachersPage extends Component {
           data={this.props.teachers}
           filterable
           sortable
-          defaultPageSize={10}
+          defaultPageSize={5}
           noDataText={"Please wait..."}
         >
         </ReactTable>
 
         <br/>
-
+        <div className="dropzone-container">
         <h3>ADD TEACHER</h3>
+        <p>Here you can upload excel file with data to add group to data base</p>
+        <Dropzone
+          accept="text/csv, application/vnd.ms-excel"
+          onDrop={(accepted, rejected) => {
+            this.setState({accepted, rejected});
+            console.log(accepted);
+            console.log(rejected);
+          }}
+        >
+          {({getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject, acceptedFiles, rejectedFiles}) => {
+            let styles = {...baseStyle};
+            styles = isDragActive ? {...styles, ...activeStyle} : styles;
+            styles = isDragReject ? {...styles, ...rejectStyle} : styles;
+
+            return (
+              <div
+                {...getRootProps()}
+                style={styles}
+              >
+                <input {...getInputProps()} />
+                <div>
+                  {isDragAccept ? 'Drop' : 'Drag'} files here...
+                </div>
+                {isDragReject && <div>Unsupported file type...</div>}
+              </div>
+            )
+          }}
+        </Dropzone>
+        <aside>
+          <h4>Accepted files</h4>
+          <ul>
+            {
+              this.state.accepted.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
+            }
+          </ul>
+          <h4>Rejected files</h4>
+          <ul>
+            {
+              this.state.rejected.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
+            }
+          </ul>
+        </aside>
+
+        <h3>If you want to upload files to server - push SUBMIT button below</h3>
         <form
           className="form-group"
           onSubmit={this.handleAdd}>
-          <div className="form-group">
-            <label htmlFor="addTeacherFirstNameInput">First Name</label>
-            <input
-              type="text"
-              className="form-control"
-              id="addTeacherFirstNameInput"
-              placeholder="Enter First Name"
-              ref="firstName"
-              defaultValue={this.props.firstName}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="addTeacherLastNameInput">Last Name</label>
-            <input
-              type="text"
-              className="form-control"
-              id="addTeacherLastNameInput"
-              placeholder="Enter Last Name"
-              ref="lastName"
-              defaultValue={this.props.lastName}
-            />
-          </div>
           <button type="submit" className="btn btn-primary">Submit</button>
         </form>
+      </div>
 
         <br/>
 
-        <h3>UPDATE TEACHER</h3>
-        <form
-          className="form-group"
-          onSubmit={this.handleUpdate}>
-          <div className="form-group">
-            <label htmlFor="updateTeacherIDInput">ID</label>
-            <input
-              type="text"
-              className="form-control"
-              id="updateTeacherIDInput"
-              placeholder="Enter ID"
-              ref="id"
-              defaultValue={this.props.id}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="updateTeacherFirstNameInput">First Name</label>
-            <input
-              type="text"
-              className="form-control"
-              id="updateTeacherFirstNameInput"
-              placeholder="Enter First Name"
-              ref="firstName"
-              defaultValue={this.props.firstName}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="updateTeacherLastNameInput">Last Name</label>
-            <input
-              type="text"
-              className="form-control"
-              id="updateTeacherLastNameInput"
-              placeholder="Enter Last Name"
-              ref="lastName"
-              defaultValue={this.props.lastName}
-            />
-          </div>
-          <button type="submit" className="btn btn-primary">Submit</button>
-        </form>
+        <div className="dropzone-container">
+          <h3>UPDATE TEACHER</h3>
+          <p>Here you can upload excel file with data to update group in data base</p>
+          <Dropzone
+            accept="text/csv, application/vnd.ms-excel"
+            onDrop={(accepted, rejected) => {
+              this.setState({accepted, rejected});
+              console.log(accepted);
+              console.log(rejected);
+            }}
+          >
+            {({getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject, acceptedFiles, rejectedFiles}) => {
+              let styles = {...baseStyle};
+              styles = isDragActive ? {...styles, ...activeStyle} : styles;
+              styles = isDragReject ? {...styles, ...rejectStyle} : styles;
+
+              return (
+                <div
+                  {...getRootProps()}
+                  style={styles}
+                >
+                  <input {...getInputProps()} />
+                  <div>
+                    {isDragAccept ? 'Drop' : 'Drag'} files here...
+                  </div>
+                  {isDragReject && <div>Unsupported file type...</div>}
+                </div>
+              )
+            }}
+          </Dropzone>
+          <aside>
+            <h4>Accepted files</h4>
+            <ul>
+              {
+                this.state.accepted.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
+              }
+            </ul>
+            <h4>Rejected files</h4>
+            <ul>
+              {
+                this.state.rejected.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
+              }
+            </ul>
+          </aside>
+
+          <h3>If you want to upload files to server - push SUBMIT button below</h3>
+          <form
+            className="form-group"
+            onSubmit={this.handleAdd}>
+            <button type="submit" className="btn btn-primary">Submit</button>
+          </form>
+        </div>
       </Fragment>
     )
   }

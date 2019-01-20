@@ -20,12 +20,12 @@ export function getTeachers() {
   };
 }
 
-export function addTeacher(firstName, lastName) {
-  return axios.post('http://localhost:8080/university/teachers/', {firstName, lastName})
+export function addTeacher(teachersToAdd) {
+  return axios.post('http://localhost:8080/university/teachers/', {teachersToAdd})
     .then(response => response.data)
-    .then(teacher => ({
+    .then(teachersToAdd => ({
       type: ADD_TEACHER,
-      teacher
+      teachersToAdd
     }));
 }
 
@@ -37,12 +37,12 @@ export function deleteTeacher(id) {
     }));
 }
 
-export function updateTeacher(id, {firstName, lastName}) {
-  return axios.put(`http://localhost:8080/university/teachers/${id}`, {firstName, lastName})
+export function updateTeacher(id, teachersToUpdate) {
+  return axios.put(`http://localhost:8080/university/teachers/${id}`, {teachersToUpdate})
     .then(response => response.data)
-    .then(teacher => ({
+    .then(teachersToUpdate => ({
       type: UPDATE_TEACHER,
-      teacher
+      teachersToUpdate
     }));
 }
 

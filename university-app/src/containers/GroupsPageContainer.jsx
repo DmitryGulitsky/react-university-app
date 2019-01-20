@@ -13,17 +13,17 @@ function mapStateToProps(state) { // сопоставить состояния �
 
 function mapDispatchToProps(dispatch) {
   return {
-    onAddGroup: (number, teacher) => {
+    onAddGroup: (groupsToAdd) => {
       console.log('Add button clicked');
-      dispatch(addGroup(number, teacher))
+      dispatch(addGroup(groupsToAdd))
     },
     onDeleteGroup: id => {
       console.log('Delete button clicked');
       dispatch(deleteGroup(id))
     },
-    onUpdateGroup: (id, number, teacher) => {
+    onUpdateGroup: (id, groupsToUpdate) => {
       console.log('Edit button clicked');
-      dispatch(updateGroup(id, number, teacher))
+      dispatch(updateGroup(id, groupsToUpdate))
     }
   }
 }

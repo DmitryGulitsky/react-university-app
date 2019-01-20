@@ -2,6 +2,10 @@ import React, {Component, Fragment} from 'react';
 import ReactTable from 'react-table';
 import "react-table/react-table.css";
 
+import Spinner from '../../spinner';
+
+import Dropzone from 'react-dropzone';
+
 import store from "../../../store";
 import {getStudents} from "../../../actions";
 
@@ -9,6 +13,11 @@ export default class StudentsPage extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      accepted: [],
+      rejected: [],
+      loading: false
+    };
 
     this.handleAdd = this.handleAdd.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
@@ -21,16 +30,8 @@ export default class StudentsPage extends Component {
 
   handleAdd(event) {
     event.preventDefault();
-
-    console.log(this.refs);
-
-    console.log(this.refs.firstName.value);
-    console.log(this.refs.lastName.value);
-
-    const firstName = this.refs.firstName.value;
-    const lastName = this.refs.lastName.value;
-
-    this.props.onAddStudent(this.props.id, firstName, lastName);
+    console.log('uploaded files - ', this.state.accepted);
+    this.props.onAddStudent(this.state.accepted);
   }
 
   handleDelete() {
@@ -39,19 +40,31 @@ export default class StudentsPage extends Component {
 
   handleUpdate(event) {
     event.preventDefault();
-
-    console.log(this.refs);
-
-    console.log(this.refs.firstName.value);
-    console.log(this.refs.lastName.value);
-
-    const firstName = this.refs.firstName.value;
-    const lastName = this.refs.lastName.value;
-
-    this.props.onUpdateStudent(this.props.id, firstName, lastName);
+    console.log('uploaded files - ', this.state.accepted);
+    this.props.onUpdateStudent(this.state.accepted);
   }
 
   render() {
+
+    const baseStyle = {
+      width: '33%',
+      marginLeft: '33%',
+      height: 200,
+      borderWidth: 2,
+      borderColor: '#666',
+      borderStyle: 'dashed',
+      borderRadius: 5
+    };
+    const activeStyle = {
+      borderStyle: 'solid',
+      borderColor: '#6c6',
+      backgroundColor: '#eee'
+    };
+    const rejectStyle = {
+      borderStyle: 'solid',
+      borderColor: '#c66',
+      backgroundColor: '#eee'
+    };
 
     const columns = [
       {
@@ -87,6 +100,9 @@ export default class StudentsPage extends Component {
         minWidth: 200
       }
     ];
+
+    const spinner = this.state.loading ? <Spinner /> : <button type="submit" className="btn btn-primary">Submit</button>;
+
     return (
       <Fragment>
         <ReactTable
@@ -95,84 +111,118 @@ export default class StudentsPage extends Component {
           data={this.props.students}
           filterable
           sortable
-          defaultPageSize={10}
+          defaultPageSize={5}
           noDataText={"Please wait..."}
         >
         </ReactTable>
 
         <br/>
+        <div className="dropzone-container">
+          <h3>ADD STUDENT</h3>
+          <p>Here you can upload excel file with data to add student to data base</p>
+          <Dropzone
+            accept="text/csv, application/vnd.ms-excel"
+            onDrop={(accepted, rejected) => {
+              this.setState({accepted, rejected});
+              console.log(accepted);
+              console.log(rejected);
+            }}
+          >
+            {({getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject, acceptedFiles, rejectedFiles}) => {
+              let styles = {...baseStyle};
+              styles = isDragActive ? {...styles, ...activeStyle} : styles;
+              styles = isDragReject ? {...styles, ...rejectStyle} : styles;
 
-        <h3>ADD STUDENT</h3>
-        <form
-          className="add-student-form"
-          onSubmit={this.handleAdd}>
-          <div className="form-group">
-            <label htmlFor="addStudentFirstNameInput">First Name</label>
-            <input
-              type="text"
-              className="form-control"
-              id="addStudentFirstNameInput"
-              placeholder="Enter First Name"
-              ref="firstName"
-              defaultValue={this.props.firstName}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="addStudentLastNameInput">Last Name</label>
-            <input
-              type="text"
-              className="form-control"
-              id="addStudentLastNameInput"
-              placeholder="Enter Last Name"
-              ref="lastName"
-              defaultValue={this.props.lastName}
-            />
-          </div>
-          <button type="submit" className="btn btn-primary">Submit</button>
-        </form>
+              return (
+                <div
+                  {...getRootProps()}
+                  style={styles}
+                >
+                  <input {...getInputProps()} />
+                  <div>
+                    {isDragAccept ? 'Drop' : 'Drag'} files here...
+                  </div>
+                  {isDragReject && <div>Unsupported file type...</div>}
+                </div>
+              )
+            }}
+          </Dropzone>
+          <aside>
+            <h4>Accepted files</h4>
+            <ul>
+              {
+                this.state.accepted.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
+              }
+            </ul>
+            <h4>Rejected files</h4>
+            <ul>
+              {
+                this.state.rejected.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
+              }
+            </ul>
+          </aside>
 
+          <h3>If you want to upload files to server - push SUBMIT button below</h3>
+          <form
+            className="form-group"
+            onSubmit={this.handleAdd}>
+            {spinner}
+          </form>
+        </div>
         <br/>
+        <div className="dropzone-container">
+          <h3>UPDATE STUDENT</h3>
+          <p>Here you can upload excel file with data to update student in data base</p>
+          <Dropzone
+            accept="text/csv, application/vnd.ms-excel"
+            onDrop={(accepted, rejected) => {
+              this.setState({accepted, rejected});
+              console.log(accepted);
+              console.log(rejected);
+            }}
+          >
+            {({getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject, acceptedFiles, rejectedFiles}) => {
+              let styles = {...baseStyle};
+              styles = isDragActive ? {...styles, ...activeStyle} : styles;
+              styles = isDragReject ? {...styles, ...rejectStyle} : styles;
 
-        <h3>UPDATE STUDENT</h3>
-        <form
-          className="add-student-form"
-          onSubmit={this.handleUpdate}>
-          <div className="form-group">
-            <label htmlFor="updateStudentIDInput">ID</label>
-            <input
-              type="text"
-              className="form-control"
-              id="updateStudentIDInput"
-              placeholder="Enter ID"
-              ref="id"
-              defaultValue={this.props.id}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="updateStudentFirstNameInput">First Name</label>
-            <input
-              type="text"
-              className="form-control"
-              id="updateStudentFirstNameInput"
-              placeholder="Enter First Name"
-              ref="firstName"
-              defaultValue={this.props.firstName}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="updateStudentLastNameInput">Last Name</label>
-            <input
-              type="text"
-              className="form-control"
-              id="updateStudentLastNameInput"
-              placeholder="Enter Last Name"
-              ref="lastName"
-              defaultValue={this.props.lastName}
-            />
-          </div>
-          <button type="submit" className="btn btn-primary">Submit</button>
-        </form>
+              return (
+                <div
+                  {...getRootProps()}
+                  style={styles}
+                >
+                  <input {...getInputProps()} />
+                  <div>
+                    {isDragAccept ? 'Drop' : 'Drag'} files here...
+                  </div>
+                  {isDragReject && <div>Unsupported file type...</div>}
+                </div>
+              )
+            }}
+          </Dropzone>
+          <aside>
+            <h4>Accepted files</h4>
+            <ul>
+              {
+                this.state.accepted.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
+              }
+            </ul>
+            <h4>Rejected files</h4>
+            <ul>
+              {
+                this.state.rejected.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
+              }
+            </ul>
+          </aside>
 
+          <h3>If you want to upload files to server - push SUBMIT button below</h3>
+          <form
+            className="form-group"
+            onSubmit={this.handleAdd}>
+            {spinner}
+          </form>
+
+        </div>
       </Fragment>
     )
   }

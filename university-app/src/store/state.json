@@ -2,4 +2,13 @@
   "students": [],
   "teachers": [],
   "groups": [],
+  "studentsToAdd": [],
+  "studentsToUpdate": [],
+  "groupsToAdd": [],
+  "groupsToUpdate": [],
+  "teachersToAdd": [],
+  "teachersToUpdate": [],
+  "uploadedStudentToGroupFiles": [],
+  "uploadedGroupsToTeacherFiles": [],
+  "getById": [],
 }

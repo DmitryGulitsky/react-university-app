@@ -21,9 +21,19 @@ const Header = () => {
         <li>
           <Link to="/teachers">Teachers</Link>
         </li>
+        <li>
+          <Link to="/addstudent">Add student to group</Link>
+        </li>
+        <li>
+          <Link to="/addgroups">Add groups to teacher</Link>
+        </li>
+        <li>
+          <Link to="/getbyid">Get by ID</Link>
+        </li>
       </ul>
     </div>
   );
 };
 
 export default withRouter(Header)
+

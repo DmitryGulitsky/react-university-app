@@ -12,17 +12,17 @@ function mapStateToProps(state) { // сопоставить состояния �
 
 function mapDispatchToProps(dispatch) {
   return {
-    onAddTeacher: (firstName, lastName) => {
+    onAddTeacher: (teachersToAdd) => {
       console.log('Add button clicked');
-      dispatch(addTeacher(firstName, lastName))
+      dispatch(addTeacher(teachersToAdd))
     },
     onDeleteTeacher: id => {
       console.log('Delete button clicked');
       dispatch(deleteTeacher(id))
     },
-    onUpdateTeacher: (id, firstName, lastName) => {
+    onUpdateTeacher: (id, teachersToUpdate) => {
       console.log('Edit button clicked');
-      dispatch(updateTeacher(id, firstName, lastName))
+      dispatch(updateTeacher(id, teachersToUpdate))
     }
   }
 }

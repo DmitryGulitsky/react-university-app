@@ -7,27 +7,29 @@ import {addStudent, deleteStudent, updateStudent} from "../actions";
 function mapStateToProps(state) { // сопоставить состояния со свойствами. Эта функция для данных - массив с адресами
   return {
     students: state.students, // копируем в объект students
+    studentsToAdd: state.studentsToAdd,
+    studentsToUpdate: state.studentsToUpdate,
+    loading: state.loading
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    onAddStudent: (firstName, lastName) => {
+    onAddStudent: (studentsToAdd) => {
       console.log('Add button clicked');
-      dispatch(addStudent(firstName, lastName))
+      dispatch(addStudent(studentsToAdd))
     },
     onDeleteStudent: id => {
       console.log('Delete button clicked');
       dispatch(deleteStudent(id))
     },
-    onUpdateStudent: (id, firstName, lastName) => {
+    onUpdateStudent: (id, studentsToUpdate) => {
       console.log('Edit button clicked');
-      dispatch(updateStudent( firstName, lastName))
+      dispatch(updateStudent(id, studentsToUpdate))
     }
   }
 }
 
 const StudentsPageContainer = connect(mapStateToProps, mapDispatchToProps)(StudentsPage);
-
 
 export default StudentsPageContainer;

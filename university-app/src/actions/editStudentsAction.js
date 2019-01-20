@@ -46,16 +46,14 @@ export function getStudents() { // из этой функции возвраща
 //};
 
 
-export function addStudent(firstName, lastName) {
-  return axios.post(`${apiURL}/students/`, {firstName, lastName})
+export function addStudent(studentsToAdd) {
+  return axios.post(`${apiURL}/students/`, {studentsToAdd})
     .then(response => response.data)
     .then(student => ({   //  вернем объект действия
       type: ADD_STUDENT,
       student   // передаем объект student
     }))
-    .catch(function (error) {
-      console.log('Add student error', error);
-    });
+    .then(hello => (console.log(hello)))
 }
 
 export function deleteStudent(id) {
@@ -64,19 +62,14 @@ export function deleteStudent(id) {
       type: DELETE_STUDENT,
       id    // параметр необходимен, чтобы знать, какой параметр удалить
     }))
-    .catch(function (error) {
-      console.log('Delete student error', error);
-    });
 }
 
-export function updateStudent(id, {firstName, lastName}) {
-  return axios.put(`${apiURL}/students/${id}`, {firstName, lastName})
+export function updateStudent(id, {studentsToUpdate}) {
+  return axios.put(`${apiURL}/students/${id}`, {studentsToUpdate})
     .then(response => response.data)
     .then(student => ({
       type: UPDATE_STUDENT,
       student
     }))
-    .catch(function (error) {
-      console.log('Update student error', error);
-    });
+
 }
