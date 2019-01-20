@@ -14,9 +14,8 @@ export default class StudentsPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      accepted: [],
-      rejected: [],
-      loading: false
+      accepted: [],   // массив файлов готовых к отправке
+      rejected: [],   // массив отклоненных
     };
 
     this.handleAdd = this.handleAdd.bind(this);
@@ -31,6 +30,7 @@ export default class StudentsPage extends Component {
   handleAdd(event) {
     event.preventDefault();
     console.log('uploaded files - ', this.state.accepted);
+    console.log('this.props.loading - ', this.props.loading);
     this.props.onAddStudent(this.state.accepted);
   }
 
@@ -101,7 +101,7 @@ export default class StudentsPage extends Component {
       }
     ];
 
-    const spinner = this.state.loading ? <Spinner /> : <button type="submit" className="btn btn-primary">Submit</button>;
+    const spinner = this.props.loading ? <button type="submit" className="btn btn-primary">Submit</button> : <Spinner />;
 
     return (
       <Fragment>

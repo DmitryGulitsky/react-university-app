@@ -6,6 +6,8 @@ export const ADD_STUDENT = 'ADD_STUDENT';
 export const DELETE_STUDENT = 'DELETE_STUDENT';
 export const UPDATE_STUDENT = 'UPDATE_STUDENT';
 
+export const UPLOAD_SPINNER_ACTION = 'UPLOAD_SPINNER_ACTION';
+
 const apiURL = 'http://localhost:8080/university';  // адрес сервера
 
 export function getStudents() { // из этой функции возвращаем другую функцию, которая принимает функцию dispatch. Делается для того, чтобы можно было генерировать несколько действий в рамках одной функции
@@ -14,46 +16,38 @@ export function getStudents() { // из этой функции возвраща
       type: REQUEST_STUDENTS
     });
     return axios.get(`${apiURL}/students/`)  // возвращаем результат вызова функции
+      .then(function (response) {
+        console.log('response.data', response.data);
+        console.log('response.status', response.status);
+        console.log('response.statusText', response.statusText);
+        console.log('response.headers', response.headers);
+        console.log('response.config', response.config);
+        return response;
+      })
       .then(response => response.data)    //  после получения ответа от сервера вызовем у объекта свойство data
       .then(students => dispatch({        //  объект вернем после получения ответа от сервера
         type: GET_STUDENTS,
         students
       }))
-      .catch(function (error) {
-        console.log('Get students error', error);
-      });
   };
 }
 
-//
-//export const requestStudents = (students) => {
-//  return {
-//    type: REQUEST_STUDENTS,
-//    students
-//  }
-//};
-//
-//export const getStudents = () => {
-//  return (dispatch) => {
-//    return axios.get('http://localhost:8080/university/students/')
-//      .then(response => {
-//        dispatch(requestStudents(response.data))
-//      })
-//      .catch(error => {
-//        throw(error);
-//      });
-//  };
-//};
-
-
 export function addStudent(studentsToAdd) {
-  return axios.post(`${apiURL}/students/`, {studentsToAdd})
-    .then(response => response.data)
-    .then(student => ({   //  вернем объект действия
-      type: ADD_STUDENT,
-      student   // передаем объект student
-    }))
-    .then(hello => (console.log(hello)))
+  return dispatch => {
+    dispatch({
+      type: UPLOAD_SPINNER_ACTION
+    });
+    return axios.post(`${apiURL}/students/`, {studentsToAdd})
+      .then(student => ({   //  вернем объект действия
+        type: ADD_STUDENT,
+        student   // передаем объект student
+      }))
+      .then(dispatch({
+          type: UPLOAD_SPINNER_ACTION
+        })
+      );
+
+  }
 }
 
 export function deleteStudent(id) {
@@ -65,11 +59,19 @@ export function deleteStudent(id) {
 }
 
 export function updateStudent(id, {studentsToUpdate}) {
-  return axios.put(`${apiURL}/students/${id}`, {studentsToUpdate})
-    .then(response => response.data)
-    .then(student => ({
-      type: UPDATE_STUDENT,
-      student
-    }))
-
+  return dispatch => {
+    dispatch({
+      type: UPLOAD_SPINNER_ACTION
+    });
+    return axios.put(`${apiURL}/students/${id}`, {studentsToUpdate})
+      .then(response => response.data)
+      .then(student => ({
+        type: UPDATE_STUDENT,
+        student
+      }))
+      .then(dispatch({
+          type: UPLOAD_SPINNER_ACTION
+        })
+      );
+  }
 }

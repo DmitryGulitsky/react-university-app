@@ -8,6 +8,9 @@ import { addGroup, deleteGroup, updateGroup } from "../actions";
 function mapStateToProps(state) { // сопоставить состояния со свойствами. Эта функция для данных - массив с адресами
   return {
     groups: state.groups,
+    groupsToAdd: state.groupsToAdd,
+    groupsToUpdate: state.groupsToUpdate,
+    loading: state.loading
   }
 }
 

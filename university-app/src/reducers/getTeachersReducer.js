@@ -1,4 +1,4 @@
-import {GET_TEACHERS, DELETE_TEACHER} from "../actions/editTableAction";
+import {GET_TEACHERS, DELETE_TEACHER} from "../actions/editTeachersAction";
 
 export default function reducer(state = [], action) {
   switch (action.type) {

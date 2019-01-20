@@ -1,4 +1,4 @@
-import {ADD_TEACHER} from "../actions/editTableAction";
+import {ADD_TEACHER} from "../actions/editTeachersAction";
 
 export default function reducer(state = [], action) {
   switch (action.type) {

@@ -7,6 +7,9 @@ import { addTeacher, deleteTeacher, updateTeacher } from "../actions/";
 function mapStateToProps(state) { // сопоставить состояния со свойствами. Эта функция для данных - массив с адресами
   return {
     teachers: state.teachers,
+    teachersToAdd: state.teachersToAdd,
+    teachersToUpdate: state.teachersToUpdate,
+    loading: state.loading
   }
 }
 

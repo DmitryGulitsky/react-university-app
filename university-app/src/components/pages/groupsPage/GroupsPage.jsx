@@ -2,6 +2,8 @@ import React, {Component, Fragment} from 'react';
 import ReactTable from 'react-table';
 import "react-table/react-table.css";
 
+import Spinner from '../../spinner';
+
 import Dropzone from 'react-dropzone';
 
 import store from "../../../store";
@@ -98,6 +100,9 @@ export default class GroupsPage extends Component {
         minWidth: 200
       }
     ];
+
+    const spinner = this.props.loading ? <button type="submit" className="btn btn-primary">Submit</button> : <Spinner />;
+
     return (
       <Fragment>
         <ReactTable
@@ -162,7 +167,7 @@ export default class GroupsPage extends Component {
           <form
             className="form-group"
             onSubmit={this.handleAdd}>
-            <button type="submit" className="btn btn-primary">Submit</button>
+            {spinner}
           </form>
         </div>
 
@@ -217,7 +222,7 @@ export default class GroupsPage extends Component {
           <form
             className="form-group"
             onSubmit={this.handleAdd}>
-            <button type="submit" className="btn btn-primary">Submit</button>
+            {spinner}
           </form>
         </div>
       </Fragment>
