@@ -46,7 +46,6 @@ export function addStudent(studentsToAdd) {
           type: UPLOAD_SPINNER_ACTION
         })
       );
-
   }
 }
 
