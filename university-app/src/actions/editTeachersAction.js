@@ -12,7 +12,7 @@ export function getTeachers() {
     dispatch({
       type: REQUEST_TEACHERS
     });
-    return axios.get('http://localhost:8080/university/teachers/')
+    return axios.get('http://localhost:8080/university/teachers/upload')
       .then(response => response.data)
       .then(teachers => dispatch({
         type: GET_TEACHERS,

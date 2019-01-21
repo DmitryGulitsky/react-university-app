@@ -14,7 +14,7 @@ export function getGroups() {
     dispatch({
       type: REQUEST_GROUPS
     });
-    return axios.get('http://localhost:8080/university/groups/')
+    return axios.get('http://localhost:8080/university/groups/upload')
       .then(response => response.data)
       .then(groups => dispatch({
         type: GET_GROUPS,

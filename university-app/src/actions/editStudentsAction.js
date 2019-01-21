@@ -37,7 +37,7 @@ export function addStudent(studentsToAdd) {
     dispatch({
       type: UPLOAD_SPINNER_ACTION
     });
-    return axios.post(`${apiURL}/students/`, {studentsToAdd})
+    return axios.post(`${apiURL}/students/upload`, {studentsToAdd})
       .then(student => ({   //  вернем объект действия
         type: ADD_STUDENT,
         student   // передаем объект student
