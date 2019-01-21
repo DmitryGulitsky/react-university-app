@@ -10,6 +10,12 @@ import Dropzone from 'react-dropzone';
 import store from "../../../store";
 import {getGroups} from "../../../actions";
 
+import {
+  ExcelExport,
+  ExcelExportColumn,
+} from '@progress/kendo-react-excel-export';
+
+
 export default class GroupsPage extends Component {
 
   constructor(props) {
@@ -23,6 +29,29 @@ export default class GroupsPage extends Component {
     this.handleDelete = this.handleDelete.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
   }
+
+  _exporter;
+  export = () => {
+    this.save(this._exporter);
+  };
+  save = (component) => {
+    const options = component.workbookOptions();
+    const rows = options.sheets[0].rows;
+
+    let altIdx = 0;
+    rows.forEach((row) => {
+      if (row.type === 'data') {
+        if (altIdx % 2 !== 0) {
+          row.cells.forEach((cell) => {
+            cell.background = '#aabbcc';
+          });
+        }
+        altIdx++;
+      }
+    });
+
+    component.save(options);
+  };
 
   componentDidMount() {
     store.dispatch(getGroups());  // получаем данные с сервера до рендеринга
@@ -64,11 +93,11 @@ export default class GroupsPage extends Component {
       },
       {
         Header: "Delete",
-        Cell: () => {
+        Cell: props => {
           return (
             <Fragment>
               <button className="btn btn-danger"
-                      onClick={this.handleDelete}
+                      onClick={() => this.handleDelete(props.original.id)}
               >Delete
               </button>
             </Fragment>
@@ -96,6 +125,21 @@ export default class GroupsPage extends Component {
           noDataText={"Please wait..."}
         >
         </ReactTable>
+
+        <div>
+          <button className="btn btn-primary" onClick={this.export}>Export groups list to Excel</button>
+
+          <ExcelExport
+            data={this.props.groups}
+            fileName="groups.xlsx"
+            ref={(exporter) => { this._exporter = exporter; }}
+          >
+            <ExcelExportColumn field="id" title="id" width={200} />
+            <ExcelExportColumn field="number" title="Number" width={350} />
+            <ExcelExportColumn field="teacher" title="Teacher" width={350} />
+
+          </ExcelExport>
+        </div>
 
         <br/>
 

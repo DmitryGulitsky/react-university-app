@@ -10,6 +10,12 @@ import Dropzone from 'react-dropzone';
 import store from "../../../store";
 import {getTeachers} from "../../../actions";
 
+import {
+  ExcelExport,
+  ExcelExportColumn,
+} from '@progress/kendo-react-excel-export';
+
+
 export default class TeachersPage extends Component {
 
   constructor(props) {
@@ -23,6 +29,29 @@ export default class TeachersPage extends Component {
     this.handleDelete = this.handleDelete.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
   }
+
+  _exporter;
+  export = () => {
+    this.save(this._exporter);
+  };
+  save = (component) => {
+    const options = component.workbookOptions();
+    const rows = options.sheets[0].rows;
+
+    let altIdx = 0;
+    rows.forEach((row) => {
+      if (row.type === 'data') {
+        if (altIdx % 2 !== 0) {
+          row.cells.forEach((cell) => {
+            cell.background = '#aabbcc';
+          });
+        }
+        altIdx++;
+      }
+    });
+
+    component.save(options);
+  };
 
   componentDidMount() {
     store.dispatch(getTeachers());  // получаем данные с сервера до рендеринга
@@ -64,11 +93,11 @@ export default class TeachersPage extends Component {
       },
       {
         Header: "Delete",
-        Cell: () => {
+        Cell: props => {
           return (
             <Fragment>
               <button className="btn btn-danger"
-                      onClick={this.handleDelete}
+                      onClick={() => this.handleDelete(props.original.id)}
               >Delete
               </button>
             </Fragment>
@@ -96,6 +125,21 @@ export default class TeachersPage extends Component {
           noDataText={"Please wait..."}
         >
         </ReactTable>
+
+        <div>
+          <button className="btn btn-primary" onClick={this.export}>Export teachers list to Excel</button>
+
+          <ExcelExport
+            data={this.props.teachers}
+            fileName="teachers.xlsx"
+            ref={(exporter) => { this._exporter = exporter; }}
+          >
+            <ExcelExportColumn field="id" title="id" width={200} />
+            <ExcelExportColumn field="firstName" title="First Name" width={350} />
+            <ExcelExportColumn field="lastName" title="Last Name" width={350} />
+
+          </ExcelExport>
+        </div>
 
         <br/>
         <div className="dropzone-container">
