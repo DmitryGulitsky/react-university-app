@@ -1,11 +1,11 @@
 import React, {Component, Fragment} from 'react';
 import ReactTable from 'react-table';
 import "react-table/react-table.css";
-import {baseStyle, activeStyle, rejectStyle} from '../../../styles/reactTableStyles'
+// import {baseStyle, activeStyle, rejectStyle} from '../../../styles/reactTableStyles'
 
-import Spinner from '../../spinner';
+// import Spinner from '../../spinner';
 
-import Dropzone from 'react-dropzone';
+// import Dropzone from 'react-dropzone';
 
 import store from "../../../store";
 import {getGroups} from "../../../actions";
@@ -14,7 +14,6 @@ import {
   ExcelExport,
   ExcelExportColumn,
 } from '@progress/kendo-react-excel-export';
-
 
 export default class GroupsPage extends Component {
 
@@ -57,21 +56,48 @@ export default class GroupsPage extends Component {
     store.dispatch(getGroups());  // получаем данные с сервера до рендеринга
   }
 
+//  handleAdd(event) {
+//    event.preventDefault();
+//    console.log('uploaded files - ', this.state.accepted);
+//    this.props.onAddGroup(this.state.accepted);
+//  }
+
   handleAdd(event) {
     event.preventDefault();
-    console.log('uploaded files - ', this.state.accepted);
-    this.props.onAddGroup(this.state.accepted);
+
+    console.log('number to add - ', this.refs.numberToAdd.value);
+    console.log('teacher to add - ', this.refs.teacherToAdd.value);
+
+    const number = this.refs.numberToAdd.value;
+    const teacher = this.refs.teacherToAdd.value;
+
+    this.props.onAddGroup(number, teacher);
   }
 
-  handleDelete() {
-    this.props.onDeleteGroup(this.props.id);
+  handleDelete(id) {
+    console.log(id);
+    this.props.onDeleteGroup(id);
   }
 
   handleUpdate(event) {
     event.preventDefault();
-    console.log('uploaded files - ', this.state.accepted);
-    this.props.onUpdateGroup(this.state.accepted);
+
+    console.log('number to add - ', this.refs.numberToUpdate.value);
+    console.log('teacher to add - ', this.refs.teacherToUpdate.value);
+    console.log('id - ',this.refs.idToUpdate.value);
+
+    const id = this.refs.id.value;
+    const number = this.refs.numberToUpdate.value;
+    const teacher = this.refs.teacherToUpdate.value;
+
+    this.props.onUpdateGroup(id, number, teacher);
   }
+
+//  handleUpdate(event) {
+//    event.preventDefault();
+//    console.log('uploaded files - ', this.state.accepted);
+//    this.props.onUpdateGroup(this.state.accepted);
+//  }
 
   render() {
 
@@ -111,7 +137,7 @@ export default class GroupsPage extends Component {
       }
     ];
 
-    const spinner = this.props.loading ? <button type="submit" className="btn btn-primary">Submit</button> : <Spinner />;
+    // const spinner = this.props.loading ? <button type="submit" className="btn btn-primary">Submit</button> : <Spinner />;
 
     return (
       <Fragment>
@@ -145,112 +171,177 @@ export default class GroupsPage extends Component {
 
         <div className="dropzone-container">
           <h3>ADD GROUP</h3>
-          <p>Here you can upload excel file with data to add group to data base</p>
-          <Dropzone
-            accept="text/csv, application/vnd.ms-excel"
-            onDrop={(accepted, rejected) => {
-              this.setState({accepted, rejected});
-              console.log(accepted);
-              console.log(rejected);
-            }}
-          >
-            {({getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject, acceptedFiles, rejectedFiles}) => {
-              let styles = {...baseStyle};
-              styles = isDragActive ? {...styles, ...activeStyle} : styles;
-              styles = isDragReject ? {...styles, ...rejectStyle} : styles;
+          <p>Here you can add group to data base. Group's ID generate automatically</p>
 
-              return (
-                <div
-                  {...getRootProps()}
-                  style={styles}
-                >
-                  <input {...getInputProps()} />
-                  <div>
-                    {isDragAccept ? 'Drop' : 'Drag'} files here...
-                  </div>
-                  {isDragReject && <div>Unsupported file type...</div>}
-                </div>
-              )
-            }}
-          </Dropzone>
-          <aside>
-            <h4>Accepted files</h4>
-            <ul>
-              {
-                this.state.accepted.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
-              }
-            </ul>
-            <h4>Rejected files</h4>
-            <ul>
-              {
-                this.state.rejected.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
-              }
-            </ul>
-          </aside>
-
-          <h3>If you want to upload files to server - push SUBMIT button below</h3>
           <form
             className="form-group"
             onSubmit={this.handleAdd}>
-            {spinner}
+            <div className="form-group">
+              <label htmlFor="addGroupNumberInput">Number</label>
+              <input
+                type="text"
+                className="form-control"
+                id="addGroupNumberInput"
+                placeholder="Enter Group Number"
+                ref="numberToAdd"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="addGroupTeacherInput">Teacher ID of the group</label>
+              <input
+                type="text"
+                className="form-control"
+                id="addGroupTeacherInput"
+                placeholder="Enter Group Teacher"
+                ref="teacherToAdd"
+              />
+            </div>
+            <button type="submit" className="btn btn-primary">Submit</button>
           </form>
+
         </div>
 
         <br/>
 
         <div className="dropzone-container">
           <h3>UPDATE GROUP</h3>
-          <p>Here you can upload excel file with data to update group in data base</p>
-          <Dropzone
-            accept="text/csv, application/vnd.ms-excel"
-            onDrop={(accepted, rejected) => {
-              this.setState({accepted, rejected});
-              console.log(accepted);
-              console.log(rejected);
-            }}
-          >
-            {({getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject, acceptedFiles, rejectedFiles}) => {
-              let styles = {...baseStyle};
-              styles = isDragActive ? {...styles, ...activeStyle} : styles;
-              styles = isDragReject ? {...styles, ...rejectStyle} : styles;
+          <p>Here you can update group in data base</p>
 
-              return (
-                <div
-                  {...getRootProps()}
-                  style={styles}
-                >
-                  <input {...getInputProps()} />
-                  <div>
-                    {isDragAccept ? 'Drop' : 'Drag'} files here...
-                  </div>
-                  {isDragReject && <div>Unsupported file type...</div>}
-                </div>
-              )
-            }}
-          </Dropzone>
-          <aside>
-            <h4>Accepted files</h4>
-            <ul>
-              {
-                this.state.accepted.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
-              }
-            </ul>
-            <h4>Rejected files</h4>
-            <ul>
-              {
-                this.state.rejected.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
-              }
-            </ul>
-          </aside>
-
-          <h3>If you want to upload files to server - push SUBMIT button below</h3>
           <form
             className="form-group"
-            onSubmit={this.handleAdd}>
-            {spinner}
+            onSubmit={this.handleUpdate}>
+            <div className="form-group">
+              <label htmlFor="updateGroupIdInput">ID</label>
+              <input
+                type="text"
+                className="form-control"
+                id="updateGroupIdInput"
+                placeholder="Enter ID"
+                ref="idToUpdate"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="updateGroupNumberInput">Number</label>
+              <input
+                type="text"
+                className="form-control"
+                id="updateGroupNumberInput"
+                placeholder="Enter Group Number"
+                ref="numberToUpdate"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="updateGroupTeacherInput">Teacher</label>
+              <input
+                type="text"
+                className="form-control"
+                id="updateGroupTeacherInput"
+                placeholder="Enter teacher ID"
+                ref="teacherToUpdate"
+              />
+            </div>
+            <button type="submit" className="btn btn-primary">Submit</button>
           </form>
+
         </div>
       </Fragment>
     )
   }
 }
+
+// <Dropzone
+//   accept="text/csv, application/vnd.ms-excel"
+//   onDrop={(accepted, rejected) => {
+//     this.setState({accepted, rejected});
+//     console.log(accepted);
+//     console.log(rejected);
+//   }}
+// >
+//   {({getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject, acceptedFiles, rejectedFiles}) => {
+//     let styles = {...baseStyle};
+//     styles = isDragActive ? {...styles, ...activeStyle} : styles;
+//     styles = isDragReject ? {...styles, ...rejectStyle} : styles;
+//
+//     return (
+//       <div
+//         {...getRootProps()}
+//         style={styles}
+//       >
+//         <input {...getInputProps()} />
+//         <div>
+//           {isDragAccept ? 'Drop' : 'Drag'} files here...
+//         </div>
+//         {isDragReject && <div>Unsupported file type...</div>}
+//       </div>
+//     )
+//   }}
+// </Dropzone>
+// <aside>
+// <h4>Accepted files</h4>
+// <ul>
+//   {
+//     this.state.accepted.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
+//   }
+// </ul>
+// <h4>Rejected files</h4>
+// <ul>
+//   {
+//     this.state.rejected.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
+//   }
+// </ul>
+// </aside>
+// <h3>If you want to upload files to server - push SUBMIT button below</h3>
+// <form
+// className="form-group"
+// onSubmit={this.handleAdd}>
+// {spinner}
+// </form>
+
+// <Dropzone
+//   accept="text/csv, application/vnd.ms-excel"
+//   onDrop={(accepted, rejected) => {
+//     this.setState({accepted, rejected});
+//     console.log(accepted);
+//     console.log(rejected);
+//   }}
+// >
+//   {({getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject, acceptedFiles, rejectedFiles}) => {
+//     let styles = {...baseStyle};
+//     styles = isDragActive ? {...styles, ...activeStyle} : styles;
+//     styles = isDragReject ? {...styles, ...rejectStyle} : styles;
+//
+//     return (
+//       <div
+//         {...getRootProps()}
+//         style={styles}
+//       >
+//         <input {...getInputProps()} />
+//         <div>
+//           {isDragAccept ? 'Drop' : 'Drag'} files here...
+//         </div>
+//         {isDragReject && <div>Unsupported file type...</div>}
+//       </div>
+//     )
+//   }}
+// </Dropzone>
+// <aside>
+// <h4>Accepted files</h4>
+// <ul>
+//   {
+//     this.state.accepted.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
+//   }
+// </ul>
+// <h4>Rejected files</h4>
+// <ul>
+//   {
+//     this.state.rejected.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
+//   }
+// </ul>
+// </aside>
+//
+// <h3>If you want to upload files to server - push SUBMIT button below</h3>
+// <form
+// className="form-group"
+// onSubmit={this.handleAdd}>
+// {spinner}
+// </form>

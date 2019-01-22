@@ -19,9 +19,6 @@ export function getStudents() { // из этой функции возвраща
       .then(function (response) {
         console.log('response.data', response.data);
         console.log('response.status', response.status);
-        console.log('response.statusText', response.statusText);
-        console.log('response.headers', response.headers);
-        console.log('response.config', response.config);
         return response;
       })
       .then(response => response.data)    //  после получения ответа от сервера вызовем у объекта свойство data
@@ -32,20 +29,31 @@ export function getStudents() { // из этой функции возвраща
   };
 }
 
-export function addStudent(studentsToAdd) {
+export function addStudent({firstName, lastName}, groupId) {
   return dispatch => {
     dispatch({
       type: UPLOAD_SPINNER_ACTION
     });
-    return axios.post(`${apiURL}/students/upload`, {studentsToAdd})
-      .then(student => ({   //  вернем объект действия
-        type: ADD_STUDENT,
-        student   // передаем объект student
-      }))
-      .then(dispatch({
+    return axios.post(`${apiURL}/students?groupId=${groupId}`, {
+      firstName,
+      lastName
+    })
+      .then(function (response) {
+        console.log('response.data', response.data);
+        console.log('response.status', response.status);
+        return response;
+      })
+      .then(function (response) {
+        dispatch({
           type: UPLOAD_SPINNER_ACTION
-        })
-      );
+        });
+        return response;
+      })
+      .then(response => response.data)
+      .then(studentToAdd => ({   //  вернем объект действия
+        type: ADD_STUDENT,
+        studentToAdd   // передаем объект student
+      }))
   }
 }
 
@@ -57,20 +65,31 @@ export function deleteStudent(id) {
     }))
 }
 
-export function updateStudent(id, {studentsToUpdate}) {
+export function updateStudent(id, {firstName, lastName}, groupId) {
   return dispatch => {
     dispatch({
       type: UPLOAD_SPINNER_ACTION
     });
-    return axios.put(`${apiURL}/students/${id}`, {studentsToUpdate})
-      .then(response => response.data)
-      .then(student => ({
-        type: UPDATE_STUDENT,
-        student
-      }))
-      .then(dispatch({
+    return axios.put(`${apiURL}/students/${id}?groupId=${groupId}`,
+      {
+        firstName,
+        lastName
+      })
+      .then(function (response) {
+        console.log('response.data', response.data);
+        console.log('response.status', response.status);
+        return response;
+      })
+      .then(function (response) {
+        dispatch({
           type: UPLOAD_SPINNER_ACTION
-        })
-      );
+        });
+        return response;
+      })
+      .then(response => response.data)
+      .then(studentToUpdate => ({
+        type: UPDATE_STUDENT,
+        studentToUpdate
+      }))
   }
 }

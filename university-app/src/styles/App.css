@@ -12,3 +12,8 @@
   margin-left: 33%;
   border: 1px solid white;
 }
+
+div.form-group input {
+  margin-left: 33%;
+  max-width: 33%;
+}

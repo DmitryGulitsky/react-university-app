@@ -4,7 +4,7 @@ export default function reducer(state = [], action) {
   switch (action.type) {
 
     case UPDATE_TEACHER:
-      return action.teachersToUpdate;
+      return action.teacherToUpdate;
 
     default:
       return state;

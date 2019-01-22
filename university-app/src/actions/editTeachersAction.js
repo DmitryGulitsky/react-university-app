@@ -7,12 +7,14 @@ export const ADD_TEACHER = 'ADD_TEACHER';
 export const DELETE_TEACHER = 'DELETE_TEACHER';
 export const UPDATE_TEACHER = 'UPDATE_TEACHER';
 
+const apiURL = 'http://localhost:8080/university';
+
 export function getTeachers() {
   return dispatch => {
     dispatch({
       type: REQUEST_TEACHERS
     });
-    return axios.get('http://localhost:8080/university/teachers/upload')
+    return axios.get(`${apiURL}/teachers/`)
       .then(response => response.data)
       .then(teachers => dispatch({
         type: GET_TEACHERS,
@@ -21,46 +23,68 @@ export function getTeachers() {
   };
 }
 
-export function addTeacher(teachersToAdd) {
-  return dispatch => {
-    dispatch({
-      type: UPLOAD_SPINNER_ACTION
-    });
-    return axios.post('http://localhost:8080/university/teachers/', {teachersToAdd})
-      .then(response => response.data)
-      .then(teachersToAdd => ({
-        type: ADD_TEACHER,
-        teachersToAdd
-      }))
-      .then(dispatch({
+export function addTeacher({firstName, lastName}) {
+   return dispatch => {
+     dispatch({
+       type: UPLOAD_SPINNER_ACTION
+     });
+    return axios.post(`${apiURL}/teachers/`, {
+      firstName,
+      lastName
+    })
+      .then(function (response) {
+        console.log('response.data', response.data);
+        console.log('response.status', response.status);
+        return response;
+      })
+      .then(function (response) {
+        dispatch({
           type: UPLOAD_SPINNER_ACTION
-        })
-      );
-  }
+        });
+        return response;
+      })
+      .then(response => response.data)
+      .then(teacherToAdd => ({
+        type: ADD_TEACHER,
+        teacherToAdd
+      }))
+
+   }
 }
 
 export function deleteTeacher(id) {
-  return axios.delete(`http://localhost:8080/university/teachers/${id}`)
+  return axios.delete(`${apiURL}/teachers/${id}`)
     .then(response => ({
       type: DELETE_TEACHER,
       id
     }));
 }
 
-export function updateTeacher(id, teachersToUpdate) {
-  return dispatch => {
-    dispatch({
-      type: UPLOAD_SPINNER_ACTION
-    });
-    return axios.put(`http://localhost:8080/university/teachers/${id}`, {teachersToUpdate})
-      .then(response => response.data)
-      .then(teachersToUpdate => ({
-        type: UPDATE_TEACHER,
-        teachersToUpdate
-      }))
-      .then(dispatch({
+export function updateTeacher(id, {firstName, lastName}) {
+   return dispatch => {
+     dispatch({
+       type: UPLOAD_SPINNER_ACTION
+     });
+    return axios.put(`${apiURL}/teachers/${id}`, {
+      firstName,
+      lastName
+    })
+      .then(function (response) {
+        console.log('response.data', response.data);
+        console.log('response.status', response.status);
+        return response;
+      })
+      .then(function (response) {
+        dispatch({
           type: UPLOAD_SPINNER_ACTION
-        })
-      );
-  }
+        });
+        return response;
+      })
+      .then(response => response.data)
+      .then(teacherToUpdate => ({
+        type: UPDATE_TEACHER,
+        teacherToUpdate
+      }))
+
+   }
 }

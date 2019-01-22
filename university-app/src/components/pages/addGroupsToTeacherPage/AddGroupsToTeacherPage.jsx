@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Spinner from '../../spinner';
 
 import Dropzone from 'react-dropzone';
 
@@ -43,6 +44,9 @@ export default class AddStudentToGroupsPage extends Component {
       borderColor: '#c66',
       backgroundColor: '#eee'
     };
+
+    const spinner = this.props.loading ? <button type="submit" className="btn btn-primary">Submit</button> : <Spinner/>;
+
     return (
       <div className="dropzone-container">
         <p>It's page to upload excel file with data to add groups to a teacher</p>
@@ -91,7 +95,7 @@ export default class AddStudentToGroupsPage extends Component {
         <form
           className="form-group"
           onSubmit={this.handleAdd}>
-          <button type="submit" className="btn btn-primary">Submit</button>
+          {spinner}
         </form>
 
       </div>

@@ -8,25 +8,25 @@ import { addGroup, deleteGroup, updateGroup } from "../actions";
 function mapStateToProps(state) { // сопоставить состояния со свойствами. Эта функция для данных - массив с адресами
   return {
     groups: state.groups,
-    groupsToAdd: state.groupsToAdd,
-    groupsToUpdate: state.groupsToUpdate,
+    groupsToAdd: state.groupToAdd,
+    groupsToUpdate: state.groupToUpdate,
     loading: state.loading
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    onAddGroup: (groupsToAdd) => {
+    onAddGroup: (number, teacher) => {
       console.log('Add button clicked');
-      dispatch(addGroup(groupsToAdd))
+      dispatch(addGroup({number}, teacher))
     },
     onDeleteGroup: id => {
       console.log('Delete button clicked');
       dispatch(deleteGroup(id))
     },
-    onUpdateGroup: (id, groupsToUpdate) => {
+    onUpdateGroup: (id, number, teacher) => {
       console.log('Edit button clicked');
-      dispatch(updateGroup(id, groupsToUpdate))
+      dispatch(updateGroup(id, {number}, teacher))
     }
   }
 }

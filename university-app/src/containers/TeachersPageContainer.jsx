@@ -7,25 +7,25 @@ import { addTeacher, deleteTeacher, updateTeacher } from "../actions/";
 function mapStateToProps(state) { // сопоставить состояния со свойствами. Эта функция для данных - массив с адресами
   return {
     teachers: state.teachers,
-    teachersToAdd: state.teachersToAdd,
-    teachersToUpdate: state.teachersToUpdate,
+    teacherToAdd: state.teacherToAdd,
+    teacherToUpdate: state.teacherToUpdate,
     loading: state.loading
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    onAddTeacher: (teachersToAdd) => {
+    onAddTeacher: (firstName, lastName) => {
       console.log('Add button clicked');
-      dispatch(addTeacher(teachersToAdd))
+      dispatch(addTeacher({firstName, lastName}))
     },
     onDeleteTeacher: id => {
       console.log('Delete button clicked');
       dispatch(deleteTeacher(id))
     },
-    onUpdateTeacher: (id, teachersToUpdate) => {
+    onUpdateTeacher: (id, firstName, lastName) => {
       console.log('Edit button clicked');
-      dispatch(updateTeacher(id, teachersToUpdate))
+      dispatch(updateTeacher(id, {firstName, lastName}))
     }
   }
 }

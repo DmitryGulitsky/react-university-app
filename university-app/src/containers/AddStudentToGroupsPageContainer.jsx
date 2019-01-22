@@ -7,6 +7,7 @@ import {addStudentToGroup} from "../actions";
 function mapStateToProps(state) { // сопоставить состояния со свойствами. Эта функция для данных - массив с адресами
   return {
     uploadedStudentToGroupFiles: state.uploadedStudentToGroupFiles, // копируем в объект uploadedFiles
+    loading: state.loading
   }
 }
 

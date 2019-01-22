@@ -1,13 +1,13 @@
 import {combineReducers} from 'redux';
 
 import getStudentsReducer from './getStudentsReducer';
-import addStudentsReducer from './addStudentsReducer';
-import updateStudentsReducer from './updateStudentsReaducer';
+import addStudentReducer from './addStudentReducer';
+import updateStudentReducer from './updateStudentsReaducer';
 import getGroupsReducer from './getGroupsReducer';
-import addGroupsReducer from './addGroupsReducer';
-import updateGroupsReducer from './updateGroupsReducer';
-import getTeachersReducer from './getTeachersReducer';
-import addTeachersReducer from './addTeachersReducer';
+import addGroupReducer from './addGroupReducer';
+import updateGroupReducer from './updateGroupsReducer';
+import getTeacherReducer from './getTeachersReducer';
+import addTeacherReducer from './addTeacherReducer';
 import updateTeachersReducer from './updateTeachersReaducer';
 import addStudentToGroupReducer from './addStudentToGroupReducer';
 import addGroupsToTeacherReducer from './addGroupsToTeacherReducer';
@@ -16,14 +16,14 @@ import uploadSpinnerReducer from './uploadSpinnerReducer';
 
 const reducer = combineReducers({
   students: getStudentsReducer,
-  studentsToAdd:  addStudentsReducer,
-  studentsToUpdate: updateStudentsReducer,
+  studentToAdd:  addStudentReducer,
+  studentToUpdate: updateStudentReducer,
   groups: getGroupsReducer,
-  groupsToAdd:  addGroupsReducer,
-  groupsToUpdate: updateGroupsReducer,
-  teachers: getTeachersReducer,
-  teachersToAdd:  addTeachersReducer,
-  teachersToUpdate: updateTeachersReducer,
+  groupToAdd:  addGroupReducer,
+  groupToUpdate: updateGroupReducer,
+  teachers: getTeacherReducer,
+  teacherToAdd:  addTeacherReducer,
+  teacherToUpdate: updateTeachersReducer,
   uploadedStudentToGroupFiles: addStudentToGroupReducer,
   uploadedGroupsToTeacherFiles: addGroupsToTeacherReducer,
   getById: getByIdReducer,

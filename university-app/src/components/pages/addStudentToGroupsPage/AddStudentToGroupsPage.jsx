@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Spinner from '../../spinner';
 
 import Dropzone from 'react-dropzone';
 
@@ -8,7 +9,7 @@ export default class AddStudentToGroupsPage extends Component {
     super(props);
     this.state = {
       accepted: [],
-      rejected: []
+      rejected: [],
     };
 
     this.handleAdd = this.handleAdd.bind(this);
@@ -17,6 +18,7 @@ export default class AddStudentToGroupsPage extends Component {
   handleAdd(event) {
     event.preventDefault();
 
+    console.log('this.props - ',this.props);
     console.log('uploaded files - ', this.state.accepted);
 
     this.props.onAddStudentToGroup(this.state.accepted);
@@ -43,6 +45,9 @@ export default class AddStudentToGroupsPage extends Component {
       borderColor: '#c66',
       backgroundColor: '#eee'
     };
+
+    const spinner = this.state.loading ? <button type="submit" className="btn btn-primary">Submit</button> : <Spinner/>;
+
     return (
       <div className="dropzone-container">
         <p>It's page to upload excel file with data to add student to a group</p>
@@ -91,7 +96,7 @@ export default class AddStudentToGroupsPage extends Component {
         <form
           className="form-group"
           onSubmit={this.handleAdd}>
-          <button type="submit" className="btn btn-primary">Submit</button>
+          {spinner}
         </form>
 
       </div>

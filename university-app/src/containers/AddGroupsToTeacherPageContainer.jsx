@@ -7,12 +7,13 @@ import {addGroupsToTeacher} from "../actions";
 function mapStateToProps(state) { // сопоставить состояния со свойствами. Эта функция для данных - массив с адресами
   return {
     uploadedGroupsToTeacherFiles: state.uploadedGroupsToTeacherFiles, // копируем в объект uploadedFiles
+    loading: state.loading
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    onAddGroupsToTeacher: (uploadedGroupsToTeacherFiles) => {
+    onAddGroupToTeacher: (uploadedGroupsToTeacherFiles) => {
       console.log('Upload button clicked');
       dispatch(addGroupsToTeacher(uploadedGroupsToTeacherFiles))
     },

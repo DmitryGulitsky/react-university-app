@@ -1,10 +1,10 @@
-import {ADD_TEACHER} from "../actions/editTeachersAction";
+import {ADD_TEACHER} from "../actions";
 
 export default function reducer(state = [], action) {
   switch (action.type) {
 
     case ADD_TEACHER:
-      return action.teachersToAdd;
+      return action.teacherToAdd;
 
     default:
       return state;
