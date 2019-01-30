@@ -2,6 +2,7 @@ import axios from 'axios';
 
 export const REQUEST_STUDENTS = 'REQUEST_STUDENTS';
 export const GET_STUDENTS = 'GET_STUDENT';
+export const DATA_STUDENT_TO_UPDATE = 'DATA_STUDENT_TO_UPDATE';
 export const ADD_STUDENT = 'ADD_STUDENT';
 export const DELETE_STUDENT = 'DELETE_STUDENT';
 export const UPDATE_STUDENT = 'UPDATE_STUDENT';
@@ -26,6 +27,15 @@ export function getStudents() { // из этой функции возвраща
         type: GET_STUDENTS,
         students
       }))
+  };
+}
+
+export const dataStudentToUpdate = (dataStudentToUpdate) => {
+  return dispatch => {  // вызываем функцию до отправки запроса
+    dispatch({
+      type: DATA_STUDENT_TO_UPDATE,
+      dataStudentToUpdate
+    });
   };
 }
 

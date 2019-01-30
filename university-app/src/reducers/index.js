@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 
 import getStudentsReducer from './StudentsPage/getStudentsReducer';
 import addStudentReducer from './StudentsPage/addStudentReducer';
+import dataStudentToUpdateReducer from './StudentsPage/dataStudentToUpdateReducer';
 import updateStudentReducer from './StudentsPage/updateStudentsReaducer';
 import getGroupsReducer from './GroupsPage/getGroupsReducer';
 import addGroupReducer from './GroupsPage/addGroupReducer';
@@ -17,6 +18,7 @@ import uploadSpinnerReducer from './uploadSpinnerReducer';
 const reducer = combineReducers({
   students: getStudentsReducer,
   studentToAdd: addStudentReducer,
+  dataStudentToUpdate: dataStudentToUpdateReducer,
   studentToUpdate: updateStudentReducer,
   groups: getGroupsReducer,
   groupToAdd: addGroupReducer,
