@@ -2,7 +2,7 @@ import {connect} from 'react-redux';
 
 import StudentsPage from '../components/pages/studentsPage/StudentsPage';
 
-import {addStudent, deleteStudent, updateStudent} from "../actions";
+import {addStudent, deleteStudent, updateStudent} from '../actions';
 
 function mapStateToProps(state) { // сопоставить состояния со свойствами. Эта функция для данных - массив с адресами
   return {
@@ -10,26 +10,27 @@ function mapStateToProps(state) { // сопоставить состояния �
     studentToAdd: state.studentToAdd,
     studentToUpdate: state.studentToUpdate,
     loading: state.loading
-  }
+  };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     onAddStudent: (firstName, lastName, groupId) => {
       console.log('Add button clicked', firstName, lastName);
-      dispatch(addStudent({firstName, lastName}, groupId))
+      dispatch(addStudent({firstName, lastName}, groupId));
     },
     onDeleteStudent: id => {
       console.log('Delete button clicked');
-      dispatch(deleteStudent(id))
+      dispatch(deleteStudent(id));
     },
     onUpdateStudent: (id, firstName, lastName, groupId) => {
       console.log('Edit button clicked', id, firstName, lastName);
-      dispatch(updateStudent(id, {firstName, lastName}, groupId))
+      dispatch(updateStudent(id, {firstName, lastName}, groupId));
     }
-  }
+  };
 }
 
-const StudentsPageContainer = connect(mapStateToProps, mapDispatchToProps)(StudentsPage);
+const StudentsPageContainer = connect(mapStateToProps, mapDispatchToProps)(
+    StudentsPage);
 
 export default StudentsPageContainer;

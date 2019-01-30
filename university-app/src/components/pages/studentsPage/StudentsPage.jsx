@@ -56,13 +56,6 @@ export default class StudentsPage extends Component {
     store.dispatch(getStudents());  // получаем данные с сервера до рендеринга
   }
 
-  // handleAdd(event) {
-  //   event.preventDefault();
-  //   console.log('uploaded files - ', this.state.accepted);
-  //   console.log('this.props.loading - ', this.props.loading);
-  //   this.props.onAddStudent(this.state.accepted);
-  // }
-
   handleAdd(event) {
     event.preventDefault();
 
@@ -111,8 +104,7 @@ export default class StudentsPage extends Component {
         accessor: "id",
         width: 100,
         maxWidth: 100,
-        minWidth: 100
-
+        minWidth: 100,
       },
       {
         Header: "First Name",
@@ -127,8 +119,8 @@ export default class StudentsPage extends Component {
         Cell: props => {
           return (
             <button className="btn btn-danger"
-                    onClick={() => this.handleDelete(props.original.id)}
-            >Delete
+                    onClick={() => this.handleDelete(props.original.id)}>
+              <span className="fa fa-trash" />
             </button>
           )
         },
@@ -136,7 +128,8 @@ export default class StudentsPage extends Component {
         sortable: false,
         width: 200,
         maxWidth: 200,
-        minWidth: 200
+        minWidth: 200,
+        borderColor: "red"
       }
     ];
 
@@ -144,32 +137,56 @@ export default class StudentsPage extends Component {
 
     return (
       <Fragment>
-        <ReactTable
-          id="react-table"
-          columns={columns}
-          data={this.props.students}
-          filterable
-          sortable
-          defaultPageSize={5}
-          noDataText={"Please wait..."}
-        >
-        </ReactTable>
+        <div className="dropzone-container gradient-background">
+          <h4 className="gradient-background">STUDENTS LIST</h4>
+          <p className=" gradient-background">Here you can see students data base. Push, please, the red button to delete, or blue to update student</p>
+          <ReactTable
+              id="react-table"
+              columns={columns}
+              data={this.props.students}
+              filterable
+              sortable
+              defaultPageSize={5}
+              noDataText={'Please wait...'}
 
-        <div>
-          <button className="btn btn-primary" onClick={this.export}>Export students list to Excel</button>
-
-          <ExcelExport
-            data={this.props.students}
-            fileName="students.xlsx"
-            ref={(exporter) => {
-              this._exporter = exporter;
-            }}
           >
-            <ExcelExportColumn field="id" title="id" width={200}/>
-            <ExcelExportColumn field="firstName" title="First Name" width={350}/>
-            <ExcelExportColumn field="lastName" title="Last Name" width={350}/>
+            {(state, makeTable) => {
+              return (
+                  <div
+                      style={{
+                        background: "#7b7b7b",
+                        borderRadius: "5px",
+                        overflow: "hidden",
+                      }}
+                  >
+                    {makeTable()}
+                  </div>
+              );
+            }}
+          </ReactTable>
 
-          </ExcelExport>
+          <div className="buttons-container">
+            <button className="btn btn-primary " onClick={this.export}>Export
+              students list to Excel
+            </button>
+
+            <ExcelExport
+                data={this.props.students}
+                fileName="students.xlsx"
+                ref={(exporter) => {
+                  this._exporter = exporter;
+                }}
+            >
+              <ExcelExportColumn field="id" title="id" width={200}/>
+              <ExcelExportColumn field="firstName" title="First Name"
+                                 width={350}/>
+              <ExcelExportColumn field="lastName" title="Last Name"
+                                 width={350}/>
+            </ExcelExport>
+
+            <button type="button" className="btn btn-success">Add student to data base</button>
+
+          </div>
         </div>
 
         <br/>
@@ -264,107 +281,3 @@ export default class StudentsPage extends Component {
     )
   }
 }
-
-// <p>Here you can upload excel file with data to add student to data base</p>
-// <Dropzone
-// accept="text/csv, application/vnd.ms-excel"
-// onDrop={(accepted, rejected) => {
-//   this.setState({accepted, rejected});
-//   console.log(accepted);
-//   console.log(rejected);
-// }}
-// >
-// {({getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject, acceptedFiles, rejectedFiles}) => {
-//   let styles = {...baseStyle};
-//   styles = isDragActive ? {...styles, ...activeStyle} : styles;
-//   styles = isDragReject ? {...styles, ...rejectStyle} : styles;
-//
-//   return (
-//     <div
-//       {...getRootProps()}
-//       style={styles}
-//     >
-//       <input {...getInputProps()} />
-//       <div>
-//         {isDragAccept ? 'Drop' : 'Drag'} files here...
-//       </div>
-//       {isDragReject && <div>Unsupported file type...</div>}
-//     </div>
-//   )
-// }}
-// </Dropzone>
-// <aside>
-// <h4>Accepted files</h4>
-// <ul>
-//   {
-//     this.state.accepted.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
-//   }
-// </ul>
-// <h4>Rejected files</h4>
-// <ul>
-//   {
-//     this.state.rejected.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
-//   }
-// </ul>
-// </aside>
-//
-// <h3>If you want to upload files to server - push SUBMIT button below</h3>
-// <form
-// className="form-group"
-// onSubmit={this.handleAdd}>
-// {spinner}
-// </form>
-
-// <div className="dropzone-container">
-//   <h3>UPDATE STUDENT</h3>
-//   <p>Here you can upload excel file with data to update student in data base</p>
-//   <Dropzone
-//     accept="text/csv, application/vnd.ms-excel"
-//     onDrop={(accepted, rejected) => {
-//       this.setState({accepted, rejected});
-//       console.log(accepted);
-//       console.log(rejected);
-//     }}
-//   >
-//     {({getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject, acceptedFiles, rejectedFiles}) => {
-//       let styles = {...baseStyle};
-//       styles = isDragActive ? {...styles, ...activeStyle} : styles;
-//       styles = isDragReject ? {...styles, ...rejectStyle} : styles;
-//
-//       return (
-//         <div
-//           {...getRootProps()}
-//           style={styles}
-//         >
-//           <input {...getInputProps()} />
-//           <div>
-//             {isDragAccept ? 'Drop' : 'Drag'} files here...
-//           </div>
-//           {isDragReject && <div>Unsupported file type...</div>}
-//         </div>
-//       )
-//     }}
-//   </Dropzone>
-//   <aside>
-//     <h4>Accepted files</h4>
-//     <ul>
-//       {
-//         this.state.accepted.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
-//       }
-//     </ul>
-//     <h4>Rejected files</h4>
-//     <ul>
-//       {
-//         this.state.rejected.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
-//       }
-//     </ul>
-//   </aside>
-//
-//   <h3>If you want to upload files to server - push SUBMIT button below</h3>
-//   <form
-//     className="form-group"
-//     onSubmit={this.handleAdd}>
-//     {spinner}
-//   </form>
-//
-// </div>

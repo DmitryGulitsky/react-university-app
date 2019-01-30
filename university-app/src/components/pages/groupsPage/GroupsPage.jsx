@@ -123,8 +123,8 @@ export default class GroupsPage extends Component {
           return (
             <Fragment>
               <button className="btn btn-danger"
-                      onClick={() => this.handleDelete(props.original.id)}
-              >Delete
+                      onClick={() => this.handleDelete(props.original.id)}>
+                <span className="fa fa-trash" />
               </button>
             </Fragment>
           )
@@ -187,12 +187,12 @@ export default class GroupsPage extends Component {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="addGroupTeacherInput">Teacher ID of the group</label>
+              <label htmlFor="addGroupTeacherInput">Curator ID of the group</label>
               <input
                 type="text"
                 className="form-control"
                 id="addGroupTeacherInput"
-                placeholder="Enter Group Teacher"
+                placeholder="Enter Group's curator ID"
                 ref="teacherToAdd"
               />
             </div>
@@ -248,100 +248,3 @@ export default class GroupsPage extends Component {
     )
   }
 }
-
-// <Dropzone
-//   accept="text/csv, application/vnd.ms-excel"
-//   onDrop={(accepted, rejected) => {
-//     this.setState({accepted, rejected});
-//     console.log(accepted);
-//     console.log(rejected);
-//   }}
-// >
-//   {({getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject, acceptedFiles, rejectedFiles}) => {
-//     let styles = {...baseStyle};
-//     styles = isDragActive ? {...styles, ...activeStyle} : styles;
-//     styles = isDragReject ? {...styles, ...rejectStyle} : styles;
-//
-//     return (
-//       <div
-//         {...getRootProps()}
-//         style={styles}
-//       >
-//         <input {...getInputProps()} />
-//         <div>
-//           {isDragAccept ? 'Drop' : 'Drag'} files here...
-//         </div>
-//         {isDragReject && <div>Unsupported file type...</div>}
-//       </div>
-//     )
-//   }}
-// </Dropzone>
-// <aside>
-// <h4>Accepted files</h4>
-// <ul>
-//   {
-//     this.state.accepted.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
-//   }
-// </ul>
-// <h4>Rejected files</h4>
-// <ul>
-//   {
-//     this.state.rejected.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
-//   }
-// </ul>
-// </aside>
-// <h3>If you want to upload files to server - push SUBMIT button below</h3>
-// <form
-// className="form-group"
-// onSubmit={this.handleAdd}>
-// {spinner}
-// </form>
-
-// <Dropzone
-//   accept="text/csv, application/vnd.ms-excel"
-//   onDrop={(accepted, rejected) => {
-//     this.setState({accepted, rejected});
-//     console.log(accepted);
-//     console.log(rejected);
-//   }}
-// >
-//   {({getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject, acceptedFiles, rejectedFiles}) => {
-//     let styles = {...baseStyle};
-//     styles = isDragActive ? {...styles, ...activeStyle} : styles;
-//     styles = isDragReject ? {...styles, ...rejectStyle} : styles;
-//
-//     return (
-//       <div
-//         {...getRootProps()}
-//         style={styles}
-//       >
-//         <input {...getInputProps()} />
-//         <div>
-//           {isDragAccept ? 'Drop' : 'Drag'} files here...
-//         </div>
-//         {isDragReject && <div>Unsupported file type...</div>}
-//       </div>
-//     )
-//   }}
-// </Dropzone>
-// <aside>
-// <h4>Accepted files</h4>
-// <ul>
-//   {
-//     this.state.accepted.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
-//   }
-// </ul>
-// <h4>Rejected files</h4>
-// <ul>
-//   {
-//     this.state.rejected.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
-//   }
-// </ul>
-// </aside>
-//
-// <h3>If you want to upload files to server - push SUBMIT button below</h3>
-// <form
-// className="form-group"
-// onSubmit={this.handleAdd}>
-// {spinner}
-// </form>

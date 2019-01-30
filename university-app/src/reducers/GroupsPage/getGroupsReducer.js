@@ -1,4 +1,4 @@
-import {GET_GROUPS, DELETE_GROUP} from "../actions";
+import {GET_GROUPS, DELETE_GROUP} from "../../actions/index";
 
 export default function reducer(state = [], action) {
   switch (action.type) {

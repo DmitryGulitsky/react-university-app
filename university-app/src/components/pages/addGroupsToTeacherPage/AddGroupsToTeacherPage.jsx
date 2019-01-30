@@ -9,7 +9,7 @@ export default class AddStudentToGroupsPage extends Component {
     super(props);
     this.state = {
       accepted: [],
-      rejected: []
+      rejected: [],
     };
 
     this.handleAdd = this.handleAdd.bind(this);

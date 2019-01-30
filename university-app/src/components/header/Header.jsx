@@ -5,7 +5,7 @@ import './header.css';
 
 const Header = () => {
   return (
-    <div className="header d-flex">
+    <div className="header d-flex gradient-background">
       <h3>
         <Link to="/">
           University Data Base
@@ -26,9 +26,6 @@ const Header = () => {
         </li>
         <li>
           <Link to="/addgroups">Add groups to teacher</Link>
-        </li>
-        <li>
-          <Link to="/getbyid">Get by ID</Link>
         </li>
       </ul>
     </div>

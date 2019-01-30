@@ -35,7 +35,7 @@ export function addGroup({number}, teacher) {
      dispatch({
        type: UPLOAD_SPINNER_ACTION
      });
-    return axios.post(`${apiURL}/groups/?teacherId=${teacher}`, {
+    return axios.post(`${apiURL}/groups/?curatorId=${teacher}`, {
       number
     })
       .then(function (response) {

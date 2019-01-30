@@ -1,4 +1,4 @@
-import {UPDATE_TEACHER} from "../actions/editTeachersAction";
+import {UPDATE_TEACHER} from "../../actions/editTeachersAction";
 
 export default function reducer(state = [], action) {
   switch (action.type) {

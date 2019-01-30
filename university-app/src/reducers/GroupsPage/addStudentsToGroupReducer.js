@@ -1,4 +1,4 @@
-import {ADD_STUDENT_TO_GROUP} from "../actions";
+import {ADD_STUDENT_TO_GROUP} from "../../actions/index";
 
 export default function reducer(state = [], action) {
   switch (action.type) {

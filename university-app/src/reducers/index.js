@@ -1,28 +1,28 @@
-import {combineReducers} from 'redux';
+import { combineReducers } from 'redux';
 
-import getStudentsReducer from './getStudentsReducer';
-import addStudentReducer from './addStudentReducer';
-import updateStudentReducer from './updateStudentsReaducer';
-import getGroupsReducer from './getGroupsReducer';
-import addGroupReducer from './addGroupReducer';
-import updateGroupReducer from './updateGroupsReducer';
-import getTeacherReducer from './getTeachersReducer';
-import addTeacherReducer from './addTeacherReducer';
-import updateTeachersReducer from './updateTeachersReaducer';
-import addStudentToGroupReducer from './addStudentToGroupReducer';
-import addGroupsToTeacherReducer from './addGroupsToTeacherReducer';
+import getStudentsReducer from './StudentsPage/getStudentsReducer';
+import addStudentReducer from './StudentsPage/addStudentReducer';
+import updateStudentReducer from './StudentsPage/updateStudentsReaducer';
+import getGroupsReducer from './GroupsPage/getGroupsReducer';
+import addGroupReducer from './GroupsPage/addGroupReducer';
+import updateGroupReducer from './GroupsPage/updateGroupsReducer';
+import getTeacherReducer from './TeachersPage/getTeachersReducer';
+import addTeacherReducer from './TeachersPage/addTeacherReducer';
+import updateTeachersReducer from './TeachersPage/updateTeachersReaducer';
+import addStudentToGroupReducer from './GroupsPage/addStudentsToGroupReducer';
+import addGroupsToTeacherReducer from './TeachersPage/addGroupsToTeacherReducer';
 import getByIdReducer from './getByIdReducer';
 import uploadSpinnerReducer from './uploadSpinnerReducer';
 
 const reducer = combineReducers({
   students: getStudentsReducer,
-  studentToAdd:  addStudentReducer,
+  studentToAdd: addStudentReducer,
   studentToUpdate: updateStudentReducer,
   groups: getGroupsReducer,
-  groupToAdd:  addGroupReducer,
+  groupToAdd: addGroupReducer,
   groupToUpdate: updateGroupReducer,
   teachers: getTeacherReducer,
-  teacherToAdd:  addTeacherReducer,
+  teacherToAdd: addTeacherReducer,
   teacherToUpdate: updateTeachersReducer,
   uploadedStudentToGroupFiles: addStudentToGroupReducer,
   uploadedGroupsToTeacherFiles: addGroupsToTeacherReducer,
