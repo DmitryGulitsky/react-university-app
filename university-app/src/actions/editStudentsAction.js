@@ -37,7 +37,7 @@ export const dataStudentToUpdate = (dataStudentToUpdate) => {
       dataStudentToUpdate
     });
   };
-}
+};
 
 export function addStudent({firstName, lastName}, groupId) {
   return dispatch => {

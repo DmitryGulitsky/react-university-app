@@ -1,8 +1,9 @@
 import axios from 'axios';
-import {UPLOAD_SPINNER_ACTION} from "./editStudentsAction";
+import {DATA_STUDENT_TO_UPDATE} from './editStudentsAction';
 
 export const REQUEST_TEACHERS = 'REQUEST_TEACHERS';
 export const GET_TEACHERS = 'GET_TEACHERS';
+export const DATA_TEACHER_TO_UPDATE = 'DATA_TEACHER_TO_UPDATE';
 export const ADD_TEACHER = 'ADD_TEACHER';
 export const DELETE_TEACHER = 'DELETE_TEACHER';
 export const UPDATE_TEACHER = 'UPDATE_TEACHER';
@@ -23,11 +24,16 @@ export function getTeachers() {
   };
 }
 
+export const dataTeacherToUpdate = (dataTeacherToUpdate) => {
+  return dispatch => {  // вызываем функцию до отправки запроса
+    dispatch({
+      type: DATA_TEACHER_TO_UPDATE,
+      dataTeacherToUpdate
+    });
+  };
+};
+
 export function addTeacher({firstName, lastName}) {
-   return dispatch => {
-     dispatch({
-       type: UPLOAD_SPINNER_ACTION
-     });
     return axios.post(`${apiURL}/teachers/`, {
       firstName,
       lastName
@@ -37,19 +43,13 @@ export function addTeacher({firstName, lastName}) {
         console.log('response.status', response.status);
         return response;
       })
-      .then(function (response) {
-        dispatch({
-          type: UPLOAD_SPINNER_ACTION
-        });
-        return response;
-      })
       .then(response => response.data)
       .then(teacherToAdd => ({
         type: ADD_TEACHER,
         teacherToAdd
       }))
 
-   }
+
 }
 
 export function deleteTeacher(id) {
@@ -61,10 +61,6 @@ export function deleteTeacher(id) {
 }
 
 export function updateTeacher(id, {firstName, lastName}) {
-   return dispatch => {
-     dispatch({
-       type: UPLOAD_SPINNER_ACTION
-     });
     return axios.put(`${apiURL}/teachers/${id}`, {
       firstName,
       lastName
@@ -74,17 +70,11 @@ export function updateTeacher(id, {firstName, lastName}) {
         console.log('response.status', response.status);
         return response;
       })
-      .then(function (response) {
-        dispatch({
-          type: UPLOAD_SPINNER_ACTION
-        });
-        return response;
-      })
       .then(response => response.data)
       .then(teacherToUpdate => ({
         type: UPDATE_TEACHER,
         teacherToUpdate
       }))
 
-   }
+
 }

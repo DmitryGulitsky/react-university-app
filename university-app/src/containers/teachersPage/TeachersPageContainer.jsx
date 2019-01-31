@@ -1,31 +1,21 @@
 import { connect } from 'react-redux';
-
-import TeachersPage from '../components/pages/teachersPage/TeachersPage';
-
-import { addTeacher, deleteTeacher, updateTeacher } from "../actions/";
+import TeachersPage from '../../components/pages/teachersPage/TeachersPage';
+import { dataTeacherToUpdate, deleteTeacher } from "../../actions/index";
 
 function mapStateToProps(state) { // сопоставить состояния со свойствами. Эта функция для данных - массив с адресами
   return {
     teachers: state.teachers,
-    teacherToAdd: state.teacherToAdd,
-    teacherToUpdate: state.teacherToUpdate,
-    loading: state.loading
+    dataTeacherToUpdate: state.dataTeacherToUpdate,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    onAddTeacher: (firstName, lastName) => {
-      console.log('Add button clicked');
-      dispatch(addTeacher({firstName, lastName}))
+    dataTeacherToUpdate: (data) => {
+      dispatch(dataTeacherToUpdate(data))
     },
     onDeleteTeacher: id => {
-      console.log('Delete button clicked');
       dispatch(deleteTeacher(id))
-    },
-    onUpdateTeacher: (id, firstName, lastName) => {
-      console.log('Edit button clicked');
-      dispatch(updateTeacher(id, {firstName, lastName}))
     }
   }
 }

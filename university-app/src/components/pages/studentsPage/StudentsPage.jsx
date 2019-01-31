@@ -1,15 +1,10 @@
 import React, {Component, Fragment} from 'react';
 import ReactTable from 'react-table';
 import "react-table/react-table.css";
-// import {baseStyle, activeStyle, rejectStyle} from '../../../styles/reactTableStyles'
-
-import UpdateItemFormContainer from '../../../containers/UpdateItemFormContainer';
-import AddItemFormContainer from '../../../containers/AddItemFormContainer';
-// import Dropzone from 'react-dropzone';
-
+import UpdateStudentFormContainer from '../../../containers/studentsPage/UpdateStudentFormContainer';
+import AddStudentFormContainer from '../../../containers/studentsPage/AddStudentFormContainer';
 import store from "../../../store";
 import {getStudents} from '../../../actions';
-
 import {
   ExcelExport,
   ExcelExportColumn,
@@ -22,35 +17,15 @@ export default class StudentsPage extends Component {
     this.state = {
       accepted: [],   // массив файлов готовых к отправке
       rejected: [],   // массив отклоненных
-      studentToAdd: {
-        id: "",
-        firstName: "",
-        lastName: "",
-        idGroup: ""
-      },
-      studentToUpdate: {
-        id: "",
-        firstName: "",
-        lastName: "",
-        idGroup: ""
-      },
-
-
-      firstName: "",
       firstNameToUpdate: "",
       firstNameError: "",
-      lastName: "",
       lastNameToUpdate: "",
-      lastNameError: "",
-      idGroup: "",
       idGroupToUpdate: "",
       displayAddForm: false,
       displayUpdateForm: false
     };
-
     this.handleDelete = this.handleDelete.bind(this);
     this.handleAddStudentForm = this.handleAddStudentForm.bind(this);
-
   }
 
   _exporter;
@@ -72,7 +47,6 @@ export default class StudentsPage extends Component {
         altIdx++;
       }
     });
-
     component.save(options);
   };
 
@@ -86,12 +60,10 @@ export default class StudentsPage extends Component {
   }
 
   handleIdStudentAdd(studentOriginal) {
-
     this.setState({
       ...this.state,
       displayAddForm: false,
       displayUpdateForm: true,
-
     });
 
     const student = {
@@ -110,7 +82,6 @@ export default class StudentsPage extends Component {
       displayUpdateForm: false,
       displayAddForm: !this.state.displayAddForm
     });
-    console.log('this.state.displayAddForm - ', this.state.displayAddForm);
   }
 
   render() {
@@ -151,13 +122,12 @@ export default class StudentsPage extends Component {
         sortable: false,
         width: 120,
         maxWidth: 200,
-        minWidth: 200,
-        borderColor: "red"
+        minWidth: 120,
       }
     ];
 
-    const addStudentForm = this.state.displayAddForm ? <AddItemFormContainer /> : null;
-    const updateStudentForm = this.state.displayUpdateForm ? <UpdateItemFormContainer /> : null;
+    const addStudentForm = this.state.displayAddForm ? <AddStudentFormContainer /> : null;
+    const updateStudentForm = this.state.displayUpdateForm ? <UpdateStudentFormContainer /> : null;
 
     return (
       <Fragment>
@@ -192,16 +162,15 @@ export default class StudentsPage extends Component {
           </ReactTable>
 
           <div className="buttons-container">
-            <button className="btn btn-primary fa fa-cloud-download" onClick={this.export}> Export
-              students list to Excel
+            <button
+                className="btn btn-primary fa fa-cloud-download"
+                onClick={this.export}> Export students list to Excel
             </button>
 
             <ExcelExport
                 data={this.props.students}
                 fileName="students.xlsx"
-                ref={(exporter) => {
-                  this._exporter = exporter;
-                }}
+                ref={(exporter) => { this._exporter = exporter; }}
             >
               <ExcelExportColumn field="id" title="id" width={200}/>
               <ExcelExportColumn field="firstName" title="First Name"

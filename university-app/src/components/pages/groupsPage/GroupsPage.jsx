@@ -1,18 +1,15 @@
 import React, {Component, Fragment} from 'react';
 import ReactTable from 'react-table';
-import "react-table/react-table.css";
-// import {baseStyle, activeStyle, rejectStyle} from '../../../styles/reactTableStyles'
-
-// import Spinner from '../../spinner';
-
-// import Dropzone from 'react-dropzone';
-
-import store from "../../../store";
-import {getGroups} from "../../../actions";
-
+import 'react-table/react-table.css';
+import UpdateGroupFormContainer
+  from '../../../containers/groupsPage/UpdateGroupFormContainer';
+import AddGroupFormContainer
+  from '../../../containers/groupsPage/AddGroupFormContainer';
+import store from '../../../store';
+import {getGroups} from '../../../actions';
 import {
   ExcelExport,
-  ExcelExportColumn,
+  ExcelExportColumn
 } from '@progress/kendo-react-excel-export';
 
 export default class GroupsPage extends Component {
@@ -21,12 +18,16 @@ export default class GroupsPage extends Component {
     super(props);
     this.state = {
       accepted: [],
-      rejected: []
+      rejected: [],
+      numberToUpdate: this.props.dataGroupToUpdate.number,
+      numberError: '',
+      teacherToUpdate: this.props.dataGroupToUpdate.teacher,
+      displayAddForm: false,
+      displayUpdateForm: false
     };
 
-    this.handleAdd = this.handleAdd.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
-    this.handleUpdate = this.handleUpdate.bind(this);
+    this.handleAddGroupForm = this.handleAddGroupForm.bind(this);
   }
 
   _exporter;
@@ -56,195 +57,135 @@ export default class GroupsPage extends Component {
     store.dispatch(getGroups());  // получаем данные с сервера до рендеринга
   }
 
-//  handleAdd(event) {
-//    event.preventDefault();
-//    console.log('uploaded files - ', this.state.accepted);
-//    this.props.onAddGroup(this.state.accepted);
-//  }
-
-  handleAdd(event) {
-    event.preventDefault();
-
-    console.log('number to add - ', this.refs.numberToAdd.value);
-    console.log('teacher to add - ', this.refs.teacherToAdd.value);
-
-    const number = this.refs.numberToAdd.value;
-    const teacher = this.refs.teacherToAdd.value;
-
-    this.props.onAddGroup(number, teacher);
-  }
-
   handleDelete(id) {
     console.log(id);
     this.props.onDeleteGroup(id);
   }
 
-  handleUpdate(event) {
-    event.preventDefault();
+  handleIdGroupAdd(groupOriginal) {
+    this.setState({
+      ...this.state,
+      displayAddForm: false,
+      displayUpdateForm: true
+    });
 
-    console.log('number to add - ', this.refs.numberToUpdate.value);
-    console.log('teacher to add - ', this.refs.teacherToUpdate.value);
-    console.log('id - ',this.refs.idToUpdate.value);
+    const group = {
+      id: groupOriginal.id,
+      number: groupOriginal.number,
+      teacher: groupOriginal.teacher,
+      groupId: '1'
+    };
 
-    const id = this.refs.id.value;
-    const number = this.refs.numberToUpdate.value;
-    const teacher = this.refs.teacherToUpdate.value;
-
-    this.props.onUpdateGroup(id, number, teacher);
+    this.props.dataGroupToUpdate(group);
   }
 
-//  handleUpdate(event) {
-//    event.preventDefault();
-//    console.log('uploaded files - ', this.state.accepted);
-//    this.props.onUpdateGroup(this.state.accepted);
-//  }
+  handleAddGroupForm() {
+    this.setState({
+      ...this.state,
+      displayUpdateForm: false,
+      displayAddForm: !this.state.displayAddForm
+    });
+  }
 
   render() {
 
     const columns = [
       {
-        Header: "ID",
-        accessor: "id",
+        Header: 'ID',
+        accessor: 'id',
         width: 100,
         maxWidth: 100,
         minWidth: 100
       },
       {
-        Header: "Group Number",
-        accessor: "number"
+        Header: 'Group Number',
+        accessor: 'number'
       },
       {
-        Header: "Teacher ID",
-        accessor: "teacher.id"
+        Header: 'Teacher ID',
+        accessor: 'teacher.id'
       },
       {
-        Header: "Delete",
+        Header: 'Delete',
         Cell: props => {
           return (
-            <Fragment>
-              <button className="btn btn-danger"
-                      onClick={() => this.handleDelete(props.original.id)}>
-                <span className="fa fa-trash" />
-              </button>
-            </Fragment>
-          )
+              <Fragment>
+                <button className="btn btn-danger"
+                        onClick={() => this.handleDelete(props.original.id)}>
+                  <span className="fa fa-trash"/>
+                </button>
+                <button className="btn btn-warning"
+                        onClick={() => this.handleIdGroupAdd(props.original)}>
+                  <span className="fa fa-pencil"/>
+                </button>
+              </Fragment>
+          );
         },
         filterable: false,
         sortable: false,
-        width: 200,
+        width: 120,
         maxWidth: 200,
-        minWidth: 200
+        minWidth: 120
       }
     ];
 
-    // const spinner = this.props.loading ? <button type="submit" className="btn btn-primary">Submit</button> : <Spinner />;
+    const addGroupForm = this.state.displayAddForm ?
+        <AddGroupFormContainer/> :
+        null;
+    const updateGroupForm = this.state.displayUpdateForm ?
+        <UpdateGroupFormContainer/> :
+        null;
 
     return (
-      <Fragment>
-        <ReactTable
-          id="react-table"
-          columns={columns}
-          data={this.props.groups}
-          filterable
-          sortable
-          defaultPageSize={5}
-          noDataText={"Please wait..."}
-        >
-        </ReactTable>
+        <Fragment>
+          <div className="dropzone-container gradient-background">
+            <h4 className="gradient-background">GROUPS LIST</h4>
+            <p className=" gradient-background">Here you can see groups data
+              base. Push, please, the red button to delete, or orange to update
+              group
+              <br/>
+              To download Excel file with groups list push the blue button. To
+              add group to database push the orange one
+            </p>
+            <ReactTable
+                id="react-table"
+                columns={columns}
+                data={this.props.groups}
+                filterable
+                sortable
+                defaultPageSize={5}
+                noDataText={'Please wait...'}
+            >
+            </ReactTable>
 
-        <div>
-          <button className="btn btn-primary" onClick={this.export}>Export groups list to Excel</button>
+            <div>
+              <button className="btn btn-primary fa fa-cloud-download"
+                      onClick={this.export}>Export groups list to Excel
+              </button>
 
-          <ExcelExport
-            data={this.props.groups}
-            fileName="groups.xlsx"
-            ref={(exporter) => { this._exporter = exporter; }}
-          >
-            <ExcelExportColumn field="id" title="id" width={200} />
-            <ExcelExportColumn field="number" title="Number" width={350} />
-            <ExcelExportColumn field="teacher" title="Teacher" width={350} />
+              <ExcelExport
+                  data={this.props.groups}
+                  fileName="groups.xlsx"
+                  ref={(exporter) => {
+                    this._exporter = exporter;
+                  }}
+              >
+                <ExcelExportColumn field="id" title="id" width={200}/>
+                <ExcelExportColumn field="number" title="Number" width={350}/>
+                <ExcelExportColumn field="teacher" title="Teacher" width={350}/>
 
-          </ExcelExport>
-        </div>
+              </ExcelExport>
+              <button type="button"
+                      className="fa fa-plus-square btn btn-success"
+                      onClick={this.handleAddGroupForm}> Add group to data base
+              </button>
 
-        <br/>
-
-        <div className="dropzone-container">
-          <h3>ADD GROUP</h3>
-          <p>Here you can add group to data base. Group's ID generate automatically</p>
-
-          <form
-            className="form-group"
-            onSubmit={this.handleAdd}>
-            <div className="form-group">
-              <label htmlFor="addGroupNumberInput">Number</label>
-              <input
-                type="text"
-                className="form-control"
-                id="addGroupNumberInput"
-                placeholder="Enter Group Number"
-                ref="numberToAdd"
-              />
             </div>
-            <div className="form-group">
-              <label htmlFor="addGroupTeacherInput">Curator ID of the group</label>
-              <input
-                type="text"
-                className="form-control"
-                id="addGroupTeacherInput"
-                placeholder="Enter Group's curator ID"
-                ref="teacherToAdd"
-              />
-            </div>
-            <button type="submit" className="btn btn-primary">Submit</button>
-          </form>
-
-        </div>
-
-        <br/>
-
-        <div className="dropzone-container">
-          <h3>UPDATE GROUP</h3>
-          <p>Here you can update group in data base</p>
-
-          <form
-            className="form-group"
-            onSubmit={this.handleUpdate}>
-            <div className="form-group">
-              <label htmlFor="updateGroupIdInput">ID</label>
-              <input
-                type="text"
-                className="form-control"
-                id="updateGroupIdInput"
-                placeholder="Enter ID"
-                ref="idToUpdate"
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="updateGroupNumberInput">Number</label>
-              <input
-                type="text"
-                className="form-control"
-                id="updateGroupNumberInput"
-                placeholder="Enter Group Number"
-                ref="numberToUpdate"
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="updateGroupTeacherInput">Teacher</label>
-              <input
-                type="text"
-                className="form-control"
-                id="updateGroupTeacherInput"
-                placeholder="Enter teacher ID"
-                ref="teacherToUpdate"
-              />
-            </div>
-            <button type="submit" className="btn btn-primary">Submit</button>
-          </form>
-
-        </div>
-      </Fragment>
-    )
+          </div>
+          {addGroupForm}
+          <br/>
+          {updateGroupForm}
+        </Fragment>
+    );
   }
 }

@@ -1,20 +1,14 @@
 import React, {Component, Fragment} from 'react';
 import ReactTable from 'react-table';
 import "react-table/react-table.css";
-// import {baseStyle, activeStyle, rejectStyle} from '../../../styles/reactTableStyles';
-
-// import Spinner from '../../spinner';
-
-// import Dropzone from 'react-dropzone';
-
+import UpdateTeacherFormContainer from '../../../containers/teachersPage/UpdateTeacherFormContainer';
+import AddTeacherFormContainer from '../../../containers/teachersPage/AddTeacherFormContainer';
 import store from "../../../store";
 import {getTeachers} from "../../../actions";
-
 import {
   ExcelExport,
   ExcelExportColumn,
 } from '@progress/kendo-react-excel-export';
-
 
 export default class TeachersPage extends Component {
 
@@ -22,12 +16,16 @@ export default class TeachersPage extends Component {
     super(props);
     this.state = {
       accepted: [],
-      rejected: []
+      rejected: [],
+      firstNameToUpdate: "",
+      firstNameError: "",
+      lastNameToUpdate: "",
+      idGroupToUpdate: "",
+      displayAddForm: false,
+      displayUpdateForm: false
     };
-
-    this.handleAdd = this.handleAdd.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
-    this.handleUpdate = this.handleUpdate.bind(this);
+    this.handleAddTeacherForm = this.handleAddTeacherForm.bind(this);
   }
 
   _exporter;
@@ -57,47 +55,34 @@ export default class TeachersPage extends Component {
     store.dispatch(getTeachers());  // получаем данные с сервера до рендеринга
   }
 
-  // handleAdd(event) {
-  //   event.preventDefault();
-  //   console.log('uploaded files - ', this.state.accepted);
-  //   this.props.onAddTeacher(this.state.accepted);
-  // }
-
-  handleAdd(event) {
-    event.preventDefault();
-
-    console.log('this.refs.firstNameToAdd.value - ',this.refs.firstNameToAdd.value);
-    console.log('this.refs.lastNameToAdd.value - ',this.refs.lastNameToAdd.value);
-
-    const firstName = this.refs.firstNameToAdd.value;
-    const lastName = this.refs.lastNameToAdd.value;
-
-    this.props.onAddTeacher(firstName, lastName);
-  }
-
   handleDelete(id) {
     console.log(id);
     this.props.onDeleteTeacher(id);
   }
 
-  handleUpdate(event) {
-    event.preventDefault();
+  handleIdTeacherAdd(teacherOriginal) {
+    this.setState({
+      ...this.state,
+      displayAddForm: false,
+      displayUpdateForm: true,
+    });
 
-    console.log('this.refs.firstNameToUpdate.value - ',this.refs.firstNameToUpdate.value);
-    console.log('this.refs.lastNameToUpdate.value - ',this.refs.lastNameToUpdate.value);
+    const teacher = {
+      id: teacherOriginal.id,
+      firstName: teacherOriginal.firstName,
+      lastName: teacherOriginal.lastName
+    };
 
-    const id = this.refs.idToUpdate.value;
-    const firstName = this.refs.firstNameToUpdate.value;
-    const lastName = this.refs.lastNameToUpdate.value;
-
-    this.props.onUpdateTeacher(id, firstName, lastName);
+    this.props.dataTeacherToUpdate(teacher);
   }
 
-  // handleUpdate(event) {
-  //   event.preventDefault();
-  //   console.log('uploaded files - ', this.state.accepted);
-  //   this.props.onUpdateTeacher(this.state.accepted);
-  // }
+  handleAddTeacherForm() {
+    this.setState({
+      ...this.state,
+      displayUpdateForm: false,
+      displayAddForm: !this.state.displayAddForm
+    });
+  }
 
   render() {
 
@@ -118,7 +103,7 @@ export default class TeachersPage extends Component {
         accessor: "lastName"
       },
       {
-        Header: "Delete",
+        Header: "Delete/Update",
         Cell: props => {
           return (
             <Fragment>
@@ -126,21 +111,32 @@ export default class TeachersPage extends Component {
                       onClick={() => this.handleDelete(props.original.id)}>
                 <span className="fa fa-trash" />
               </button>
+              <button className="btn btn-warning"
+                      onClick={() => this.handleIdTeacherAdd(props.original)}>
+                <span className="fa fa-pencil"/>
+              </button>
             </Fragment>
           )
         },
         filterable: false,
         sortable: false,
-        width: 200,
+        width: 120,
         maxWidth: 200,
-        minWidth: 200
+        minWidth: 120
       }
     ];
 
-  //  const spinner = this.props.loading ? <button type="submit" className="btn btn-primary">Submit</button> : <Spinner />;
+    const addTeacherForm = this.state.displayAddForm ? <AddTeacherFormContainer /> : null;
+    const updateTeacherForm = this.state.displayUpdateForm ? <UpdateTeacherFormContainer /> : null;
 
     return (
       <Fragment>
+        <div className="dropzone-container gradient-background">
+          <h4 className="gradient-background">TEACHERS LIST</h4>
+          <p className=" gradient-background">Here you can see teachers data base. Push, please, the red button to delete, or orange to update teacher
+            <br/>
+            To download Excel file with teachers list push the blue button. To add teacher to database push the orange one.
+          </p>
         <ReactTable
           id="react-table"
           columns={columns}
@@ -150,10 +146,25 @@ export default class TeachersPage extends Component {
           defaultPageSize={5}
           noDataText={"Please wait..."}
         >
+          {(state, makeTable) => {
+            return (
+                <div
+                    style={{
+                      background: "#7b7b7b",
+                      borderRadius: "5px",
+                      overflow: "hidden",
+                    }}
+                >
+                  {makeTable()}
+                </div>
+            );
+          }}
         </ReactTable>
 
         <div>
-          <button className="btn btn-primary" onClick={this.export}>Export teachers list to Excel</button>
+          <button
+              className="btn btn-primary"
+              onClick={this.export}>Export teachers list to Excel</button>
 
           <ExcelExport
             data={this.props.teachers}
@@ -165,81 +176,14 @@ export default class TeachersPage extends Component {
             <ExcelExportColumn field="lastName" title="Last Name" width={350} />
 
           </ExcelExport>
+
+          <button type="button" className="fa fa-plus-square btn btn-success" onClick={this.handleAddTeacherForm}> Add teacher to data base</button>
+
         </div>
-
-        <br/>
-        <div className="dropzone-container">
-        <h3>ADD TEACHER</h3>
-        <p>Here you can add new group to data base. Enter please first and last name, push the button. Teachers's ID
-          generate automatically</p>
-          <form
-            className="form-group"
-            onSubmit={this.handleAdd}>
-            <div className="form-group">
-              <label htmlFor="addTeacherFirstNameInput">First Name</label>
-              <input
-                type="text"
-                className="form-control"
-                id="addTeacherFirstNameInput"
-                placeholder="Enter First Name"
-                ref="firstNameToAdd"
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="addTeacherLastNameInput">Last Name</label>
-              <input
-                type="text"
-                className="form-control"
-                id="addTeacherLastNameInput"
-                placeholder="Enter Last Name"
-                ref="lastNameToAdd"
-              />
-            </div>
-            <button type="submit" className="btn btn-primary">Submit</button>
-          </form>
-      </div>
-
-        <br/>
-
-        <div className="dropzone-container">
-          <h3>UPDATE TEACHER</h3>
-          <p>Here you can upload excel file with data to update group in data base</p>
-          <form
-            className="form-group"
-            onSubmit={this.handleUpdate}>
-            <div className="form-group">
-              <label htmlFor="updateTeacherIDInput">ID</label>
-              <input
-                type="text"
-                className="form-control"
-                id="updateTeacherIDInput"
-                placeholder="Enter ID"
-                ref="idToUpdate"
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="updateTeacherFirstNameInput">First Name</label>
-              <input
-                type="text"
-                className="form-control"
-                id="updateTeacherFirstNameInput"
-                placeholder="Enter First Name"
-                ref="firstNameToUpdate"
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="updateTeacherLastNameInput">Last Name</label>
-              <input
-                type="text"
-                className="form-control"
-                id="updateTeacherLastNameInput"
-                placeholder="Enter Last Name"
-                ref="lastNameToUpdate"
-              />
-            </div>
-            <button type="submit" className="btn btn-primary">Submit</button>
-          </form>
         </div>
+        {addTeacherForm}
+        <br/>
+        {updateTeacherForm}
       </Fragment>
     )
   }

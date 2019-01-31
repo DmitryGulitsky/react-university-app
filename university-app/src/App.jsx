@@ -4,9 +4,9 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import Header from './components/header';
 
-import StudentsPageContainer from './containers/StudentsPageContainer';
-import GroupsPageContainer from './containers/GroupsPageContainer';
-import TeachersPageContainer from './containers/TeachersPageContainer';
+import StudentsPageContainer from './containers/studentsPage/StudentsPageContainer';
+import GroupsPageContainer from './containers/groupsPage/GroupsPageContainer';
+import TeachersPageContainer from './containers/teachersPage/TeachersPageContainer';
 import AddStudentToGroupsPageContainer from './containers/AddStudentToGroupsPageContainer';
 import AddGroupsToTeacherPageContainer from './containers/AddGroupsToTeacherPageContainer';
 

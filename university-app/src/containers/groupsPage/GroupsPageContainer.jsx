@@ -1,33 +1,23 @@
 import { connect } from 'react-redux';
-
-import GroupsPage from '../components/pages/groupsPage/GroupsPage';
-
-
-import { addGroup, deleteGroup, updateGroup } from "../actions";
+import GroupsPage from '../../components/pages/groupsPage/GroupsPage';
+import { dataGroupToUpdate, deleteGroup } from "../../actions/index";
 
 function mapStateToProps(state) { // сопоставить состояния со свойствами. Эта функция для данных - массив с адресами
   return {
     groups: state.groups,
-    groupsToAdd: state.groupToAdd,
-    groupsToUpdate: state.groupToUpdate,
-    loading: state.loading
+    dataGroupToUpdate: state.dataGroupToUpdate,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    onAddGroup: (number, teacher) => {
-      console.log('Add button clicked');
-      dispatch(addGroup({number}, teacher))
+    dataGroupToUpdate: (data) => {
+      dispatch(dataGroupToUpdate(data));
     },
     onDeleteGroup: id => {
       console.log('Delete button clicked');
       dispatch(deleteGroup(id))
     },
-    onUpdateGroup: (id, number, teacher) => {
-      console.log('Edit button clicked');
-      dispatch(updateGroup(id, {number}, teacher))
-    }
   }
 }
 

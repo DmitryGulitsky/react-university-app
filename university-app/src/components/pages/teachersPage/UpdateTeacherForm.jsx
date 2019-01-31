@@ -1,19 +1,17 @@
 import React, {Component} from 'react';
-import 'react-table/react-table.css';
+import "react-table/react-table.css";
 
-export default class UpdateItemForm extends Component {
+export default class UpdateTeacherForm extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      idToUpdate: this.props.dataStudentToUpdate.id,
-      firstNameToUpdate: this.props.dataStudentToUpdate.firstName,
+      idToUpdate: this.props.dataTeacherToUpdate.id,
+      firstNameToUpdate: this.props.dataTeacherToUpdate.firstName,
       firstNameError: '',
-      lastNameToUpdate: this.props.dataStudentToUpdate.lastName,
+      lastNameToUpdate: this.props.dataTeacherToUpdate.lastName,
       lastNameError: '',
-      idGroupToUpdate: this.props.dataStudentToUpdate.idGroup
     };
-
     this.handleUpdate = this.handleUpdate.bind(this);
   }
 
@@ -35,7 +33,6 @@ export default class UpdateItemForm extends Component {
       isError = true;
       errors.firstNameError = 'First name needs to be from 3 to 20 characters long';
     }
-
     if (this.state.lastNameToUpdate.length < 3 ||
         this.state.lastNameToUpdate.length > 20) {
       isError = true;
@@ -68,12 +65,10 @@ export default class UpdateItemForm extends Component {
       const id = this.state.idToUpdate;
       const firstName = this.state.firstNameToUpdate;
       const lastName = this.state.lastNameToUpdate;
-      const groupId = this.state.idGroupToUpdate;
 
-      this.props.onUpdateStudent(id, firstName, lastName, groupId);
+      this.props.onUpdateTeacher(id, firstName, lastName);
     }
   }
-
   render() {
     const firstNameErrorText = this.state.firstNameError ?
         <p className="text-danger">{this.state.firstNameError}</p> :
@@ -82,76 +77,60 @@ export default class UpdateItemForm extends Component {
         <p className="text-danger">{this.state.lastNameError}</p> :
         null;
 
-    const updateStudentForm =
+    const updateTeacherForm =
         <div className="dropzone-container gradient-background">
-          <h3>UPDATE STUDENT</h3>
-          <p>Here you can update student in data base. Enter please id, first
-            and last name, and current group ID.
-            Then push the button.</p>
+          <h3>UPDATE TEACHER</h3>
+          <p>Here you can update teacher in data base. Enter please first
+            and last name. Then push the button.</p>
           <form
-              id="updateStudentForm"
-              className="update-student-form"
+              id="updateTeacherForm"
+              className="form-group"
               onSubmit={this.handleUpdate}>
             <div className="form-group">
-              <label htmlFor="firstNameToUpdate">ID</label>
+              <label htmlFor="updateTeacherIDInput">ID</label>
               <input
-                  name="idToUpdate"
                   type="text"
                   className="form-control"
-                  id="updateStudentIDInput"
+                  id="updateTeacherIDInput"
                   onChange={e => this.handleChange(e)}
                   placeholder="Enter ID"
                   defaultValue={this.state.idToUpdate}
               />
             </div>
             <div className="form-group">
-              <label htmlFor="updateStudentFirstNameInput">First Name</label>
+              <label htmlFor="updateTeacherFirstNameInput">First Name</label>
               <input
                   name="firstNameToUpdate"
                   type="text"
                   className="form-control"
-                  id="updateStudentFirstNameInput"
+                  id="updateTeacherFirstNameInput"
                   onChange={e => this.handleChange(e)}
                   placeholder="Enter First Name"
+                  ref="firstNameToUpdate"
                   defaultValue={this.state.firstNameToUpdate}
               />
               {firstNameErrorText}
             </div>
             <div className="form-group">
-              <label htmlFor="updateStudentLastNameInput">Last Name</label>
+              <label htmlFor="updateTeacherLastNameInput">Last Name</label>
               <input
                   name="lastNameToUpdate"
                   type="text"
                   className="form-control"
-                  id="updateStudentLastNameInput"
+                  id="updateTeacherLastNameInput"
                   onChange={e => this.handleChange(e)}
                   placeholder="Enter Last Name"
                   defaultValue={this.state.lastNameToUpdate}
               />
-              {lastNameErrorText}
             </div>
-            <div className="form-group">
-              <label htmlFor="id-number">Enter student's current group ID
-                number</label>
-              <input
-                  name="idGroupToUpdate"
-                  type="number"
-                  className="form-control"
-                  id="id-number" placeholder="1"
-                  onChange={e => this.handleChange(e)}
-              />
-            </div>
-            <button
-                type="submit"
-                className="btn btn-primary"
-            >Submit
-            </button>
+            {lastNameErrorText}
+            <button type="submit" className="btn btn-primary">Submit</button>
           </form>
         </div>;
     return (
         <div>
-          {updateStudentForm}
+          {updateTeacherForm}
         </div>
-    );
+    )
   }
 }

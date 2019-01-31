@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import "react-table/react-table.css";
 
-export default class AddItemForm extends Component {
-
+export default class AddStudentForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -10,7 +9,7 @@ export default class AddItemForm extends Component {
       firstNameError: "",
       lastName: "",
       lastNameError: "",
-      idGroup: "",
+      idGroup: ""
     };
     this.handleAdd = this.handleAdd.bind(this);
   }
