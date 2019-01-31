@@ -29,7 +29,7 @@ p {
   border: 1px solid white;
 }
 
-div.form-group input {
+div.form-group input, div.form-group select {
   margin-left: 33%;
   max-width: 33%;
 }
@@ -37,7 +37,7 @@ div.form-group input {
 .gradient-background {
   background: #7d7e7d; /* Old browsers */
   background: -moz-linear-gradient(top, #7d7e7d 0%, #0e0e0e 100%); /* FF3.6-15 */
-  background: -webkit-linear-gradient(top, #7d7e7d 0%,#0e0e0e 100%); /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to bottom, #7d7e7d 0%,#0e0e0e 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7d7e7d', endColorstr='#0e0e0e',GradientType=0 ); /* IE6-9 */
+  background: -webkit-linear-gradient(top, #7d7e7d 0%, #0e0e0e 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #7d7e7d 0%, #0e0e0e 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7d7e7d', endColorstr='#0e0e0e', GradientType=0); /* IE6-9 */
 }

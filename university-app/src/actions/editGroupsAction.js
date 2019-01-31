@@ -34,8 +34,15 @@ export const dataGroupToUpdate = (dataGroupToUpdate) => {
   };
 };
 
-export function addGroup({number}, teacher) {
-  return axios.post(`${apiURL}/groups/?curatorId=${teacher}`, {
+export function addGroup(number, teacher, teachersList) {
+  let teachersListToUrl = '';
+    teachersList.map(teacherId => {
+      console.log('teachersListToUrl',teachersListToUrl);
+    return (
+        teachersListToUrl += `&teacherIdList=${teacherId}`
+    );
+  });
+  return axios.post(`${apiURL}/groups/?curatorId=${teacher}${teachersListToUrl}`, {
     number
   }).then(function(response) {
     console.log('response.data', response.data);

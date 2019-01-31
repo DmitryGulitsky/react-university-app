@@ -1,4 +1,8 @@
-import {GET_STUDENTS_BY_ID, GET_TEACHERS_BY_ID, GET_GROUPS_BY_ID} from "../actions";
+import {
+  GET_STUDENTS_BY_ID,
+  GET_TEACHERS_BY_ID,
+  GET_GROUPS_BY_ID
+} from '../actions';
 
 export default function reducer(state = [], action) {
   switch (action.type) {

@@ -1,4 +1,4 @@
-import {DATA_GROUP_TO_UPDATE} from "../../actions/index";
+import {DATA_GROUP_TO_UPDATE} from '../../actions/index';
 
 export default function reducer(state = {}, action) {
   switch (action.type) {

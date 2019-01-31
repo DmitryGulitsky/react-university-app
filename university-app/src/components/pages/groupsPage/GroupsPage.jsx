@@ -5,6 +5,8 @@ import UpdateGroupFormContainer
   from '../../../containers/groupsPage/UpdateGroupFormContainer';
 import AddGroupFormContainer
   from '../../../containers/groupsPage/AddGroupFormContainer';
+import AddStudentToGroupsPageContainer
+  from '../../../containers/AddStudentToGroupsPageContainer';
 import store from '../../../store';
 import {getGroups} from '../../../actions';
 import {
@@ -102,8 +104,12 @@ export default class GroupsPage extends Component {
         accessor: 'number'
       },
       {
-        Header: 'Teacher ID',
-        accessor: 'teacher.id'
+        Header: 'Teacher First Name',
+        accessor: 'teacher.firstName'
+      },
+      {
+        Header: 'Teacher Last Name',
+        accessor: 'teacher.lastName'
       },
       {
         Header: 'Delete',
@@ -185,6 +191,8 @@ export default class GroupsPage extends Component {
           {addGroupForm}
           <br/>
           {updateGroupForm}
+          <br/>
+          <AddStudentToGroupsPageContainer/>
         </Fragment>
     );
   }

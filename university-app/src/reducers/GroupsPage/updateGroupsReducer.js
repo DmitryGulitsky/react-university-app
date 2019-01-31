@@ -1,4 +1,4 @@
-import {UPDATE_GROUP} from "../../actions/editGroupsAction";
+import {UPDATE_GROUP} from '../../actions/editGroupsAction';
 
 export default function reducer(state = [], action) {
   switch (action.type) {

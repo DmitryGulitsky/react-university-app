@@ -1,5 +1,4 @@
 import axios from 'axios';
-import {DATA_STUDENT_TO_UPDATE} from './editStudentsAction';
 
 export const REQUEST_TEACHERS = 'REQUEST_TEACHERS';
 export const GET_TEACHERS = 'GET_TEACHERS';
@@ -15,12 +14,12 @@ export function getTeachers() {
     dispatch({
       type: REQUEST_TEACHERS
     });
-    return axios.get(`${apiURL}/teachers/`)
-      .then(response => response.data)
-      .then(teachers => dispatch({
-        type: GET_TEACHERS,
-        teachers
-      }));
+    return axios.get(`${apiURL}/teachers/`).
+        then(response => response.data).
+        then(teachers => dispatch({
+          type: GET_TEACHERS,
+          teachers
+        }));
   };
 }
 
@@ -34,47 +33,38 @@ export const dataTeacherToUpdate = (dataTeacherToUpdate) => {
 };
 
 export function addTeacher({firstName, lastName}) {
-    return axios.post(`${apiURL}/teachers/`, {
-      firstName,
-      lastName
-    })
-      .then(function (response) {
-        console.log('response.data', response.data);
-        console.log('response.status', response.status);
-        return response;
-      })
-      .then(response => response.data)
-      .then(teacherToAdd => ({
-        type: ADD_TEACHER,
-        teacherToAdd
-      }))
-
+  return axios.post(`${apiURL}/teachers/`, {
+    firstName,
+    lastName
+  }).then(function(response) {
+    console.log('response.data', response.data);
+    console.log('response.status', response.status);
+    return response;
+  }).then(response => response.data).then(teacherToAdd => ({
+    type: ADD_TEACHER,
+    teacherToAdd
+  }));
 
 }
 
 export function deleteTeacher(id) {
-  return axios.delete(`${apiURL}/teachers/${id}`)
-    .then(response => ({
-      type: DELETE_TEACHER,
-      id
-    }));
+  return axios.delete(`${apiURL}/teachers/${id}`).then(response => ({
+    type: DELETE_TEACHER,
+    id
+  }));
 }
 
 export function updateTeacher(id, {firstName, lastName}) {
-    return axios.put(`${apiURL}/teachers/${id}`, {
-      firstName,
-      lastName
-    })
-      .then(function (response) {
-        console.log('response.data', response.data);
-        console.log('response.status', response.status);
-        return response;
-      })
-      .then(response => response.data)
-      .then(teacherToUpdate => ({
-        type: UPDATE_TEACHER,
-        teacherToUpdate
-      }))
-
+  return axios.put(`${apiURL}/teachers/${id}`, {
+    firstName,
+    lastName
+  }).then(function(response) {
+    console.log('response.data', response.data);
+    console.log('response.status', response.status);
+    return response;
+  }).then(response => response.data).then(teacherToUpdate => ({
+    type: UPDATE_TEACHER,
+    teacherToUpdate
+  }));
 
 }

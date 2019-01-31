@@ -1,13 +1,15 @@
 import React, {Component, Fragment} from 'react';
 import ReactTable from 'react-table';
-import "react-table/react-table.css";
-import UpdateStudentFormContainer from '../../../containers/studentsPage/UpdateStudentFormContainer';
-import AddStudentFormContainer from '../../../containers/studentsPage/AddStudentFormContainer';
-import store from "../../../store";
-import {getStudents} from '../../../actions';
+import 'react-table/react-table.css';
+import UpdateStudentFormContainer
+  from '../../../containers/studentsPage/UpdateStudentFormContainer';
+import AddStudentFormContainer
+  from '../../../containers/studentsPage/AddStudentFormContainer';
+import store from '../../../store';
+import {getStudents, getGroups} from '../../../actions';
 import {
   ExcelExport,
-  ExcelExportColumn,
+  ExcelExportColumn
 } from '@progress/kendo-react-excel-export';
 
 export default class StudentsPage extends Component {
@@ -17,10 +19,10 @@ export default class StudentsPage extends Component {
     this.state = {
       accepted: [],   // массив файлов готовых к отправке
       rejected: [],   // массив отклоненных
-      firstNameToUpdate: "",
-      firstNameError: "",
-      lastNameToUpdate: "",
-      idGroupToUpdate: "",
+      firstNameToUpdate: '',
+      firstNameError: '',
+      lastNameToUpdate: '',
+      idGroupToUpdate: '',
       displayAddForm: false,
       displayUpdateForm: false
     };
@@ -52,6 +54,7 @@ export default class StudentsPage extends Component {
 
   componentDidMount() {
     store.dispatch(getStudents());  // получаем данные с сервера до рендеринга
+    store.dispatch(getGroups());
   }
 
   handleDelete(id) {
@@ -63,7 +66,7 @@ export default class StudentsPage extends Component {
     this.setState({
       ...this.state,
       displayAddForm: false,
-      displayUpdateForm: true,
+      displayUpdateForm: true
     });
 
     const student = {
@@ -88,22 +91,22 @@ export default class StudentsPage extends Component {
 
     const columns = [
       {
-        Header: "ID",
-        accessor: "id",
+        Header: 'ID',
+        accessor: 'id',
         width: 100,
         maxWidth: 100,
-        minWidth: 100,
+        minWidth: 100
       },
       {
-        Header: "First Name",
-        accessor: "firstName"
+        Header: 'First Name',
+        accessor: 'firstName'
       },
       {
-        Header: "Last Name",
-        accessor: "lastName"
+        Header: 'Last Name',
+        accessor: 'lastName'
       },
       {
-        Header: "Delete/Update",
+        Header: 'Delete/Update',
         Cell: props => {
           return (
               <div>
@@ -116,77 +119,90 @@ export default class StudentsPage extends Component {
                   <span className="fa fa-pencil"/>
                 </button>
               </div>
-          )
+          );
         },
         filterable: false,
         sortable: false,
         width: 120,
         maxWidth: 200,
-        minWidth: 120,
+        minWidth: 120
       }
     ];
 
-    const addStudentForm = this.state.displayAddForm ? <AddStudentFormContainer /> : null;
-    const updateStudentForm = this.state.displayUpdateForm ? <UpdateStudentFormContainer /> : null;
+    const addStudentForm = this.state.displayAddForm ?
+        <AddStudentFormContainer/> :
+        null;
+    const updateStudentForm = this.state.displayUpdateForm ?
+        <UpdateStudentFormContainer/> :
+        null;
 
     return (
-      <Fragment>
-        <div className="dropzone-container gradient-background">
-          <h4 className="gradient-background">STUDENTS LIST</h4>
-          <p className=" gradient-background">Here you can see students data base. Push, please, the red button to delete, or orange to update student
-            <br/>
-            To download Excel file with students list push the blue button. To add student to database push the orange one
-          </p>
-          <ReactTable
-              id="react-table"
-              columns={columns}
-              data={this.props.students}
-              filterable
-              sortable
-              defaultPageSize={5}
-              noDataText={'Please wait...'}
-          >
-            {(state, makeTable) => {
-              return (
-                  <div
-                      style={{
-                        background: "#7b7b7b",
-                        borderRadius: "5px",
-                        overflow: "hidden",
-                      }}
-                  >
-                    {makeTable()}
-                  </div>
-              );
-            }}
-          </ReactTable>
-
-          <div className="buttons-container">
-            <button
-                className="btn btn-primary fa fa-cloud-download"
-                onClick={this.export}> Export students list to Excel
-            </button>
-
-            <ExcelExport
+        <Fragment>
+          <div className="dropzone-container gradient-background">
+            <h4 className="gradient-background">STUDENTS LIST</h4>
+            <p className=" gradient-background">Here you can see students data
+              base. Push, please, the red button to delete, or orange to update
+              student
+              <br/>
+              To download Excel file with students list push the blue button. To
+              add student to database push the orange one
+            </p>
+            <ReactTable
+                id="react-table"
+                columns={columns}
                 data={this.props.students}
-                fileName="students.xlsx"
-                ref={(exporter) => { this._exporter = exporter; }}
+                filterable
+                sortable
+                defaultPageSize={5}
+                noDataText={'Please wait...'}
             >
-              <ExcelExportColumn field="id" title="id" width={200}/>
-              <ExcelExportColumn field="firstName" title="First Name"
-                                 width={350}/>
-              <ExcelExportColumn field="lastName" title="Last Name"
-                                 width={350}/>
-            </ExcelExport>
+              {(state, makeTable) => {
+                return (
+                    <div
+                        style={{
+                          background: '#7b7b7b',
+                          borderRadius: '5px',
+                          overflow: 'hidden'
+                        }}
+                    >
+                      {makeTable()}
+                    </div>
+                );
+              }}
+            </ReactTable>
 
-            <button type="button" className="fa fa-plus-square btn btn-success" onClick={this.handleAddStudentForm}> Add student to data base</button>
+            <div className="buttons-container">
+              <button
+                  className="btn btn-primary fa fa-cloud-download"
+                  onClick={this.export}> Export students list to Excel
+              </button>
 
+              <ExcelExport
+                  data={this.props.students}
+                  fileName="students.xlsx"
+                  ref={(exporter) => {
+                    this._exporter = exporter;
+                  }}
+              >
+                <ExcelExportColumn field="id" title="id" width={200}/>
+                <ExcelExportColumn field="firstName" title="First Name"
+                                   width={350}/>
+                <ExcelExportColumn field="lastName" title="Last Name"
+                                   width={350}/>
+              </ExcelExport>
+
+              <button type="button"
+                      className="fa fa-plus-square btn btn-success"
+                      onClick={this.handleAddStudentForm}> Add student to data
+                base
+              </button>
+
+            </div>
           </div>
-        </div>
-        {addStudentForm}
-        <br/>
-        {updateStudentForm}
-      </Fragment>
-    )
+          {addStudentForm}
+          <br/>
+          {updateStudentForm}
+        </Fragment>
+    );
   }
 }

@@ -1,13 +1,17 @@
 import React, {Component, Fragment} from 'react';
 import ReactTable from 'react-table';
-import "react-table/react-table.css";
-import UpdateTeacherFormContainer from '../../../containers/teachersPage/UpdateTeacherFormContainer';
-import AddTeacherFormContainer from '../../../containers/teachersPage/AddTeacherFormContainer';
-import store from "../../../store";
-import {getTeachers} from "../../../actions";
+import 'react-table/react-table.css';
+import UpdateTeacherFormContainer
+  from '../../../containers/teachersPage/UpdateTeacherFormContainer';
+import AddTeacherFormContainer
+  from '../../../containers/teachersPage/AddTeacherFormContainer';
+import AddGroupsToTeacherPageContainer
+  from '../../../containers/AddGroupsToTeacherPageContainer';
+import store from '../../../store';
+import {getTeachers} from '../../../actions';
 import {
   ExcelExport,
-  ExcelExportColumn,
+  ExcelExportColumn
 } from '@progress/kendo-react-excel-export';
 
 export default class TeachersPage extends Component {
@@ -17,10 +21,10 @@ export default class TeachersPage extends Component {
     this.state = {
       accepted: [],
       rejected: [],
-      firstNameToUpdate: "",
-      firstNameError: "",
-      lastNameToUpdate: "",
-      idGroupToUpdate: "",
+      firstNameToUpdate: '',
+      firstNameError: '',
+      lastNameToUpdate: '',
+      idGroupToUpdate: '',
       displayAddForm: false,
       displayUpdateForm: false
     };
@@ -64,7 +68,7 @@ export default class TeachersPage extends Component {
     this.setState({
       ...this.state,
       displayAddForm: false,
-      displayUpdateForm: true,
+      displayUpdateForm: true
     });
 
     const teacher = {
@@ -72,7 +76,6 @@ export default class TeachersPage extends Component {
       firstName: teacherOriginal.firstName,
       lastName: teacherOriginal.lastName
     };
-
     this.props.dataTeacherToUpdate(teacher);
   }
 
@@ -88,35 +91,35 @@ export default class TeachersPage extends Component {
 
     const columns = [
       {
-        Header: "ID",
-        accessor: "id",
+        Header: 'ID',
+        accessor: 'id',
         width: 100,
         maxWidth: 100,
         minWidth: 100
       },
       {
-        Header: "First Name",
-        accessor: "firstName"
+        Header: 'First Name',
+        accessor: 'firstName'
       },
       {
-        Header: "Last Name",
-        accessor: "lastName"
+        Header: 'Last Name',
+        accessor: 'lastName'
       },
       {
-        Header: "Delete/Update",
+        Header: 'Delete/Update',
         Cell: props => {
           return (
-            <Fragment>
-              <button className="btn btn-danger"
-                      onClick={() => this.handleDelete(props.original.id)}>
-                <span className="fa fa-trash" />
-              </button>
-              <button className="btn btn-warning"
-                      onClick={() => this.handleIdTeacherAdd(props.original)}>
-                <span className="fa fa-pencil"/>
-              </button>
-            </Fragment>
-          )
+              <Fragment>
+                <button className="btn btn-danger"
+                        onClick={() => this.handleDelete(props.original.id)}>
+                  <span className="fa fa-trash"/>
+                </button>
+                <button className="btn btn-warning"
+                        onClick={() => this.handleIdTeacherAdd(props.original)}>
+                  <span className="fa fa-pencil"/>
+                </button>
+              </Fragment>
+          );
         },
         filterable: false,
         sortable: false,
@@ -126,65 +129,83 @@ export default class TeachersPage extends Component {
       }
     ];
 
-    const addTeacherForm = this.state.displayAddForm ? <AddTeacherFormContainer /> : null;
-    const updateTeacherForm = this.state.displayUpdateForm ? <UpdateTeacherFormContainer /> : null;
+    const addTeacherForm = this.state.displayAddForm ?
+        <AddTeacherFormContainer/> :
+        null;
+    const updateTeacherForm = this.state.displayUpdateForm ?
+        <UpdateTeacherFormContainer/> :
+        null;
 
     return (
-      <Fragment>
-        <div className="dropzone-container gradient-background">
-          <h4 className="gradient-background">TEACHERS LIST</h4>
-          <p className=" gradient-background">Here you can see teachers data base. Push, please, the red button to delete, or orange to update teacher
-            <br/>
-            To download Excel file with teachers list push the blue button. To add teacher to database push the orange one.
-          </p>
-        <ReactTable
-          id="react-table"
-          columns={columns}
-          data={this.props.teachers}
-          filterable
-          sortable
-          defaultPageSize={5}
-          noDataText={"Please wait..."}
-        >
-          {(state, makeTable) => {
-            return (
-                <div
-                    style={{
-                      background: "#7b7b7b",
-                      borderRadius: "5px",
-                      overflow: "hidden",
-                    }}
-                >
-                  {makeTable()}
-                </div>
-            );
-          }}
-        </ReactTable>
+        <Fragment>
+          <div className="dropzone-container gradient-background">
+            <h4 className="gradient-background">TEACHERS LIST</h4>
+            <p className=" gradient-background">Here you can see teachers data
+              base. Push, please, the red button to delete, or orange to update
+              teacher
+              <br/>
+              To download Excel file with teachers list push the blue button. To
+              add teacher to database push the orange one.
+            </p>
+            <ReactTable
+                id="react-table"
+                columns={columns}
+                data={this.props.teachers}
+                filterable
+                sortable
+                defaultPageSize={5}
+                noDataText={'Please wait...'}
+            >
+              {(state, makeTable) => {
+                return (
+                    <div
+                        style={{
+                          background: '#7b7b7b',
+                          borderRadius: '5px',
+                          overflow: 'hidden'
+                        }}
+                    >
+                      {makeTable()}
+                    </div>
+                );
+              }}
+            </ReactTable>
 
-        <div>
-          <button
-              className="btn btn-primary"
-              onClick={this.export}>Export teachers list to Excel</button>
+            <div>
+              <button
+                  className="btn btn-primary"
+                  onClick={this.export}>Export teachers list to Excel
+              </button>
 
-          <ExcelExport
-            data={this.props.teachers}
-            fileName="teachers.xlsx"
-            ref={(exporter) => { this._exporter = exporter; }}
-          >
-            <ExcelExportColumn field="id" title="id" width={200} />
-            <ExcelExportColumn field="firstName" title="First Name" width={350} />
-            <ExcelExportColumn field="lastName" title="Last Name" width={350} />
+              <ExcelExport
+                  data={this.props.teachers}
+                  fileName="teachers.xlsx"
+                  ref={(exporter) => {
+                    this._exporter = exporter;
+                  }}
+              >
+                <ExcelExportColumn field="id" title="id" width={200}/>
+                <ExcelExportColumn field="firstName" title="First Name"
+                                   width={350}/>
+                <ExcelExportColumn field="lastName" title="Last Name"
+                                   width={350}/>
 
-          </ExcelExport>
+              </ExcelExport>
 
-          <button type="button" className="fa fa-plus-square btn btn-success" onClick={this.handleAddTeacherForm}> Add teacher to data base</button>
+              <button type="button"
+                      className="fa fa-plus-square btn btn-success"
+                      onClick={this.handleAddTeacherForm}> Add teacher to data
+                base
+              </button>
 
-        </div>
-        </div>
-        {addTeacherForm}
-        <br/>
-        {updateTeacherForm}
-      </Fragment>
-    )
+            </div>
+          </div>
+          {addTeacherForm}
+          <br/>
+          {updateTeacherForm}
+          <br/>
+          <AddGroupsToTeacherPageContainer/>
+        </Fragment>
+    );
   }
 }

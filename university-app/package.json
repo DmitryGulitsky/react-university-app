@@ -8,6 +8,7 @@
     "axios": "^0.18.0",
     "npm": "^6.6.0",
     "prop-types": "^15.6.2",
+    "rc-checkbox": "^2.1.6",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-dropzone": "^8.0.3",
@@ -36,5 +37,8 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "babel-eslint": "^9.0.0"
+  }
 }

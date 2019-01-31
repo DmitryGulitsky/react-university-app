@@ -86,6 +86,7 @@ export default class UpdateGroupForm extends Component {
                   onChange={e => this.handleChange(e)}
                   placeholder="Enter ID"
                   defaultValue={this.state.idToUpdate}
+                  disabled
               />
             </div>
             <div className="form-group">

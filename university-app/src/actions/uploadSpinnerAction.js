@@ -1,4 +1,4 @@
-import {UPLOAD_SPINNER_ACTION} from "../actions";
+import {UPLOAD_SPINNER_ACTION} from '../actions';
 
 export default function reducer(state = {loading: false}, action) {
   switch (action.type) {

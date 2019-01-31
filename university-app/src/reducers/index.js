@@ -1,8 +1,9 @@
-import { combineReducers } from 'redux';
+import {combineReducers} from 'redux';
 
 import getStudentsReducer from './StudentsPage/getStudentsReducer';
 import addStudentReducer from './StudentsPage/addStudentReducer';
-import dataStudentToUpdateReducer from './StudentsPage/dataStudentToUpdateReducer';
+import dataStudentToUpdateReducer
+  from './StudentsPage/dataStudentToUpdateReducer';
 import updateStudentReducer from './StudentsPage/updateStudentsReaducer';
 
 import getGroupsReducer from './GroupsPage/getGroupsReducer';
@@ -12,11 +13,13 @@ import updateGroupReducer from './GroupsPage/updateGroupsReducer';
 
 import getTeacherReducer from './TeachersPage/getTeachersReducer';
 import addTeacherReducer from './TeachersPage/addTeacherReducer';
-import dataTeacherToUpdateReducer from './TeachersPage/dataTeacherToUpdateReducer';
+import dataTeacherToUpdateReducer
+  from './TeachersPage/dataTeacherToUpdateReducer';
 import updateTeachersReducer from './TeachersPage/updateTeachersReaducer';
 
 import addStudentToGroupReducer from './GroupsPage/addStudentsToGroupReducer';
-import addGroupsToTeacherReducer from './TeachersPage/addGroupsToTeacherReducer';
+import addGroupsToTeacherReducer
+  from './TeachersPage/addGroupsToTeacherReducer';
 
 import getByIdReducer from './getByIdReducer';
 import uploadSpinnerReducer from './uploadSpinnerReducer';

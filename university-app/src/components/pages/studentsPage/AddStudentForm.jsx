@@ -1,20 +1,27 @@
 import React, {Component} from 'react';
-import "react-table/react-table.css";
+import 'react-table/react-table.css';
+import {getGroups} from '../../../actions';
+import store from '../../../store';
 
 export default class AddStudentForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstName: "",
-      firstNameError: "",
-      lastName: "",
-      lastNameError: "",
-      idGroup: ""
+      firstName: '',
+      firstNameError: '',
+      lastName: '',
+      lastNameError: '',
+      idGroup: ''
     };
     this.handleAdd = this.handleAdd.bind(this);
   }
 
+  componentDidMount() {
+    store.dispatch(getGroups());
+  }
+
   handleChange = event => {
+    console.log(event.target.value);
     this.setState({
       [event.target.name]: event.target.value
     });
@@ -68,8 +75,23 @@ export default class AddStudentForm extends Component {
     }
   }
 
-  render()
-  {
+  render() {
+
+    const inputGroupIdForm =
+        <select
+            name="idGroup"
+            className="form-control"
+            id="id-number"
+            onChange={e => this.handleChange(e)}
+            defaultValue="1"
+        >
+          { this.props.groups && this.props.groups.map(group => {
+            return (
+                <option value={group.id} key={group.id}>{group.number}</option>
+            )
+          })}
+        </select>;
+
     const firstNameErrorText = this.state.firstNameError ?
         <p className="text-danger">{this.state.firstNameError}</p> :
         null;
@@ -81,8 +103,8 @@ export default class AddStudentForm extends Component {
         <div className="dropzone-container gradient-background">
           <h3>ADD STUDENT</h3>
           <p>Here you can add new student to data base. Enter please first and
-            last name, id of the group. Then
-            push the button. Student's ID generate automatically</p>
+            last name, number of the group. Then push the button. Student's ID
+            generate automatically</p>
           <form
               id="addStudentForm"
               className="add-student-form"
@@ -112,16 +134,8 @@ export default class AddStudentForm extends Component {
               {lastNameErrorText}
             </div>
             <div className="form-group">
-              <label htmlFor="id-number">Enter students's group ID
-                number</label>
-              <input
-                  name="idGroup"
-                  type="number"
-                  className="form-control"
-                  id="id-number"
-                  onChange={e => this.handleChange(e)}
-                  placeholder="1"
-              />
+              <label htmlFor="id-number">Choose students's group number</label>
+              {inputGroupIdForm}
             </div>
             <button type="submit" className="btn btn-primary">Submit</button>
           </form>
@@ -131,6 +145,6 @@ export default class AddStudentForm extends Component {
         <div>
           {addStudentForm}
         </div>
-    )
+    );
   }
 }

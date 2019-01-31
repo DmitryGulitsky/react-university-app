@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import "react-table/react-table.css";
+import 'react-table/react-table.css';
 
 export default class UpdateTeacherForm extends Component {
 
@@ -10,7 +10,7 @@ export default class UpdateTeacherForm extends Component {
       firstNameToUpdate: this.props.dataTeacherToUpdate.firstName,
       firstNameError: '',
       lastNameToUpdate: this.props.dataTeacherToUpdate.lastName,
-      lastNameError: '',
+      lastNameError: ''
     };
     this.handleUpdate = this.handleUpdate.bind(this);
   }
@@ -69,6 +69,7 @@ export default class UpdateTeacherForm extends Component {
       this.props.onUpdateTeacher(id, firstName, lastName);
     }
   }
+
   render() {
     const firstNameErrorText = this.state.firstNameError ?
         <p className="text-danger">{this.state.firstNameError}</p> :
@@ -95,6 +96,7 @@ export default class UpdateTeacherForm extends Component {
                   onChange={e => this.handleChange(e)}
                   placeholder="Enter ID"
                   defaultValue={this.state.idToUpdate}
+                  disabled
               />
             </div>
             <div className="form-group">
@@ -131,6 +133,6 @@ export default class UpdateTeacherForm extends Component {
         <div>
           {updateTeacherForm}
         </div>
-    )
+    );
   }
 }

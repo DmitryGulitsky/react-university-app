@@ -1,6 +1,7 @@
-import { connect } from 'react-redux';
-import UpdateStudentForm from '../../components/pages/studentsPage/UpdateStudentForm';
-import { updateStudent } from '../../actions/index';
+import {connect} from 'react-redux';
+import UpdateStudentForm
+  from '../../components/pages/studentsPage/UpdateStudentForm';
+import {updateStudent} from '../../actions/index';
 
 function mapStateToProps(state) { // сопоставить состояния со свойствами. Эта функция для данных - массив с адресами
   return {

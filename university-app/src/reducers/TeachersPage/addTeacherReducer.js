@@ -1,4 +1,4 @@
-import {ADD_TEACHER} from "../../actions/index";
+import {ADD_TEACHER} from '../../actions/index';
 
 export default function reducer(state = [], action) {
   switch (action.type) {

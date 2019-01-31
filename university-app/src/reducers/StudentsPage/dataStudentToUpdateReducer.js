@@ -1,4 +1,4 @@
-import {DATA_STUDENT_TO_UPDATE} from "../../actions/index";
+import {DATA_STUDENT_TO_UPDATE} from '../../actions/index';
 
 export default function reducer(state = {}, action) {
   switch (action.type) {
