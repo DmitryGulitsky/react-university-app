@@ -21,7 +21,6 @@ import addStudentToGroupReducer from './GroupsPage/addStudentsToGroupReducer';
 import addGroupsToTeacherReducer
   from './TeachersPage/addGroupsToTeacherReducer';
 
-import getByIdReducer from './getByIdReducer';
 import uploadSpinnerReducer from './uploadSpinnerReducer';
 
 const reducer = combineReducers({
@@ -39,7 +38,6 @@ const reducer = combineReducers({
   teacherToUpdate: updateTeachersReducer,
   uploadedStudentToGroupFiles: addStudentToGroupReducer,
   uploadedGroupsToTeacherFiles: addGroupsToTeacherReducer,
-  getById: getByIdReducer,
   loading: uploadSpinnerReducer
 });
 

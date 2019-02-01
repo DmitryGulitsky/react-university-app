@@ -1,7 +1,9 @@
 import axios from 'axios';
 
 export const REQUEST_GROUPS = 'REQUEST_GROUPS';
-export const GET_GROUPS = 'GET_GROUP';
+export const GET_GROUPS = 'GET_GROUPS';
+export const REQUEST_GROUPS_BY_ID = 'REQUEST_GROUPS_BY_ID';
+export const GET_GROUPS_BY_ID = 'GET_GROUPS_BY_ID';
 export const DATA_GROUP_TO_UPDATE = 'DATA_GROUP_TO_UPDATE';
 export const ADD_GROUP = 'ADD_GROUP';
 export const DELETE_GROUP = 'DELETE_GROUP';
@@ -25,6 +27,25 @@ export function getGroups() {
   };
 }
 
+export function getGroupsById(id) { // из этой функции возвращаем другую функцию, которая принимает функцию dispatch. Делается для того, чтобы можно было генерировать несколько действий в рамках одной функции
+  return dispatch => {  // вызываем функцию до отправки запроса
+    dispatch({
+      type: REQUEST_GROUPS_BY_ID
+    });
+    return axios.get(`${apiURL}/groups/getByTeacherId/${id}`)
+        .then(function(response) {
+          console.log('response.data', response.data);
+          console.log('response.status', response.status);
+          return response;
+        })
+        .then(response => response.data)
+        .then(groups => dispatch({
+          type: GET_GROUPS_BY_ID,
+          groups
+        }));
+  };
+}
+
 export const dataGroupToUpdate = (dataGroupToUpdate) => {
   return dispatch => {
     dispatch({
@@ -36,15 +57,16 @@ export const dataGroupToUpdate = (dataGroupToUpdate) => {
 
 export function addGroup(number, teacher, teachersList) {
   let teachersListToUrl = '';
-    teachersList.map(teacherId => {
-      console.log('teachersListToUrl',teachersListToUrl);
+  teachersList.map(teacherId => {
+    console.log('teachersListToUrl', teachersListToUrl);
     return (
         teachersListToUrl += `&teacherIdList=${teacherId}`
     );
   });
-  return axios.post(`${apiURL}/groups/?curatorId=${teacher}${teachersListToUrl}`, {
-    number
-  }).then(function(response) {
+  return axios.post(
+      `${apiURL}/groups/?curatorId=${teacher}${teachersListToUrl}`, {
+        number
+      }).then(function(response) {
     console.log('response.data', response.data);
     console.log('response.status', response.status);
     return response;

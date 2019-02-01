@@ -1,8 +1,11 @@
-import {GET_GROUPS, DELETE_GROUP} from '../../actions/index';
+import {GET_GROUPS, GET_GROUPS_BY_ID, DELETE_GROUP} from '../../actions/index';
 
 export default function reducer(state = [], action) {
   switch (action.type) {
     case GET_GROUPS:
+      return action.groups;
+
+    case GET_GROUPS_BY_ID:
       return action.groups;
 
     case DELETE_GROUP:

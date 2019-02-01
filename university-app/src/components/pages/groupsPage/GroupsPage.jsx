@@ -8,7 +8,11 @@ import AddGroupFormContainer
 import AddStudentToGroupsPageContainer
   from '../../../containers/AddStudentToGroupsPageContainer';
 import store from '../../../store';
-import {getGroups} from '../../../actions';
+import {
+  getGroups,
+  getTeachers,
+  getGroupsById,
+} from '../../../actions';
 import {
   ExcelExport,
   ExcelExportColumn
@@ -19,17 +23,19 @@ export default class GroupsPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      accepted: [],
-      rejected: [],
-      numberToUpdate: this.props.dataGroupToUpdate.number,
-      numberError: '',
-      teacherToUpdate: this.props.dataGroupToUpdate.teacher,
+      idTeacher: '1',
+      displayAllGroups: true,
+      displayByTeacherIdGroups: false,
       displayAddForm: false,
       displayUpdateForm: false
     };
-
+    this.handleGetGroupsById = this.handleGetGroupsById.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleAddGroupForm = this.handleAddGroupForm.bind(this);
+    this.handleShowAllGroups = this.handleShowAllGroups.bind(this);
+    this.handleShowGroupsByTeacherId = this.handleShowGroupsByTeacherId.bind(this);
+
   }
 
   _exporter;
@@ -57,6 +63,40 @@ export default class GroupsPage extends Component {
 
   componentDidMount() {
     store.dispatch(getGroups());  // получаем данные с сервера до рендеринга
+  }
+
+  handleShowAllGroups() {
+    store.dispatch(getGroups());
+    this.setState({
+      ...this.state,
+      displayAllGroups: true,
+      displayByTeacherIdGroups: false,
+    });
+  }
+
+  handleShowGroupsByTeacherId() {
+    store.dispatch(getTeachers());
+    this.setState({
+      ...this.state,
+      displayAllGroups: false,
+      displayByTeacherIdGroups: true,
+    });
+  }
+
+  handleChange = event => {
+    console.log(event.target.value);
+    this.setState({
+      [event.target.name]: event.target.value
+    });
+    console.log('this.state - ',this.state);
+  };
+
+  handleGetGroupsById(event){
+    event.preventDefault();
+    console.log('this.state.idTeacher - ',this.state.idTeacher);
+    const id = this.state.idTeacher;
+
+    store.dispatch(getGroupsById(id));
   }
 
   handleDelete(id) {
@@ -135,6 +175,39 @@ export default class GroupsPage extends Component {
       }
     ];
 
+    const inputTeacherIdForm = this.state.displayByTeacherIdGroups ?
+        <form
+            id="get-id-form"
+            className="form-group"
+            onSubmit={this.handleGetGroupsById}>
+          <div className="form-group">
+            <div className="form-group">
+              <label htmlFor="id-number">Choose groups's teacher first name</label>
+              <select
+                  name="idGroup"
+                  className="form-control"
+                  id="id-number"
+                  onChange={e => this.handleChange(e)}
+                  defaultValue="1"
+              >
+                {this.props.teachers && this.props.teachers.map(teacher => {
+                  return (
+                      <option value={teacher.id}
+                              key={teacher.id}>{teacher.firstName} {teacher.lastName}</option>
+                  );
+                })}
+              </select>
+            </div>
+            <div className="form-group">
+              <button type="submit" className="btn btn-primary">GET IT FROM
+                SERVER
+              </button>
+            </div>
+          </div>
+        </form>
+        :
+        null;
+
     const addGroupForm = this.state.displayAddForm ?
         <AddGroupFormContainer/> :
         null;
@@ -153,6 +226,19 @@ export default class GroupsPage extends Component {
               To download Excel file with groups list push the blue button. To
               add group to database push the orange one
             </p>
+            <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={this.handleShowAllGroups}>Show all groups
+            </button>
+            <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={this.handleShowGroupsByTeacherId}>Show by teacher
+            </button>
+
+            {inputTeacherIdForm}
+
             <ReactTable
                 id="react-table"
                 columns={columns}
@@ -162,6 +248,19 @@ export default class GroupsPage extends Component {
                 defaultPageSize={5}
                 noDataText={'Please wait...'}
             >
+              {(state, makeTable) => {
+                return (
+                    <div
+                        style={{
+                          background: '#7b7b7b',
+                          borderRadius: '5px',
+                          overflow: 'hidden'
+                        }}
+                    >
+                      {makeTable()}
+                    </div>
+                );
+              }}
             </ReactTable>
 
             <div>

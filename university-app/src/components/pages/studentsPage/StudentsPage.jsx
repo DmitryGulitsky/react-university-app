@@ -6,7 +6,7 @@ import UpdateStudentFormContainer
 import AddStudentFormContainer
   from '../../../containers/studentsPage/AddStudentFormContainer';
 import store from '../../../store';
-import {getStudents, getGroups} from '../../../actions';
+import {getGroups, getStudents, getStudentsById} from '../../../actions';
 import {
   ExcelExport,
   ExcelExportColumn
@@ -17,17 +17,18 @@ export default class StudentsPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      accepted: [],   // массив файлов готовых к отправке
-      rejected: [],   // массив отклоненных
-      firstNameToUpdate: '',
-      firstNameError: '',
-      lastNameToUpdate: '',
-      idGroupToUpdate: '',
+      idGroup: '1',
+      displayAllStudents: true,
+      displayByGroupIdStudents: false,
       displayAddForm: false,
       displayUpdateForm: false
     };
+    this.handleGetStudentsById = this.handleGetStudentsById.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleAddStudentForm = this.handleAddStudentForm.bind(this);
+    this.handleShowAllStudents = this.handleShowAllStudents.bind(this);
+    this.handleShowStudentsByGroupId = this.handleShowStudentsByGroupId.bind(this);
   }
 
   _exporter;
@@ -54,7 +55,40 @@ export default class StudentsPage extends Component {
 
   componentDidMount() {
     store.dispatch(getStudents());  // получаем данные с сервера до рендеринга
+  }
+
+  handleShowAllStudents() {
+    store.dispatch(getStudents());
+    this.setState({
+      ...this.state,
+      displayAllStudents: true,
+      displayByGroupIdStudents: false,
+    });
+  }
+
+  handleShowStudentsByGroupId() {
     store.dispatch(getGroups());
+    this.setState({
+      ...this.state,
+      displayAllStudents: false,
+      displayByGroupIdStudents: true,
+    });
+  }
+
+  handleChange = event => {
+    console.log(event.target.value);
+    this.setState({
+      [event.target.name]: event.target.value
+    });
+    console.log('this.state - ',this.state);
+  };
+
+  handleGetStudentsById(event){
+    event.preventDefault();
+    console.log('this.state.idGroup - ',this.state.idGroup);
+    const id = this.state.idGroup;
+
+    store.dispatch(getStudentsById(id));
   }
 
   handleDelete(id) {
@@ -73,7 +107,6 @@ export default class StudentsPage extends Component {
       id: studentOriginal.id,
       firstName: studentOriginal.firstName,
       lastName: studentOriginal.lastName,
-      groupId: '1'
     };
 
     this.props.dataStudentToUpdate(student);
@@ -129,6 +162,39 @@ export default class StudentsPage extends Component {
       }
     ];
 
+    const inputGroupIdForm = this.state.displayByGroupIdStudents ?
+        <form
+            id="get-id-form"
+            className="form-group"
+            onSubmit={this.handleGetStudentsById}>
+          <div className="form-group">
+            <div className="form-group">
+              <label htmlFor="id-number">Choose students's group number</label>
+              <select
+                  name="idGroup"
+                  className="form-control"
+                  id="id-number"
+                  onChange={e => this.handleChange(e)}
+                  defaultValue="1"
+              >
+                {this.props.groups && this.props.groups.map(group => {
+                  return (
+                      <option value={group.id}
+                              key={group.id}>{group.number}</option>
+                  );
+                })}
+              </select>
+            </div>
+            <div className="form-group">
+              <button type="submit" className="btn btn-primary">GET IT FROM
+                SERVER
+              </button>
+            </div>
+          </div>
+        </form>
+            :
+        null;
+
     const addStudentForm = this.state.displayAddForm ?
         <AddStudentFormContainer/> :
         null;
@@ -147,6 +213,19 @@ export default class StudentsPage extends Component {
               To download Excel file with students list push the blue button. To
               add student to database push the orange one
             </p>
+            <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={this.handleShowAllStudents}>Show all students
+            </button>
+            <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={this.handleShowStudentsByGroupId}>Show by group number
+            </button>
+
+           {inputGroupIdForm}
+
             <ReactTable
                 id="react-table"
                 columns={columns}

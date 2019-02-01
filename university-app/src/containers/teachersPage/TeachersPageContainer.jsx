@@ -5,6 +5,7 @@ import { dataTeacherToUpdate, deleteTeacher } from "../../actions/index";
 function mapStateToProps(state) { // сопоставить состояния со свойствами. Эта функция для данных - массив с адресами
   return {
     teachers: state.teachers,
+    groups: state.groups,
     dataTeacherToUpdate: state.dataTeacherToUpdate,
   }
 }

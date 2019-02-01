@@ -45,7 +45,7 @@ export default class AddStudentToGroupsPage extends Component {
     };
 
     return (
-        <div className="dropzone-container">
+        <div className="dropzone-container gradient-background">
           <p>It's page to upload excel file with data to add student to a
             group</p>
           <Dropzone

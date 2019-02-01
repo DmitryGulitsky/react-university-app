@@ -8,7 +8,11 @@ import AddTeacherFormContainer
 import AddGroupsToTeacherPageContainer
   from '../../../containers/AddGroupsToTeacherPageContainer';
 import store from '../../../store';
-import {getTeachers} from '../../../actions';
+import {
+  getGroups,
+  getTeachersById,
+  getTeachers
+} from '../../../actions';
 import {
   ExcelExport,
   ExcelExportColumn
@@ -19,17 +23,19 @@ export default class TeachersPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      accepted: [],
-      rejected: [],
-      firstNameToUpdate: '',
-      firstNameError: '',
-      lastNameToUpdate: '',
-      idGroupToUpdate: '',
+      idGroup: '1',
+      displayAllTeachers: true,
+      displayByGroupIdTeachers: false,
       displayAddForm: false,
       displayUpdateForm: false
     };
+    this.handleGetTeachersById = this.handleGetTeachersById.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleAddTeacherForm = this.handleAddTeacherForm.bind(this);
+    this.handleShowAllTeachers = this.handleShowAllTeachers.bind(this);
+    this.handleShowTeachersByGroupId = this.handleShowTeachersByGroupId.bind(this);
+
   }
 
   _exporter;
@@ -57,6 +63,39 @@ export default class TeachersPage extends Component {
 
   componentDidMount() {
     store.dispatch(getTeachers());  // получаем данные с сервера до рендеринга
+  }
+
+  handleShowAllTeachers() {
+    store.dispatch(getTeachers());
+    this.setState({
+      ...this.state,
+      displayAllTeachers: true,
+      displayByGroupIdTeachers: false,
+    });
+  }
+
+  handleShowTeachersByGroupId() {
+    store.dispatch(getGroups());
+    this.setState({
+      ...this.state,
+      displayAllTeachers: false,
+      displayByGroupIdTeachers: true,
+    });
+  }
+
+  handleChange = event => {
+    console.log(event.target.value);
+    this.setState({
+      [event.target.name]: event.target.value
+    });
+    console.log('this.state - ',this.state);
+  };
+
+  handleGetTeachersById(event){
+    event.preventDefault();
+    console.log('this.state.idGroup - ',this.state.idGroup);
+    const id = this.state.idGroup;
+    store.dispatch(getTeachersById(id));
   }
 
   handleDelete(id) {
@@ -129,6 +168,39 @@ export default class TeachersPage extends Component {
       }
     ];
 
+    const inputGroupIdForm = this.state.displayByGroupIdTeachers ?
+        <form
+            id="get-id-form"
+            className="form-group"
+            onSubmit={this.handleGetTeachersById}>
+          <div className="form-group">
+            <div className="form-group">
+              <label htmlFor="id-number">Choose teacher's group number</label>
+              <select
+                  name="idGroup"
+                  className="form-control"
+                  id="id-number"
+                  onChange={e => this.handleChange(e)}
+                  defaultValue="1"
+              >
+                {this.props.groups && this.props.groups.map(group => {
+                  return (
+                      <option value={group.id}
+                              key={group.id}>{group.number}</option>
+                  );
+                })}
+              </select>
+            </div>
+            <div className="form-group">
+              <button type="submit" className="btn btn-primary">GET IT FROM
+                SERVER
+              </button>
+            </div>
+          </div>
+        </form>
+        :
+        null;
+
     const addTeacherForm = this.state.displayAddForm ?
         <AddTeacherFormContainer/> :
         null;
@@ -147,6 +219,19 @@ export default class TeachersPage extends Component {
               To download Excel file with teachers list push the blue button. To
               add teacher to database push the orange one.
             </p>
+            <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={this.handleShowAllTeachers}>Show all teachers
+            </button>
+            <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={this.handleShowTeachersByGroupId}>Show by group number
+            </button>
+
+            {inputGroupIdForm}
+
             <ReactTable
                 id="react-table"
                 columns={columns}
@@ -171,7 +256,7 @@ export default class TeachersPage extends Component {
               }}
             </ReactTable>
 
-            <div>
+            <div className="buttons-container">
               <button
                   className="btn btn-primary"
                   onClick={this.export}>Export teachers list to Excel

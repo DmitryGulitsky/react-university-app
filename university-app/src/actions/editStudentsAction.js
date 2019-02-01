@@ -2,6 +2,8 @@ import axios from 'axios';
 
 export const REQUEST_STUDENTS = 'REQUEST_STUDENTS';
 export const GET_STUDENTS = 'GET_STUDENT';
+export const REQUEST_STUDENTS_BY_ID = 'REQUEST_STUDENTS_BY_ID';
+export const GET_STUDENTS_BY_ID = 'GET_STUDENTS_BY_ID';
 export const DATA_STUDENT_TO_UPDATE = 'DATA_STUDENT_TO_UPDATE';
 export const ADD_STUDENT = 'ADD_STUDENT';
 export const DELETE_STUDENT = 'DELETE_STUDENT';
@@ -21,9 +23,29 @@ export function getStudents() { // из этой функции возвраща
           console.log('response.data', response.data);
           console.log('response.status', response.status);
           return response;
-        }).then(response => response.data)    //  после получения ответа от сервера вызовем у объекта свойство data
+        })
+        .then(response => response.data)    //  после получения ответа от сервера вызовем у объекта свойство data
         .then(students => dispatch({        //  объект вернем после получения ответа от сервера
           type: GET_STUDENTS,
+          students
+        }));
+  };
+}
+
+export function getStudentsById(id) { // из этой функции возвращаем другую функцию, которая принимает функцию dispatch. Делается для того, чтобы можно было генерировать несколько действий в рамках одной функции
+  return dispatch => {  // вызываем функцию до отправки запроса
+    dispatch({
+      type: REQUEST_STUDENTS_BY_ID
+    });
+    return axios.get(`${apiURL}/students/getByGroupId/${id}`)
+    .then(function(response) {
+      console.log('response.data', response.data);
+      console.log('response.status', response.status);
+      return response;
+    })
+        .then(response => response.data)
+        .then(students => dispatch({
+          type: GET_STUDENTS_BY_ID,
           students
         }));
   };
