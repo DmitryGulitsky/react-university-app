@@ -1,10 +1,8 @@
 import axios from 'axios';
+import {SHOW_LOADER, HIDE_LOADER} from './loaderAction';
 
-export const REQUEST_GROUPS = 'REQUEST_GROUPS';
 export const GET_GROUPS = 'GET_GROUPS';
-export const REQUEST_GROUPS_BY_ID = 'REQUEST_GROUPS_BY_ID';
 export const GET_GROUPS_BY_ID = 'GET_GROUPS_BY_ID';
-export const DATA_GROUP_TO_UPDATE = 'DATA_GROUP_TO_UPDATE';
 export const ADD_GROUP = 'ADD_GROUP';
 export const DELETE_GROUP = 'DELETE_GROUP';
 export const UPDATE_GROUP = 'UPDATE_GROUP';
@@ -14,23 +12,30 @@ const apiURL = 'http://localhost:8080/university';
 export function getGroups() {
   return dispatch => {
     dispatch({
-      type: REQUEST_GROUPS
+      type: SHOW_LOADER
     });
     return axios.get(`${apiURL}/groups/`).then(function(response) {
       console.log('response.data', response.data);
       console.log('response.status', response.status);
       return response;
-    }).then(response => response.data).then(groups => dispatch({
+    })
+    .then(response => response.data)
+    .then(groups => dispatch({
       type: GET_GROUPS,
       groups
-    }));
+    }))
+    .then(() => {
+      dispatch({
+        type: HIDE_LOADER
+      });
+    });
   };
 }
 
 export function getGroupsById(id) { // из этой функции возвращаем другую функцию, которая принимает функцию dispatch. Делается для того, чтобы можно было генерировать несколько действий в рамках одной функции
-  return dispatch => {  // вызываем функцию до отправки запроса
+  return dispatch => {
     dispatch({
-      type: REQUEST_GROUPS_BY_ID
+      type: SHOW_LOADER
     });
     return axios.get(`${apiURL}/groups/getByTeacherId/${id}`)
         .then(function(response) {
@@ -42,7 +47,12 @@ export function getGroupsById(id) { // из этой функции возвра
         .then(groups => dispatch({
           type: GET_GROUPS_BY_ID,
           groups
-        }));
+        }))
+    .then(() => {
+      dispatch({
+        type: HIDE_LOADER
+      });
+    });
   };
 }
 
@@ -54,17 +64,25 @@ export function addGroup(number, teacher, teachersList) {
         teachersListToUrl += `&teacherIdList=${teacherId}`
     );
   });
-  return axios.post(
-      `${apiURL}/groups/?curatorId=${teacher}${teachersListToUrl}`, {
-        number
-      }).then(function(response) {
-    console.log('response.data', response.data);
-    console.log('response.status', response.status);
-    return response;
-  }).then(response => response.data).then(groupToAdd => ({
-    type: ADD_GROUP,
-    groupToAdd
-  }));
+  return dispatch => {
+    dispatch({
+      type: SHOW_LOADER
+    });
+    return axios.post(
+        `${apiURL}/groups/?curatorId=${teacher}${teachersListToUrl}`, {
+          number
+        })
+    .then(response => response.data)
+    .then(groupToAdd => ({
+      type: ADD_GROUP,
+      groupToAdd
+    }))
+    .then(() => {
+      dispatch({
+        type: HIDE_LOADER
+      });
+    });
+  }
 }
 
 export function deleteGroup(id) {
@@ -75,13 +93,22 @@ export function deleteGroup(id) {
 }
 
 export function updateGroup(id, {number, teacher}) {
-  return axios.put(`${apiURL}/groups/${id}`,
-      {
-        number,
-        teacher
-      }).then(response => response.data).then(groupToUpdate => ({
-    type: UPDATE_GROUP,
-    groupToUpdate
-  }));
-
+  return dispatch => {
+    dispatch({
+      type: SHOW_LOADER
+    });
+    return axios.put(`${apiURL}/groups/${id}`,
+        {
+          number,
+          teacher
+        }).then(response => response.data).then(groupToUpdate => ({
+      type: UPDATE_GROUP,
+      groupToUpdate
+    }))
+    .then(() => {
+      dispatch({
+        type: HIDE_LOADER
+      });
+    });
+  }
 }
