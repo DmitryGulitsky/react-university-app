@@ -2,8 +2,8 @@ import {combineReducers} from 'redux';
 
 import getStudentsReducer from './StudentsPage/getStudentsReducer';
 import addStudentReducer from './StudentsPage/addStudentReducer';
-import dataStudentToUpdateReducer
-  from './StudentsPage/dataStudentToUpdateReducer';
+import dataToUpdateReducer
+  from './AddUpdateItemForm/dataToUpdateReducer';
 import updateStudentReducer from './StudentsPage/updateStudentsReaducer';
 
 import getGroupsReducer from './GroupsPage/getGroupsReducer';
@@ -21,14 +21,14 @@ import addStudentToGroupReducer from './GroupsPage/addStudentsToGroupReducer';
 import addGroupsToTeacherReducer
   from './TeachersPage/addGroupsToTeacherReducer';
 
-import changeFormTypeReducer from './changeFormTypeReducer';
+import changeFormTypeReducer from './AddUpdateItemForm/changeFormTypeReducer';
 
 import loaderReducer from './loaderReducer';
 
 const reducer = combineReducers({
   students: getStudentsReducer,
   studentToAdd: addStudentReducer,
-  dataStudentToUpdate: dataStudentToUpdateReducer,
+  dataToUpdate: dataToUpdateReducer,
   studentToUpdate: updateStudentReducer,
   groups: getGroupsReducer,
   groupToAdd: addGroupReducer,

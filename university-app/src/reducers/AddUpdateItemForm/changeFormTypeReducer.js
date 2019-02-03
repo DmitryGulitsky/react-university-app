@@ -5,7 +5,7 @@ import {
   UPDATE_TEACHER_FORM_TYPE,
   ADD_GROUP_FORM_TYPE,
   UPDATE_GROUP_FORM_TYPE
-} from '../actions/index';
+} from '../../actions/index';
 
 export default function reducer(state = {}, action) {
   switch (action.type) {

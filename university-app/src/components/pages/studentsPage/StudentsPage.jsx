@@ -1,10 +1,16 @@
 import React, {Component, Fragment} from 'react';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
-import AddUpdateStudentsFormContainer
-  from '../../../containers/AddUpdateStudentsFormContainer';
+import AddUpdateItemFormContainer
+  from '../../../containers/AddUpdateItemFormContainer';
 import store from '../../../store';
-import {getGroups, getStudents, getStudentsById, addStudentFormType, updateStudentFormType} from '../../../actions';
+import {
+  getGroups,
+  getStudents,
+  getStudentsById,
+  addStudentFormType,
+  updateStudentFormType
+} from '../../../actions';
 import {
   ExcelExport,
   ExcelExportColumn
@@ -73,23 +79,18 @@ export default class StudentsPage extends Component {
   }
 
   handleChange = event => {
-    console.log(event.target.value);
     this.setState({
       [event.target.name]: event.target.value
     });
-    console.log('this.state - ',this.state);
   };
 
   handleGetStudentsById(event){
     event.preventDefault();
-    console.log('this.state.idGroup - ',this.state.idGroup);
     const id = this.state.idGroup;
-
     store.dispatch(getStudentsById(id));
   }
 
   handleDelete(id) {
-    console.log(id);
     this.props.onDeleteStudent(id);
   }
 
@@ -104,15 +105,13 @@ export default class StudentsPage extends Component {
       firstName: studentOriginal.firstName,
       lastName: studentOriginal.lastName,
     };
-
-    this.props.dataStudentToUpdate(student);
+    this.props.dataToUpdate(student);
     store.dispatch(updateStudentFormType());
   }
 
   handleAddStudentForm() {
     this.setState({
       ...this.state,
-      //displayUpdateForm: false,
       displayForm: !this.state.displayForm
     });
     store.dispatch(addStudentFormType());
@@ -195,7 +194,7 @@ export default class StudentsPage extends Component {
 
     const addUpdateStudentForm = this.state.displayForm ?
         <div>
-          <AddUpdateStudentsFormContainer/>
+          <AddUpdateItemFormContainer/>
         </div> :
         null;
 
@@ -277,7 +276,6 @@ export default class StudentsPage extends Component {
           </div>
           {addUpdateStudentForm}
           <br/>
-
         </Fragment>
     );
   }

@@ -1,9 +1,9 @@
 import {connect} from 'react-redux';
 
 import AddGroupsToTeacherPage
-  from '../components/pages/teachersPage/AddGroupsToTeacherPage';
+  from '../../components/pages/teachersPage/AddGroupsToTeacherPage';
 
-import {addGroupsToTeacher} from '../actions';
+import {addGroupsToTeacher} from '../../actions/index';
 
 function mapStateToProps(state) { // сопоставить состояния со свойствами. Эта функция для данных - массив с адресами
   return {

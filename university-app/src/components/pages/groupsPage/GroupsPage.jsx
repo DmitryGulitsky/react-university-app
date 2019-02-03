@@ -1,17 +1,17 @@
 import React, {Component, Fragment} from 'react';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
-import UpdateGroupFormContainer
-  from '../../../containers/groupsPage/UpdateGroupFormContainer';
-import AddGroupFormContainer
-  from '../../../containers/groupsPage/AddGroupFormContainer';
+import AddUpdateItemFormContainer
+  from '../../../containers/AddUpdateItemFormContainer';
 import AddStudentToGroupsPageContainer
-  from '../../../containers/AddStudentToGroupsPageContainer';
+  from '../../../containers/groupsPage/AddStudentToGroupsPageContainer';
 import store from '../../../store';
 import {
   getGroups,
   getTeachers,
   getGroupsById,
+  updateGroupFormType,
+  addGroupFormType
 } from '../../../actions';
 import {
   ExcelExport,
@@ -26,8 +26,7 @@ export default class GroupsPage extends Component {
       idTeacher: '1',
       displayAllGroups: true,
       displayByTeacherIdGroups: false,
-      displayAddForm: false,
-      displayUpdateForm: false
+      displayForm: false
     };
     this.handleGetGroupsById = this.handleGetGroupsById.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -62,7 +61,7 @@ export default class GroupsPage extends Component {
   };
 
   componentDidMount() {
-    store.dispatch(getGroups());  // получаем данные с сервера до рендеринга
+    store.dispatch(getGroups());
   }
 
   handleShowAllGroups() {
@@ -84,18 +83,14 @@ export default class GroupsPage extends Component {
   }
 
   handleChange = event => {
-    console.log(event.target.value);
     this.setState({
       [event.target.name]: event.target.value
     });
-    console.log('this.state - ',this.state);
   };
 
   handleGetGroupsById(event){
     event.preventDefault();
-    console.log('this.state.idTeacher - ',this.state.idTeacher);
     const id = this.state.idTeacher;
-
     store.dispatch(getGroupsById(id));
   }
 
@@ -107,26 +102,24 @@ export default class GroupsPage extends Component {
   handleIdGroupAdd(groupOriginal) {
     this.setState({
       ...this.state,
-      displayAddForm: false,
-      displayUpdateForm: true
+      displayForm: !this.state.displayForm
     });
 
     const group = {
       id: groupOriginal.id,
       number: groupOriginal.number,
-      teacher: groupOriginal.teacher,
-      groupId: '1'
+      idTeacher: groupOriginal.teacher.id,
     };
-
-    this.props.dataGroupToUpdate(group);
+    this.props.dataToUpdate(group);
+    store.dispatch(updateGroupFormType());
   }
 
   handleAddGroupForm() {
     this.setState({
       ...this.state,
-      displayUpdateForm: false,
-      displayAddForm: !this.state.displayAddForm
+      displayForm: !this.state.displayForm
     });
+    store.dispatch(addGroupFormType());
   }
 
   render() {
@@ -184,7 +177,7 @@ export default class GroupsPage extends Component {
             <div className="form-group">
               <label htmlFor="id-number">Choose groups's teacher first name</label>
               <select
-                  name="idGroup"
+                  name="idTeacher"
                   className="form-control"
                   id="id-number"
                   onChange={e => this.handleChange(e)}
@@ -208,11 +201,10 @@ export default class GroupsPage extends Component {
         :
         null;
 
-    const addGroupForm = this.state.displayAddForm ?
-        <AddGroupFormContainer/> :
-        null;
-    const updateGroupForm = this.state.displayUpdateForm ?
-        <UpdateGroupFormContainer/> :
+    const addUpdateGroupForm = this.state.displayForm ?
+        <div>
+          <AddUpdateItemFormContainer/>
+        </div> :
         null;
 
     return (
@@ -287,10 +279,8 @@ export default class GroupsPage extends Component {
 
             </div>
           </div>
-          {addGroupForm}
           <br/>
-          {updateGroupForm}
-          <br/>
+          {addUpdateGroupForm}
           <AddStudentToGroupsPageContainer/>
         </Fragment>
     );

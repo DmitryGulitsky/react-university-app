@@ -46,15 +46,6 @@ export function getGroupsById(id) { // из этой функции возвра
   };
 }
 
-export const dataGroupToUpdate = (dataGroupToUpdate) => {
-  return dispatch => {
-    dispatch({
-      type: DATA_GROUP_TO_UPDATE,
-      dataGroupToUpdate
-    });
-  };
-};
-
 export function addGroup(number, teacher, teachersList) {
   let teachersListToUrl = '';
   teachersList.map(teacherId => {

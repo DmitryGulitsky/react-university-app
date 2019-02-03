@@ -4,7 +4,6 @@ export const REQUEST_STUDENTS = 'REQUEST_STUDENTS';
 export const GET_STUDENTS = 'GET_STUDENT';
 export const REQUEST_STUDENTS_BY_ID = 'REQUEST_STUDENTS_BY_ID';
 export const GET_STUDENTS_BY_ID = 'GET_STUDENTS_BY_ID';
-export const DATA_STUDENT_TO_UPDATE = 'DATA_STUDENT_TO_UPDATE';
 export const ADD_STUDENT = 'ADD_STUDENT';
 export const DELETE_STUDENT = 'DELETE_STUDENT';
 export const UPDATE_STUDENT = 'UPDATE_STUDENT';
@@ -50,15 +49,6 @@ export function getStudentsById(id) { // из этой функции возвр
         }));
   };
 }
-
-export const dataStudentToUpdate = (dataStudentToUpdate) => {
-  return dispatch => {  // вызываем функцию до отправки запроса
-    dispatch({
-      type: DATA_STUDENT_TO_UPDATE,
-      dataStudentToUpdate
-    });
-  };
-};
 
 export function addStudent({firstName, lastName}, groupId) {
   return dispatch => {

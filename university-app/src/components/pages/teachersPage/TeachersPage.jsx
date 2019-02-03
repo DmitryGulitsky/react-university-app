@@ -1,17 +1,17 @@
 import React, {Component, Fragment} from 'react';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
-import UpdateTeacherFormContainer
-  from '../../../containers/teachersPage/UpdateTeacherFormContainer';
-import AddTeacherFormContainer
-  from '../../../containers/teachersPage/AddTeacherFormContainer';
+import AddUpdateItemFormContainer
+  from '../../../containers/AddUpdateItemFormContainer';
 import AddGroupsToTeacherPageContainer
-  from '../../../containers/AddGroupsToTeacherPageContainer';
+  from '../../../containers/teachersPage/AddGroupsToTeacherPageContainer';
 import store from '../../../store';
 import {
   getGroups,
+  getTeachers,
   getTeachersById,
-  getTeachers
+  addTeacherFormType,
+  updateTeacherFormType,
 } from '../../../actions';
 import {
   ExcelExport,
@@ -26,8 +26,7 @@ export default class TeachersPage extends Component {
       idGroup: '1',
       displayAllTeachers: true,
       displayByGroupIdTeachers: false,
-      displayAddForm: false,
-      displayUpdateForm: false
+      displayForm: false
     };
     this.handleGetTeachersById = this.handleGetTeachersById.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -57,12 +56,11 @@ export default class TeachersPage extends Component {
         altIdx++;
       }
     });
-
     component.save(options);
   };
 
   componentDidMount() {
-    store.dispatch(getTeachers());  // получаем данные с сервера до рендеринга
+    store.dispatch(getTeachers());
   }
 
   handleShowAllTeachers() {
@@ -84,30 +82,25 @@ export default class TeachersPage extends Component {
   }
 
   handleChange = event => {
-    console.log(event.target.value);
     this.setState({
       [event.target.name]: event.target.value
     });
-    console.log('this.state - ',this.state);
   };
 
   handleGetTeachersById(event){
     event.preventDefault();
-    console.log('this.state.idGroup - ',this.state.idGroup);
     const id = this.state.idGroup;
     store.dispatch(getTeachersById(id));
   }
 
   handleDelete(id) {
-    console.log(id);
     this.props.onDeleteTeacher(id);
   }
 
   handleIdTeacherAdd(teacherOriginal) {
     this.setState({
       ...this.state,
-      displayAddForm: false,
-      displayUpdateForm: true
+      displayForm: !this.state.displayForm
     });
 
     const teacher = {
@@ -115,15 +108,16 @@ export default class TeachersPage extends Component {
       firstName: teacherOriginal.firstName,
       lastName: teacherOriginal.lastName
     };
-    this.props.dataTeacherToUpdate(teacher);
+    this.props.dataToUpdate(teacher);
+    store.dispatch(updateTeacherFormType());
   }
 
   handleAddTeacherForm() {
     this.setState({
       ...this.state,
-      displayUpdateForm: false,
-      displayAddForm: !this.state.displayAddForm
+      displayForm: !this.state.displayForm
     });
+    store.dispatch(addTeacherFormType());
   }
 
   render() {
@@ -201,11 +195,10 @@ export default class TeachersPage extends Component {
         :
         null;
 
-    const addTeacherForm = this.state.displayAddForm ?
-        <AddTeacherFormContainer/> :
-        null;
-    const updateTeacherForm = this.state.displayUpdateForm ?
-        <UpdateTeacherFormContainer/> :
+    const addUpdateTeacherForm = this.state.displayForm ?
+        <div>
+          <AddUpdateItemFormContainer/>
+        </div> :
         null;
 
     return (
@@ -285,10 +278,8 @@ export default class TeachersPage extends Component {
 
             </div>
           </div>
-          {addTeacherForm}
           <br/>
-          {updateTeacherForm}
-          <br/>
+          {addUpdateTeacherForm}
           <AddGroupsToTeacherPageContainer/>
         </Fragment>
     );
