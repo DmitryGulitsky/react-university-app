@@ -55,9 +55,11 @@ export function addStudent({firstName, lastName}, groupId) {
     return axios.post(`${apiURL}/students?groupId=${groupId}`, {
       firstName,
       lastName
-    }).then(response => response.data).then(studentToAdd => ({   //  вернем объект действия
+    })
+    .then(response => response.data)
+    .then(studentToAdd => ({
       type: ADD_STUDENT,
-      studentToAdd   // передаем объект student
+      studentToAdd
     }))
     .then(() => {
       dispatch({
@@ -84,7 +86,8 @@ export function updateStudent(id, {firstName, lastName}, groupId) {
           firstName,
           lastName
         })
-    .then(response => response.data).then(studentToUpdate => ({
+    .then(response => response.data)
+    .then(studentToUpdate => ({
       type: UPDATE_STUDENT,
       studentToUpdate
     }))

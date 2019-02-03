@@ -14,7 +14,8 @@ export function getGroups() {
     dispatch({
       type: SHOW_LOADER
     });
-    return axios.get(`${apiURL}/groups/`).then(function(response) {
+    return axios.get(`${apiURL}/groups/`)
+    .then(function(response) {
       console.log('response.data', response.data);
       console.log('response.status', response.status);
       return response;
@@ -38,16 +39,16 @@ export function getGroupsById(id) { // из этой функции возвра
       type: SHOW_LOADER
     });
     return axios.get(`${apiURL}/groups/getByTeacherId/${id}`)
-        .then(function(response) {
-          console.log('response.data', response.data);
-          console.log('response.status', response.status);
-          return response;
-        })
-        .then(response => response.data)
-        .then(groups => dispatch({
-          type: GET_GROUPS_BY_ID,
-          groups
-        }))
+    .then(function(response) {
+      console.log('response.data', response.data);
+      console.log('response.status', response.status);
+      return response;
+    })
+    .then(response => response.data)
+    .then(groups => dispatch({
+      type: GET_GROUPS_BY_ID,
+      groups
+    }))
     .then(() => {
       dispatch({
         type: HIDE_LOADER

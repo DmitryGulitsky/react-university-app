@@ -1,5 +1,6 @@
 import axios from 'axios/index';
 import {SHOW_LOADER, HIDE_LOADER} from './loaderAction';
+import {SHOW_POPUP} from './uploadPopupAction';
 
 export const ADD_GROUPS_TO_TEACHER = 'ADD_GROUPS_TO_TEACHER';
 
@@ -18,9 +19,12 @@ export function addGroupsToTeacher(uploadedGroupsToTeacherFiles) {
           uploadedGroupsToTeacherFiles
         }))
     .then(() => {
-          dispatch({
-            type: HIDE_LOADER
-          });
-        });
+      dispatch({
+        type: HIDE_LOADER
+      });
+      dispatch({
+        type: SHOW_POPUP
+      });
+    });
   };
 }

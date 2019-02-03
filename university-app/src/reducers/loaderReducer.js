@@ -1,6 +1,6 @@
 import {SHOW_LOADER, HIDE_LOADER} from '../actions';
 
-export default function reducer(state = false, action) {
+export default function reducer(state = true, action) {
   switch (action.type) {
 
     case SHOW_LOADER:

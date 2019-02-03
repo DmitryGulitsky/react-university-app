@@ -1,5 +1,6 @@
 import axios from 'axios/index';
 import {SHOW_LOADER, HIDE_LOADER} from './loaderAction';
+import {SHOW_POPUP} from './uploadPopupAction';
 
 export const ADD_STUDENT_TO_GROUP = 'ADD_STUDENT_TO_GROUP';
 
@@ -11,16 +12,19 @@ export function addStudentToGroup(uploadedStudentToGroupFiles) {
       type: SHOW_LOADER
     });
     return axios.post(`${apiURL}/students/upload`,
-        {uploadedStudentToGroupFiles})
-        .then(response => response.data)
-        .then(uploadedStudentToGroupFiles => ({   //  вернем объект действия
-          type: ADD_STUDENT_TO_GROUP,
-          uploadedStudentToGroupFiles   // передаем объект
-        }))
-    .then(() => {
-      dispatch({
-        type: HIDE_LOADER
+      {uploadedStudentToGroupFiles})
+      .then(response => response.data)
+      .then(uploadedStudentToGroupFiles => ({   //  вернем объект действия
+        type: ADD_STUDENT_TO_GROUP,
+        uploadedStudentToGroupFiles   // передаем объект
+      }))
+      .then(() => {
+        dispatch({
+          type: HIDE_LOADER
+        });
+        dispatch({
+          type: SHOW_POPUP
+        });
       });
-    });
   };
 }

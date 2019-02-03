@@ -17,6 +17,7 @@ import {
   ExcelExport,
   ExcelExportColumn
 } from '@progress/kendo-react-excel-export';
+import UploadPopupContainer from '../../../containers/UploadPopupContainer';
 
 export default class TeachersPage extends Component {
 
@@ -281,6 +282,7 @@ export default class TeachersPage extends Component {
           <br/>
           {addUpdateTeacherForm}
           <AddGroupsToTeacherPageContainer/>
+          <UploadPopupContainer />
         </Fragment>
     );
   }

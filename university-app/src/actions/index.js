@@ -6,3 +6,4 @@ export * from './addGroupsToTeacherAction';
 export * from './loaderAction';
 export * from './changeFormTypeAction';
 export * from './dataToUpdateAction';
+export * from './uploadPopupAction';

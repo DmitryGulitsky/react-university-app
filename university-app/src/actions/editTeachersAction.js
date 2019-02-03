@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {SHOW_LOADER, HIDE_LOADER} from './loaderAction';
+import {SHOW_POPUP} from './uploadPopupAction';
 
 export const GET_TEACHERS = 'GET_TEACHERS';
 export const GET_TEACHERS_BY_ID = 'GET_TEACHERS_BY_ID';
@@ -34,11 +35,6 @@ export function getTeachersById(id) { // из этой функции возвр
       type: SHOW_LOADER
     });
     return axios.get(`${apiURL}/teachers/getByGroupId/${id}`)
-    .then(function(response) {
-      console.log('response.data', response.data);
-      console.log('response.status', response.status);
-      return response;
-    })
     .then(response => response.data)
     .then(teachers => dispatch({
           type: GET_TEACHERS_BY_ID,
@@ -60,10 +56,13 @@ export function addTeacher({firstName, lastName}) {
     return axios.post(`${apiURL}/teachers/`, {
       firstName,
       lastName
-    }).then(response => response.data).then(teacherToAdd => ({
+    })
+    .then(response => response.data)
+    .then(teacherToAdd => ({
       type: ADD_TEACHER,
       teacherToAdd
-    })).then(() => {
+    }))
+    .then(() => {
       dispatch({
         type: HIDE_LOADER
       });
@@ -72,7 +71,8 @@ export function addTeacher({firstName, lastName}) {
 }
 
 export function deleteTeacher(id) {
-  return axios.delete(`${apiURL}/teachers/${id}`).then(response => ({
+  return axios.delete(`${apiURL}/teachers/${id}`)
+  .then(response => ({
     type: DELETE_TEACHER,
     id
   }));
@@ -86,11 +86,8 @@ export function updateTeacher(id, {firstName, lastName}) {
     return axios.put(`${apiURL}/teachers/${id}`, {
       firstName,
       lastName
-    }).then(function(response) {
-      console.log('response.data', response.data);
-      console.log('response.status', response.status);
-      return response;
-    }).then(response => response.data).then(teacherToUpdate => ({
+    })
+    .then(response => response.data).then(teacherToUpdate => ({
       type: UPDATE_TEACHER,
       teacherToUpdate
     }))
