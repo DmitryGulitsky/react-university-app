@@ -1,12 +1,10 @@
 import React, {Component, Fragment} from 'react';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
-import UpdateStudentFormContainer
-  from '../../../containers/studentsPage/UpdateStudentFormContainer';
-import AddStudentFormContainer
-  from '../../../containers/studentsPage/AddStudentFormContainer';
+import AddUpdateStudentsFormContainer
+  from '../../../containers/AddUpdateStudentsFormContainer';
 import store from '../../../store';
-import {getGroups, getStudents, getStudentsById} from '../../../actions';
+import {getGroups, getStudents, getStudentsById, addStudentFormType, updateStudentFormType} from '../../../actions';
 import {
   ExcelExport,
   ExcelExportColumn
@@ -20,8 +18,7 @@ export default class StudentsPage extends Component {
       idGroup: '1',
       displayAllStudents: true,
       displayByGroupIdStudents: false,
-      displayAddForm: false,
-      displayUpdateForm: false
+      displayForm: false
     };
     this.handleGetStudentsById = this.handleGetStudentsById.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -99,8 +96,7 @@ export default class StudentsPage extends Component {
   handleIdStudentAdd(studentOriginal) {
     this.setState({
       ...this.state,
-      displayAddForm: false,
-      displayUpdateForm: true
+      displayForm: !this.state.displayForm
     });
 
     const student = {
@@ -110,14 +106,16 @@ export default class StudentsPage extends Component {
     };
 
     this.props.dataStudentToUpdate(student);
+    store.dispatch(updateStudentFormType());
   }
 
   handleAddStudentForm() {
     this.setState({
       ...this.state,
-      displayUpdateForm: false,
-      displayAddForm: !this.state.displayAddForm
+      //displayUpdateForm: false,
+      displayForm: !this.state.displayForm
     });
+    store.dispatch(addStudentFormType());
   }
 
   render() {
@@ -195,11 +193,10 @@ export default class StudentsPage extends Component {
             :
         null;
 
-    const addStudentForm = this.state.displayAddForm ?
-        <AddStudentFormContainer/> :
-        null;
-    const updateStudentForm = this.state.displayUpdateForm ?
-        <UpdateStudentFormContainer/> :
+    const addUpdateStudentForm = this.state.displayForm ?
+        <div>
+          <AddUpdateStudentsFormContainer/>
+        </div> :
         null;
 
     return (
@@ -278,9 +275,9 @@ export default class StudentsPage extends Component {
 
             </div>
           </div>
-          {addStudentForm}
+          {addUpdateStudentForm}
           <br/>
-          {updateStudentForm}
+
         </Fragment>
     );
   }
