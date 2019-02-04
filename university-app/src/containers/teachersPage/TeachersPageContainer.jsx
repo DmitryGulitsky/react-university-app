@@ -6,7 +6,7 @@ function mapStateToProps(state) { // сопоставить состояния �
   return {
     teachers: state.teachers,
     groups: state.groups,
-    dataToUpdate: state.dataToUpdate,
+    dataToUpdate: state.dataToUpdate
   }
 }
 

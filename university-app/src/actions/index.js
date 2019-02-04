@@ -7,3 +7,4 @@ export * from './loaderAction';
 export * from './changeFormTypeAction';
 export * from './dataToUpdateAction';
 export * from './uploadPopupAction';
+export * from './getUploadStatusAction';

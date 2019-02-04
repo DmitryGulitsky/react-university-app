@@ -8,7 +8,7 @@ import {addGroupsToTeacher} from '../../actions/index';
 function mapStateToProps(state) { // сопоставить состояния со свойствами. Эта функция для данных - массив с адресами
   return {
     uploadedGroupsToTeacherFiles: state.uploadedGroupsToTeacherFiles, // копируем в объект uploadedFiles
-    loading: state.loading
+    loading: state.loading,
   };
 }
 

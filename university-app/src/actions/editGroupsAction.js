@@ -15,7 +15,7 @@ export function getGroups() {
       type: SHOW_LOADER
     });
     return axios.get(`${apiURL}/groups/`)
-    .then(function(response) {
+    .then((response) => {
       console.log('response.data', response.data);
       console.log('response.status', response.status);
       return response;

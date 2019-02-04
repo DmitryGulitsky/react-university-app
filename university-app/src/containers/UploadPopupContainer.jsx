@@ -4,6 +4,7 @@ import UploadPopup from '../components/UploadPopup';
 function mapStateToProps(state) {
   return {
     popup: state.popup,
+    uploadStatus: state.uploadStatus
   };
 }
 

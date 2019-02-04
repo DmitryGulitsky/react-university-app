@@ -7,25 +7,31 @@ export default class UploadPopup extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      popup: this.props.popup
+    }
   }
   componentDidMount(){
-    console.log('this.props - ', this.props);
-    console.log('this.state - ', this.state);
+    console.log('POPUP this.props - ', this.props);
+    console.log('POPUP this.state - ', this.state);
   }
   handleHidePopup() {
     store.dispatch(hidePopup())
   }
   render(){
-    const popupTrigger = this.props.popup;
+    console.log('this.props.uploadStatus - ',this.props.uploadStatus);
+
     return (
         <Popup
             modal
-            open={popupTrigger}
+            open={this.props.popup}
             position="right center"
             closeOnDocumentClick
-            onClose={this.handleHidePopup()}
+            contentStyle={{ color: 'black'}}
         >
-          <p>Upload completed!!!</p>
+          {this.props.uploadStatus}
         </Popup>
     )};
 }
+
+//onClose={this.handleHidePopup()}

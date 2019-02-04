@@ -14,11 +14,6 @@ export default class App extends Component {
 
   constructor(props) {
     super(props);
-
-  }
-  componentDidMount(){
-    console.log('this.props - ', this.props);
-    console.log('this.state - ', this.state);
   }
   render(){
   return (
@@ -26,7 +21,7 @@ export default class App extends Component {
         <LoadingOverlay
             active={this.props.loading}
             spinner
-            text="Loading your content..."
+            text="Loading..."
         >
           <div className="App">
             <Header/>

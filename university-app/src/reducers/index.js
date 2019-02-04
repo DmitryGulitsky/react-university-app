@@ -21,7 +21,8 @@ import dataToUpdateReducer
   from './AddUpdateItemForm/dataToUpdateReducer';
 
 import loaderReducer from './loaderReducer';
-import uploadPopupReducer from './uploadPopupReducer'
+import uploadPopupReducer from './uploadPopupReducer';
+import uploadStatusReducer from './getUploadStatusReducer';
 
 const reducer = combineReducers({
   students: getStudentsReducer,
@@ -43,7 +44,8 @@ const reducer = combineReducers({
   dataToUpdate: dataToUpdateReducer,
 
   loading: loaderReducer,
-  popup: uploadPopupReducer
+  popup: uploadPopupReducer,
+  uploadStatus: uploadStatusReducer,
 });
 
 export default reducer;

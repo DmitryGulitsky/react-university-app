@@ -18,7 +18,7 @@ export default class AddStudentToGroupsPage extends Component {
 
     console.log('uploaded files - ', this.state.accepted);
 
-    this.props.onAddStudentToGroup(this.state.accepted);
+    this.props.onAddGroupToTeacher(this.state.accepted);
   }
 
   render() {
