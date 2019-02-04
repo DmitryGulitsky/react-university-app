@@ -8,3 +8,4 @@ export * from './changeFormTypeAction';
 export * from './dataToUpdateAction';
 export * from './uploadPopupAction';
 export * from './getUploadStatusAction';
+export * from './changePageAction';

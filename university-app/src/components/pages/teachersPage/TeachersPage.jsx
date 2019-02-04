@@ -3,8 +3,9 @@ import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 import AddUpdateItemFormContainer
   from '../../../containers/AddUpdateItemFormContainer';
-import AddGroupsToTeacherPageContainer
-  from '../../../containers/teachersPage/AddGroupsToTeacherPageContainer';
+import DropZoneForExcelContainer
+  from '../../../containers/DropZoneForExcelContainer';
+import UploadPopupContainer from '../../../containers/UploadPopupContainer';
 import store from '../../../store';
 import {
   getGroups,
@@ -12,12 +13,12 @@ import {
   getTeachersById,
   addTeacherFormType,
   updateTeacherFormType,
+  changeToTeachersPage
 } from '../../../actions';
 import {
   ExcelExport,
   ExcelExportColumn
 } from '@progress/kendo-react-excel-export';
-import UploadPopupContainer from '../../../containers/UploadPopupContainer';
 
 export default class TeachersPage extends Component {
 
@@ -62,6 +63,7 @@ export default class TeachersPage extends Component {
 
   componentDidMount() {
     store.dispatch(getTeachers());
+    store.dispatch(changeToTeachersPage());
   }
 
   handleShowAllTeachers() {
@@ -281,7 +283,7 @@ export default class TeachersPage extends Component {
           </div>
           <br/>
           {addUpdateTeacherForm}
-          <AddGroupsToTeacherPageContainer/>
+          <DropZoneForExcelContainer/>
           <UploadPopupContainer />
         </Fragment>
     );

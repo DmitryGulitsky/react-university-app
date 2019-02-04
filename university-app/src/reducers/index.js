@@ -23,6 +23,7 @@ import dataToUpdateReducer
 import loaderReducer from './loaderReducer';
 import uploadPopupReducer from './uploadPopupReducer';
 import uploadStatusReducer from './getUploadStatusReducer';
+import changePageReducer from './changePageReducer';
 
 const reducer = combineReducers({
   students: getStudentsReducer,
@@ -46,6 +47,7 @@ const reducer = combineReducers({
   loading: loaderReducer,
   popup: uploadPopupReducer,
   uploadStatus: uploadStatusReducer,
+  page: changePageReducer,
 });
 
 export default reducer;

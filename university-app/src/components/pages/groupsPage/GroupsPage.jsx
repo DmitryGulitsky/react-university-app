@@ -3,21 +3,22 @@ import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 import AddUpdateItemFormContainer
   from '../../../containers/AddUpdateItemFormContainer';
-import AddStudentToGroupsPageContainer
-  from '../../../containers/groupsPage/AddStudentToGroupsPageContainer';
 import store from '../../../store';
 import {
   getGroups,
   getTeachers,
   getGroupsById,
   updateGroupFormType,
-  addGroupFormType
+  addGroupFormType,
+  changeToGroupsPage
 } from '../../../actions';
 import {
   ExcelExport,
   ExcelExportColumn
 } from '@progress/kendo-react-excel-export';
 import UploadPopupContainer from '../../../containers/UploadPopupContainer';
+import DropZoneForExcelContainer
+  from '../../../containers/DropZoneForExcelContainer';
 
 export default class GroupsPage extends Component {
 
@@ -63,6 +64,7 @@ export default class GroupsPage extends Component {
 
   componentDidMount() {
     store.dispatch(getGroups());
+    store.dispatch(changeToGroupsPage());
   }
 
   handleShowAllGroups() {
@@ -282,7 +284,7 @@ export default class GroupsPage extends Component {
           </div>
           <br/>
           {addUpdateGroupForm}
-          <AddStudentToGroupsPageContainer/>
+          <DropZoneForExcelContainer/>
           <UploadPopupContainer />
         </Fragment>
     );

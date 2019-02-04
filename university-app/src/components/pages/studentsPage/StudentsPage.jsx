@@ -9,7 +9,7 @@ import {
   getStudents,
   getStudentsById,
   addStudentFormType,
-  updateStudentFormType
+  updateStudentFormType, changeToStudentsPage
 } from '../../../actions';
 import {
   ExcelExport,
@@ -57,7 +57,8 @@ export default class StudentsPage extends Component {
   };
 
   componentDidMount() {
-    store.dispatch(getStudents());  // получаем данные с сервера до рендеринга
+    store.dispatch(getStudents());
+    store.dispatch(changeToStudentsPage());
   }
 
   handleShowAllStudents() {
