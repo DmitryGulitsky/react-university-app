@@ -5,10 +5,10 @@ import LoadingOverlay from 'react-loading-overlay';
 import Header from './components/header';
 
 import StudentsPageContainer
-  from './containers/studentsPage/StudentsPageContainer';
-import GroupsPageContainer from './containers/groupsPage/GroupsPageContainer';
+  from './components/pages/studentsPage/StudentsPage';
+import GroupsPageContainer from './components/pages/groupsPage/GroupsPage';
 import TeachersPageContainer
-  from './containers/teachersPage/TeachersPageContainer';
+  from './components/pages/teachersPage/TeachersPage';
 
 export default class App extends Component {
 
