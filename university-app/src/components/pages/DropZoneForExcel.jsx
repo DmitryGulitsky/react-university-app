@@ -8,10 +8,12 @@ export default class DropZoneForExcel extends Component {
     this.state = {
       accepted: [],
       rejected: [],
-      page: this.props.page
+      page: this.props.page,
+      showUploadButton: false
     };
 
     this.handleAdd = this.handleAdd.bind(this);
+    this.handleShowUploadButton = this.handleShowUploadButton.bind(this);
   }
 
   handleAdd(event) {
@@ -19,33 +21,43 @@ export default class DropZoneForExcel extends Component {
 
     console.log('DROPZONE this.props - ', this.props);
     console.log('uploaded files - ', this.state.accepted);
-    console.log('this.state.page - ',this.state.page);
+    console.log('this.state.page - ', this.state.page);
     const page = this.props.page;
-    switch(page) {
-      case 'teachersPage':
-        this.props.onAddGroupToTeacher(this.state.accepted);
+    switch (page) {
+      case 'studentsPage':
+        this.props.onAddStudentToGroup(this.state.accepted);
         break;
       case 'groupsPage':
         console.log('GROUPS PAGE UPLOAD');
-        this.props.onAddStudentToGroup(this.state.accepted);
+
+        this.props.onAddGroupToTeacher(this.state.accepted);
         break;
       default:
         break;
     }
   }
 
+  handleShowUploadButton() {
+    this.setState({
+      ...this.state,
+      showUploadButton: true
+    });
+  }
+
   render() {
 
     const baseStyle = {
-      width: '33%',
-      marginLeft: '33%',
-      height: 40,
-      borderWidth: 2,
-      borderColor: '#666',
-      borderStyle: 'dashed',
-      borderRadius: 5
+      width: '100%',
+      margin: 0,
+      padding: 0
+
+      //borderWidth: 2,
+      //borderColor: '#666',
+      //borderStyle: 'dashed',
+      //borderRadius: 5
     };
     const activeStyle = {
+      color: 'black',
       borderStyle: 'solid',
       borderColor: '#6c6',
       backgroundColor: '#eee'
@@ -53,8 +65,8 @@ export default class DropZoneForExcel extends Component {
 
     let dropzoneText = <p>error</p>;
     const page = this.state.page;
-    switch(page) {
-      case 'teachersPage':
+    switch (page) {
+      case 'studentsPage':
         dropzoneText =
             <p>It's page to upload excel file with data to add groups to a
               teacher</p>;
@@ -68,55 +80,69 @@ export default class DropZoneForExcel extends Component {
         break;
     }
 
+    const acceptedFilesInfo = (this.state.accepted.length !== 0) ?
+        <Fragment>
+          <button
+              type="submit"
+              className="btn btn-danger"
+              onClick={this.handleAdd}>Upload!
+          </button>
+          <p>Accepted files</p>
+          <ul>
+            {
+              this.state.accepted.map(
+                  f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
+            }
+          </ul>
+        </Fragment>
+        : null;
+
     return (
         <Fragment>
+          <button
+              type="submit"
+              className="btn btn-secondary">
+            <Dropzone
 
-          <Dropzone
-              accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-              onDrop={(accepted, rejected) => {
-                this.setState({accepted, rejected});
-                console.log(accepted);
-                console.log(rejected);
-              }}
-          >
-            {({getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject, acceptedFiles, rejectedFiles}) => {
-              let styles = {...baseStyle};
-              styles = isDragActive ? {...styles, ...activeStyle} : styles;
+                accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                onDrop={(accepted, rejected) => {
+                  this.setState({accepted, rejected});
+                  console.log(accepted);
+                  console.log(rejected);
+                }}
+            >
+              {({getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject, acceptedFiles, rejectedFiles}) => {
+                let styles = {...baseStyle};
+                styles = isDragActive ? {...styles, ...activeStyle} : styles;
 
-              return (
-                  <div
-                      {...getRootProps()}
-                      style={styles}
-                  >
-                    <input {...getInputProps()} />
-                    <div>
-                      {isDragAccept ? 'Drop' : 'Drag'} Excel file here to
-                      upload data...
+                return (
+                    <div
+                        {...getRootProps()}
+                        style={styles}
+                    >
+                      <input {...getInputProps()} />
+                      <div>
+                        {isDragAccept ? 'Drop' : 'Drag'} .xlsx to
+                        upload data...
+                      </div>
+                      {isDragReject && <div>Unsupported file type...</div>}
                     </div>
-                    {isDragReject && <div>Unsupported file type...</div>}
-                  </div>
-              );
-            }}
-          </Dropzone>
-          <aside>
-            <p>Accepted files</p>
-            <ul>
-              {
-                this.state.accepted.map(
-                    f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
-              }
-            </ul>
-          </aside>
-          <p style={{padding: 0}}>If you want to upload accepted files to
-            server - push SUBMIT button
-            below</p>
-          <form
-              className="form-group"
-              onSubmit={this.handleAdd}>
-            <button type="submit" className="btn btn-primary">Submit</button>
-          </form>
-
+                );
+              }}
+            </Dropzone>
+          </button>
+          {acceptedFilesInfo}
         </Fragment>
     );
   }
 }
+
+// <aside>
+//   <p>Accepted files</p>
+//   <ul>
+//     {
+//       this.state.accepted.map(
+//           f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
+//     }
+//   </ul>
+// </aside>

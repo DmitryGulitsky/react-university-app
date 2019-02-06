@@ -12,8 +12,11 @@ export function addStudentToGroup(uploadedStudentToGroupFiles) {
     dispatch({
       type: SHOW_LOADER
     });
+    const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+    //let fd = new FormData();
+    //fd.append('file',files[0]);
     return axios.post(`${apiURL}/students/upload`,
-      {uploadedStudentToGroupFiles})
+      {uploadedStudentToGroupFiles}, config)
     .then((response) => {
       const uploadStatus = response.status;
       dispatch({
@@ -44,6 +47,7 @@ export function addStudentToGroup(uploadedStudentToGroupFiles) {
         // that falls out of the range of 2xx
         console.log(error.response);
         console.log(error.message);
+        console.log(error.description);
         console.log(error.response.data);
         console.log(error.response.status);
         console.log(error.response.headers);

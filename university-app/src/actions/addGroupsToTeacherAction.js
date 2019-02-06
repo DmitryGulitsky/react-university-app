@@ -12,8 +12,11 @@ export function addGroupsToTeacher(uploadedGroupsToTeacherFiles) {
     dispatch({
       type: SHOW_LOADER
     });
+    const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+    //let fd = new FormData();
+    //fd.append('file',files[0]);
     return axios.post(`${apiURL}/groups/upload`,
-        {uploadedGroupsToTeacherFiles})
+        {uploadedGroupsToTeacherFiles}, config)
     .then((response) => {
       const uploadStatus = response.status;
       dispatch({
@@ -55,7 +58,7 @@ export function addGroupsToTeacher(uploadedGroupsToTeacherFiles) {
         console.log('Error', error.message);
       }
       console.log(error.config);
-      return error.response.status;
+      return error.response.message;
     })
     .then((uploadStatus) => {
       console.log('UPLOAD STATUS', uploadStatus);

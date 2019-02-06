@@ -86,7 +86,7 @@ export function addGroup(number, teacher, teachersList) {
       type: SHOW_LOADER
     });
     return axios.post(
-        `${apiURL}/groups/?curatorId=${teacher}${teachersListToUrl}`, {
+        `${apiURL}/groups?curatorId=${teacher}${teachersListToUrl}`, {
           number
         })
     .then(response => response.data)

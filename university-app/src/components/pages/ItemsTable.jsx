@@ -487,7 +487,7 @@ export default class ItemsTable extends Component {
         </div> :
         null;
 
-    const dropZone = (this.props.page !== 'studentsPage') ?
+    const dropZone = (this.props.page !== 'teachersPage') ?
         <DropZoneForExcelContainer/> :
         null;
 
@@ -549,12 +549,12 @@ export default class ItemsTable extends Component {
                 <ExcelExportColumn field="lastName" title="Last Name"
                                    width={350}/>
               </ExcelExport>
-
               <button type="button"
                       className="fa fa-plus-square btn btn-success"
                       onClick={this.handleAddItemForm}> Add new item to data
                 base
               </button>
+              {dropZone}
             </div>
 
           <div className="add-update-form">
@@ -566,7 +566,7 @@ export default class ItemsTable extends Component {
             </div>
             {addUpdateItemForm}
           </div>
-          {dropZone}
+
           <UploadPopupContainer />
 
         </Fragment>
