@@ -138,6 +138,7 @@ export default class AddUpdateItemForm extends Component {
           this.props.onAddTeacher(firstName, lastName, groupId);
           break;
         case 'addGroup':
+          console.log('STATE - ', this.state);
           this.props.onAddGroup(number, curator, teachers);
           break;
         default:
@@ -320,7 +321,7 @@ export default class AddUpdateItemForm extends Component {
 
               {this.props.teachers && this.props.teachers.map(teacher => {
                 return (
-                    <p>
+                    <p style={{margin: 0,padding: 0}}>
                       <label>
                         <input
                             name={teacher.id}
@@ -474,7 +475,7 @@ export default class AddUpdateItemForm extends Component {
     }
 
     return (
-        <div>
+        <div className="add-update-form">
           {formToRender}
         </div>
     );

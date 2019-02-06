@@ -24,9 +24,19 @@ export function getStudents() {
           dispatch({
             type: HIDE_LOADER
           });
-        });
-  };
+        })
+    .catch((err) => {
+      console.log(err);
+      })
+    .then(() => {
+      dispatch({
+        type: HIDE_LOADER
+      });
+    })
+  }
 }
+
+
 
 export function getStudentsById(id) {
   return dispatch => {
@@ -43,7 +53,15 @@ export function getStudentsById(id) {
           dispatch({
             type: HIDE_LOADER
           });
-        });
+        })
+    .catch((err) => {
+      console.log(err);
+    })
+    .then(() => {
+      dispatch({
+        type: HIDE_LOADER
+      });
+    });
   };
 }
 
@@ -61,6 +79,14 @@ export function addStudent({firstName, lastName}, groupId) {
       type: ADD_STUDENT,
       studentToAdd
     }))
+    .then(() => {
+      dispatch({
+        type: HIDE_LOADER
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    })
     .then(() => {
       dispatch({
         type: HIDE_LOADER
@@ -91,6 +117,14 @@ export function updateStudent(id, {firstName, lastName}, groupId) {
       type: UPDATE_STUDENT,
       studentToUpdate
     }))
+    .then(() => {
+      dispatch({
+        type: HIDE_LOADER
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    })
     .then(() => {
       dispatch({
         type: HIDE_LOADER

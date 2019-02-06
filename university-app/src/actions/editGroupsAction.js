@@ -29,6 +29,14 @@ export function getGroups() {
       dispatch({
         type: HIDE_LOADER
       });
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .then(() => {
+      dispatch({
+        type: HIDE_LOADER
+      });
     });
   };
 }
@@ -49,6 +57,14 @@ export function getGroupsById(id) { // из этой функции возвра
       type: GET_GROUPS_BY_ID,
       groups
     }))
+    .then(() => {
+      dispatch({
+        type: HIDE_LOADER
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    })
     .then(() => {
       dispatch({
         type: HIDE_LOADER
@@ -82,6 +98,14 @@ export function addGroup(number, teacher, teachersList) {
       dispatch({
         type: HIDE_LOADER
       });
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .then(() => {
+      dispatch({
+        type: HIDE_LOADER
+      });
     });
   }
 }
@@ -106,6 +130,14 @@ export function updateGroup(id, {number, teacher}) {
       type: UPDATE_GROUP,
       groupToUpdate
     }))
+    .then(() => {
+      dispatch({
+        type: HIDE_LOADER
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    })
     .then(() => {
       dispatch({
         type: HIDE_LOADER

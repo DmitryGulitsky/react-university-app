@@ -7,20 +7,13 @@ export default class UploadPopup extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      popup: this.props.popup
-    }
+
   }
-  componentDidMount(){
-    console.log('POPUP this.props - ', this.props);
-    console.log('POPUP this.state - ', this.state);
-  }
+
   handleHidePopup() {
     store.dispatch(hidePopup())
   }
   render(){
-    console.log('this.props.uploadStatus - ',this.props.uploadStatus);
-
     return (
         <Popup
             modal
@@ -29,9 +22,17 @@ export default class UploadPopup extends Component {
             closeOnDocumentClick
             contentStyle={{ color: 'black'}}
         >
+          <a
+              className="close"
+              onClick={this.handleHidePopup}
+          style={{
+            backgroundColor: 'red',
+            width: '20px',
+          height: '20px'
+          }}>
+            &times;
+          </a>
           {this.props.uploadStatus}
         </Popup>
     )};
 }
-
-//onClose={this.handleHidePopup()}

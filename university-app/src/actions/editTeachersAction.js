@@ -25,6 +25,14 @@ export function getTeachers() {
       dispatch({
         type: HIDE_LOADER
       });
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .then(() => {
+      dispatch({
+        type: HIDE_LOADER
+      });
     });
   };
 }
@@ -40,6 +48,14 @@ export function getTeachersById(id) { // из этой функции возвр
           type: GET_TEACHERS_BY_ID,
           teachers
         }))
+    .then(() => {
+      dispatch({
+        type: HIDE_LOADER
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    })
     .then(() => {
       dispatch({
         type: HIDE_LOADER
@@ -62,6 +78,14 @@ export function addTeacher({firstName, lastName}) {
       type: ADD_TEACHER,
       teacherToAdd
     }))
+    .then(() => {
+      dispatch({
+        type: HIDE_LOADER
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    })
     .then(() => {
       dispatch({
         type: HIDE_LOADER
@@ -91,6 +115,14 @@ export function updateTeacher(id, {firstName, lastName}) {
       type: UPDATE_TEACHER,
       teacherToUpdate
     }))
+    .then(() => {
+      dispatch({
+        type: HIDE_LOADER
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    })
     .then(() => {
       dispatch({
         type: HIDE_LOADER

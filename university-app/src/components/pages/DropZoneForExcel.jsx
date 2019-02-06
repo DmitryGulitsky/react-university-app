@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import Dropzone from 'react-dropzone';
 
 export default class DropZoneForExcel extends Component {
@@ -17,15 +17,16 @@ export default class DropZoneForExcel extends Component {
   handleAdd(event) {
     event.preventDefault();
 
-    console.log('this.props - ', this.props);
+    console.log('DROPZONE this.props - ', this.props);
     console.log('uploaded files - ', this.state.accepted);
-
-    const page = this.state.page;
+    console.log('this.state.page - ',this.state.page);
+    const page = this.props.page;
     switch(page) {
       case 'teachersPage':
         this.props.onAddGroupToTeacher(this.state.accepted);
         break;
       case 'groupsPage':
+        console.log('GROUPS PAGE UPLOAD');
         this.props.onAddStudentToGroup(this.state.accepted);
         break;
       default:
@@ -38,7 +39,7 @@ export default class DropZoneForExcel extends Component {
     const baseStyle = {
       width: '33%',
       marginLeft: '33%',
-      height: 200,
+      height: 40,
       borderWidth: 2,
       borderColor: '#666',
       borderStyle: 'dashed',
@@ -47,11 +48,6 @@ export default class DropZoneForExcel extends Component {
     const activeStyle = {
       borderStyle: 'solid',
       borderColor: '#6c6',
-      backgroundColor: '#eee'
-    };
-    const rejectStyle = {
-      borderStyle: 'solid',
-      borderColor: '#c66',
       backgroundColor: '#eee'
     };
 
@@ -73,10 +69,10 @@ export default class DropZoneForExcel extends Component {
     }
 
     return (
-        <div className="dropzone-container gradient-background">
-          {dropzoneText}
+        <Fragment>
+
           <Dropzone
-              accept="text/csv, application/vnd.ms-excel"
+              accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
               onDrop={(accepted, rejected) => {
                 this.setState({accepted, rejected});
                 console.log(accepted);
@@ -86,7 +82,6 @@ export default class DropZoneForExcel extends Component {
             {({getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject, acceptedFiles, rejectedFiles}) => {
               let styles = {...baseStyle};
               styles = isDragActive ? {...styles, ...activeStyle} : styles;
-              styles = isDragReject ? {...styles, ...rejectStyle} : styles;
 
               return (
                   <div
@@ -95,7 +90,8 @@ export default class DropZoneForExcel extends Component {
                   >
                     <input {...getInputProps()} />
                     <div>
-                      {isDragAccept ? 'Drop' : 'Drag'} files here...
+                      {isDragAccept ? 'Drop' : 'Drag'} Excel file here to
+                      upload data...
                     </div>
                     {isDragReject && <div>Unsupported file type...</div>}
                   </div>
@@ -103,31 +99,24 @@ export default class DropZoneForExcel extends Component {
             }}
           </Dropzone>
           <aside>
-            <h4>Accepted files</h4>
+            <p>Accepted files</p>
             <ul>
               {
                 this.state.accepted.map(
                     f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
               }
             </ul>
-            <h4>Rejected files</h4>
-            <ul>
-              {
-                this.state.rejected.map(
-                    f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
-              }
-            </ul>
           </aside>
-
-          <h3>If you want to upload files to server - push SUBMIT button
-            below</h3>
+          <p style={{padding: 0}}>If you want to upload accepted files to
+            server - push SUBMIT button
+            below</p>
           <form
               className="form-group"
               onSubmit={this.handleAdd}>
             <button type="submit" className="btn btn-primary">Submit</button>
           </form>
 
-        </div>
+        </Fragment>
     );
   }
 }
